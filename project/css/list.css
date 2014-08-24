@@ -1,0 +1,23 @@
+table #parent_list {
+    border-collapse: collapse;   
+}
+#parent_list tr {
+    background-color: white;
+    border-top: 1px solid #fff;
+}
+#parent_list tr:hover {
+    background-color: #ccc;
+}
+#parent_list th {
+    background-color: #fff;
+}
+#parent_list th, #parent_list td {
+    padding: 3px 5px;
+}
+#parent_list td:hover {
+    cursor: pointer;
+}
+
+#parent_list tr.active{
+	background-color: grey;
+}

@@ -1,0 +1,20 @@
+<?php echo doctype("html5"); ?>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<link href="<?php echo base_url(); ?>/css/bootstrap.css" type="text/css" rel="stylesheet"/>
+	<link href="<?php echo base_url(); ?>/css/navbar.css" type="text/css" rel="stylesheet"/>
+	<script src="<?php echo base_url(); ?>/js/jquery.js"></script>
+	<script src="<?php echo base_url(); ?>/js/bootstrap.js"></script>
+	<script type="text/javascript">
+		var js_site_url = function( urlText ){
+			var urlTmp = "<?php echo site_url('" + urlText + "'); ?>";
+			return urlTmp;
+		}
+		var js_base_url = function( urlText ){
+			var urlTmp = "<?php echo base_url('" + urlText + "'); ?>";
+			return urlTmp;
+		}
+</script>
+</head>

@@ -1,22 +1,5 @@
 <?php 
-	
-	class model_get_member_details extends CI_Model{
-	
-		var $parents = array(
-				"id"=>1,
-				"FName"=>"Kaissar",
-				"MName"=>"",
-				"LName"=>"Shalabayev",
-				"Address-1"=>"Ballarat",
-				"Address-2"=>"Canadian",
-				"Suburb"=>"Canadian",
-				"Postcode"=>"3350",
-				"email"=>"kaissar@example.com",
-				"HomeNum"=>"431611980",
-				"MobileNum"=>"43161980",
-				"WorkNum"=>"",
-				"SLR"=>true	
-			);
+	class model_get_member_details extends CI_Model{		
 		
 		function db_pull(){
 			$query = $this->db->query('SELECT * from registrations_master');		
@@ -34,6 +17,26 @@
 			$array = $query->result();		
 			return json_encode($array);					
 		}	
+		
+		function db_update_parent($key, $array){
+			$this->db->where('registration_id', $key);
+			$this->db->update('registrations_master', $array);
+			$query = $this->db->query('SELECT * from registrations_master where registration_id ='.$key);
+			$array = $query->result();
+			return json_encode($array);	
+		}
+		
+		function db_update_child($key, $array){
+			$this->db->where('member_id', $key);
+			$this->db->update('registrations_details', $array);	
+			$query = $this->db->query('SELECT * from registrations_details where member_id ='.$key);
+			$array = $query->result();
+			return json_encode($array);	
+		}
+		
+		function db_add_parent ($array){
+			$this->db->insert('registrations_master', $array);
+		}
 	}
 
 ?>

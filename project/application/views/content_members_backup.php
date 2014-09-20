@@ -62,7 +62,10 @@
 							<th>Last Name</th>				
 						</tr>
 					</thead>
-					<tbody>							
+					<tbody>
+						<?php
+							
+						?>
 					</tbody>	
 				</table>
 				<button class="btn btn-default pull-left" id="new_parent_details">Register new member</button>
@@ -78,7 +81,8 @@
 				<label>Email</label><input type="text" class="form-control" id="email">
 				<label>Home Number</label><input type="text" class="form-control" id="homeNumber">
 				<label>Mobile Number</label><input type="text" class="form-control" id="mobileNumber">
-				<label>Office Number</label><input type="text" class="form-control" id="officeNumber">											
+				<label>Office Number</label><input type="text" class="form-control" id="officeNumber">
+				<label>Sanctuary Lake Resident</label> <input type="checkbox" id="slr"><br>								
 				<button class="btn btn-default pull-right" id="save_parent_details">Save changes</button>				
 			</div>	
 		</div>
@@ -86,7 +90,7 @@
 
 	<div class="tab-content child-content">
 		<div class="row">
-			<div class="container col-md-5 child-info">
+			<div class="container col-md-5">
 				<label>First Name</label><input type="text" class="form-control" id="childFirstName">								
 				<label>Middle Name</label><input type="text" class="form-control" id="childMiddleName">								
 				<label>Last Name</label><input type="text" class="form-control" id="childLastName">
@@ -108,7 +112,6 @@
 						</select>
 					</td></tr>
 				</table>
-				<button class="btn btn-default pull-left" id="save_child_details">Save changes</button>	
 			</div>
 			<div class="container col-md-5">
 				<label>Medical conditions</label>

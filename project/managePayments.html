@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Payments</title>
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+</head>
+<body>	
+	
+	<div class="container">
+	<br><br>
+	</div>
+	  
+	<div class="container">
+		
+	<form class="form-horizontal" role="form">
+		<div class="row">
+			<div class="form-group">
+						
+						<div class="col-sm-2">
+							<select class="form-control";>
+								<option value="year1">Year 1</option>
+								<option value="year2">Year 2</option>
+								<option value="year3">Year 3</option>
+								<option value="year4">Year 4</option>			
+							</select>
+						</div>
+						
+						<div class="col-sm-offset-2 col-sm-4">
+							<form action="" class="navbar-form navbar-right">
+							   <div class="input-group"  >
+								   <input type="Search" placeholder="Search..." class="form-control" />
+								   <div class="input-group-btn">
+									   <button class="btn btn-info">
+									   <span class="glyphicon glyphicon-search"></span>
+									   </button>
+								   </div>
+							   </div>
+							</form>
+						</div>
+						
+			</div>
+
+			<div class="form-group">
+				
+				<div class="col-sm-2">		
+					<select class="form-control";>
+						<option value="term1">Term 1</option>
+						<option value="term2">Term 2</option>
+						<option value="term3">Term 3</option>
+						<option value="term4">Term 4</option>			
+					</select>			
+				</div>
+			</div>
+		</div>
+	</form><br/><br/>
+		
+		<form class="form-horizontal" role="form">
+			<div class="col-lg-4">
+				<div class="form-group">
+
+					<div class="col-sm-12">
+						<table class="table table-striped">
+							<tr>
+								<th>ID</th>
+								<th>First Name</th>
+								<th>Last Name</th>
+								<th>Date Created</th>
+								<th>Amount</th>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td>Kevin</td>
+								<td>Smith</td>
+								<td>2014-09-23</td>
+								<td>580</td>
+							</tr>
+						</table><br/>
+					</div>
+				</div>
+			</div> 	
+	
+			<div class="col-lg-8">
+				<div class="form-group">
+					<label for="startDate" class="col-sm-2 control-label">First Name</label>
+					<div class="col-sm-4">
+					  <input type="text" class="form-control" id="fname" required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="endDate" class="col-sm-2 control-label">Last Name</label>
+					<div class="col-sm-4">
+					  <input type="text" class="form-control" id="lname"required>
+					</div>
+				</div>
+			 	<div class="form-group">
+					<label for="endDate" class="col-sm-2 control-label">Date</label>
+					<div class="col-sm-4">
+					  <input type="date" class="form-control" id="date" required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="endDate" class="col-sm-2 control-label">Amount</label>
+					<div class="col-sm-4">
+					  <input type="text" class="form-control" id="amount" required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="endDate" class="col-sm-2 control-label">Type</label>
+					<div class="col-sm-4">
+					  <input type="text" class="form-control" id="type" required>
+					</div>
+				</div>
+			  <div class="form-group">
+				<div class="col-sm-offset-5 col-sm-2">
+					<button type="submit" style="color:#ccc" class="btn btn-success">Save</button>
+				</div>
+			  </div>
+			</div>
+		</form>	
+	</div>
+</body>
+</html>	

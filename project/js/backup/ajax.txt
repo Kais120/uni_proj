@@ -1,0 +1,47 @@
+$.ajax({
+			url : js_base_url("site/update_parent_info"),
+			type : 'POST',
+			dataType : 'json',
+			data : {
+				'key' : key,
+				'firstName' : $("#firstName").val(),
+				'middleName' : $("#middleName").val(),
+				'lastName' : $("#lastName").val(),
+				'addrLine1' : $("#addrLine1").val(),
+				'addrLine2' : $("#addrLine2").val(),
+				'suburb' : $("#suburb").val(),
+				'postcode' : $("#postcode").val(),
+				'email' : $("#email").val(),
+				'homeNumber' : $("#homeNumber").val(),
+				'mobileNumber' : $("#mobileNumber").val(),
+				'officeNumber' : $("#officeNumber").val()
+			},
+			success : function (data) {
+				array[key] = data[0];
+				$('#parent_list tbody tr#' + key + ' td:eq(0)').html(array[key].parent_fname);
+				$('#parent_list tbody tr#' + key + ' td:eq(1)').html(array[key].parent_lname);
+				alert("Changes saved");
+				$("#save_parent_details").addClass("disabled");
+			}
+		});
+		
+		
+		$.ajax({
+		url : js_base_url("site/get_child_info"),
+		cache : false,
+		type : 'POST',
+		data : {
+			'key' : i
+		},
+		dataType : 'json',
+		success : function (data) {
+			$.each(data, function (key, value) {
+				$('<li class="tab-link child-tab" id="' + value.member_id + '">' + value.member_fname + '</li>').insertAfter("#payment_tab");
+				array_child[value.member_id] = value;
+			});
+		}
+	});
+		
+		
+		
+		

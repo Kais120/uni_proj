@@ -1,0 +1,74 @@
+ul.tabs{
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+ul.tabs li{
+	background: none;
+	color: #222;
+	display: inline-block;
+	border-color: #e7e7e7;
+	padding: 10px 15px;	
+	cursor: pointer;
+}
+
+ul.tabs li.current{
+	background: #ededed;
+	color: #222;
+	border: solid 1px;	
+	border-bottom-style: none;
+}
+
+table.skill_table {
+    border-collapse: collapse;	
+	width: 30vw;
+}
+
+.skill_table tbody, .skill_table thead{	
+	display: block;
+	overflow-y: auto;
+	margin-bottom: 1%;	
+}
+
+.skill_table tbody{
+	height: 30vh;
+	border-top: 1px solid black;	
+	border-bottom: 1px solid black;	
+}
+
+.skill_table tr {
+    background-color: white;    
+}
+
+.skill_table tr:hover {
+    background-color: #ccc;
+}
+.skill_table th {	
+    background-color: #fff;		
+}
+.skill_table th, .skill_table td {
+    padding: 3px 5px;
+}
+.skill_table td:hover {
+    cursor: pointer;
+}
+
+.skill_table tr.active{
+	background-color: #ccc;
+}
+
+ul.details{
+	padding: 1%;
+	display: table;	
+}
+
+ul.details li{	
+	display: table-row;
+}
+
+ul.details li label, ul.details li input, ul.details li textarea{	
+	display: table-cell;	
+	margin: 10px;
+	vertical-align: middle;
+}
+

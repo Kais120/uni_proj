@@ -1,0 +1,52 @@
+table#staff_list {
+    border-collapse: collapse;		
+}
+
+#staff_list tbody, #staff_list thead{	
+	display: block;
+	overflow-y: auto;
+	margin-bottom: 1%;	
+}
+
+#staff_list tbody{
+	height: 65vh;
+	border-top: 1px solid black;	
+	border-bottom: 1px solid black;	
+}
+
+#staff_list tr {
+    background-color: white;    
+}
+
+#staff_list tr:hover {
+    background-color: #ccc;
+}
+#staff_list th {	
+    background-color: #fff;		
+}
+#staff_list th, #staff_list td {
+    padding: 3px 5px;
+}
+#staff_list td:hover {
+    cursor: pointer;
+}
+
+#staff_list tr.active{
+	background-color: #ccc;
+}
+
+ul#staff_details{
+	padding: 1%;
+	display: table;	
+}
+
+ul#staff_details li{	
+	display: table-row;
+}
+
+ul#staff_details li label, ul#staff_details li input, ul#staff_details li button, ul#staff_details li span{	
+	display: table-cell;	
+	margin: 2px;
+	vertical-align: middle;
+}
+

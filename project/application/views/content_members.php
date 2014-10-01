@@ -1,11 +1,13 @@
 <link href="<?php echo base_url(); ?>/css/members.css" type="text/css" rel="stylesheet"/>
 <div id="content">
 	<div class="row">
-		<div class="container col-lg-4 col-lg-offset-1">
-			<div class="container"><h1 id="member"> Select a member or create a new one </h1></div>
-			<div class="container"><label for="search">Search by name</label><input type="search" name="search" placeholder="Parent name" /></div>			
+		<div class="container col-lg-6 col-lg-offset-1">
+			<h1 id="member"> Select a member or create a new one </h1>
+			<hr class="divider"></hr>
+			<label for="search">Search by name</label><input type="search" name="search" class="form-control" placeholder="Parent name" />			
 		</div>
 	</div>	
+	<hr class="divider"></hr>
 	<div class="row">
 		<div class="container col-lg-10 col-lg-offset-1">
 			<ul class="tabs">

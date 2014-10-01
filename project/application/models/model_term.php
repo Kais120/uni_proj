@@ -26,6 +26,32 @@
 			$this->db->update('terms',$array);
 		}
 		
+		function dbGetYearSelect(){
+			$query = $this->db->query('SELECT DISTINCT YEAR(start_date) AS year FROM terms');		
+			$result = $query->result();
+			$string = '';
+			foreach ($result as $row){
+				if (date("Y") == $row->year)
+					$string.='<option value="'.$row->year.'" selected>'.$row->year.'</option>';
+				else
+					$string.='<option value="'.$row->year.'">'.$row->year.'</option>';
+			}			
+			return $string;
+		}
+		
+		function dbGetTermSelect($year){
+			$this->db->select('term_id, term_description');
+			$this->db->from('terms');
+			$this->db->where('YEAR(start_date)', $year);
+			$query = $this->db->get();
+			$result = $query->result();
+			$string = '';
+			foreach ($result as $row){
+				$string.='<option value="'.$row->term_id.'">'.$row->term_description.'</option>';
+			}			
+			return $string;
+		}
+		
 	}
 
 ?>

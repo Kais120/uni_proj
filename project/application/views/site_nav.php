@@ -10,10 +10,10 @@
 				<li><a href="<?php echo base_url(); ?>site/terms">Terms</a></li>
 				<li><a href="#">Schedule</a></li>				
 				<li><a href="<?php echo base_url(); ?>site/sports">Skills</a></li>
-				<li><a href="#">Groups</a></li>				
+				<li><a href="<?php echo base_url(); ?>site/groups">Groups</a></li>				
 				<li><a href="<?php echo base_url(); ?>site/payments">Payments</a></li>
 				<li><a href="<?php echo base_url(); ?>site/staff">Staff</a></li>
-				<li><a href="#">Lessons</a></li>
+				<li><a href="<?php echo base_url(); ?>site/lessons">Lessons</a></li>
 			</ul>
 			<ul class="pull-right" style="display: table">
 				<li style="display: table-row">

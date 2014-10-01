@@ -304,5 +304,190 @@ class Site extends CI_Controller {
 		$this->load->model("model_staff");
 		echo $this->model_staff->dbCheckUsername($username);		
 	}
-			
+	
+	public function lessons(){				
+		$this->load->view("site_header");
+		$this->load->view("site_nav");
+		$this->load->model("model_sport");
+		$data['sport'] = $this->model_sport->dbPullSports();
+		$this->load->view("content_lessons", $data);
+		$this->load->view("site_footer");
+	}
+	
+	public function getLessons(){
+		$this->load->model("model_sport");
+		echo $this->model_sport->dbGetLessons($this->input->post('sport_id'));
+	}
+	
+	public function updateLesson(){
+		$lessonId = $this->input->post('lesson_id');
+		$array = array(
+			'lesson_description' => $this->input->post('lesson_name'),
+			'cost' => $this->input->post('lesson_cost')
+		);
+		$this->load->model("model_sport");
+		$this->model_sport->dbUpdateLesson($array, $lessonId);
+		header( 'Location: '.base_url().'site/lessons');
+	}
+	
+	public function addLesson(){
+		$sport = $this->input->post('sport_type');
+		$array = array(
+			'sport_id' => '',
+			'lesson_description' => $this->input->post('lesson_name'),
+			'cost' => $this->input->post('lesson_cost')
+		);
+		$this->load->model("model_sport");
+		$this->model_sport->dbAddLesson($array, $sport);
+		header( 'Location: '.base_url().'site/lessons');
+	}
+	
+	public function groups(){
+		$this->load->view("site_header");
+		$this->load->view("site_nav");				
+		$this->load->view("content_groups");
+		$this->load->view("site_footer");
+	}
+	
+	public function getSkillsSelect(){
+		$this->load->model("model_groups");
+		echo $this->model_groups->dbGetSkills($this->input->post('sport'));
+	}
+	
+	function getYearsSelect(){
+		$this->load->model("model_term");
+		echo $this->model_term->dbGetYearSelect();
+	}
+	
+	function getTermsSelect(){
+		$this->load->model("model_term");
+		echo $this->model_term->dbGetTermSelect($this->input->post('year'));
+	}
+	
+	function getGroupsSelect(){
+		$this->load->model("model_groups");
+		echo $this->model_groups->dbGetGroupSelect($this->input->post('term'), $this->input->post('skill'));
+	}
+	
+	function getLessonsSelect(){
+		$sport = $this->input->post('sport');
+		$group = $this->input->post('group');
+		$this->load->model("model_groups");
+		echo $this->model_groups->dbGetLessonsSelect($sport, $group);
+	}
+	
+	function getGroupDay(){
+		$group = $this->input->post('group');
+		$this->load->model("model_groups");
+		echo $this->model_groups->dbGetGroupDay($group);
+	}
+	
+	function getNumPeople(){
+		$group = $this->input->post('group');
+		$this->load->model("model_groups");
+		echo $this->model_groups->dbGetNumPeople($group);
+	}
+	
+	function getGroupTimes(){
+		$group = $this->input->post('group');
+		$this->load->model("model_groups");
+		echo $this->model_groups->dbGroupTimes($group);
+	}
+	
+	function getChildrenList(){
+		$group = $this->input->post('group');
+		$skill = $this->input->post('skill');
+		$this->load->model("model_groups");
+		echo $this->model_groups->dbGetChildrenList($group, $skill);
+	}
+	
+	function getTrainingDays(){
+		$group = $this->input->post('group');
+		$this->load->model("model_groups");
+		echo $this->model_groups->dbGetTrainingDays($group);
+	}
+	
+	function getGroupTasks(){
+		$skill = $this->input->post('skill');
+		$this->load->model("model_groups");
+		echo $this->model_groups->dbGetGroupTasks($skill);
+	}
+	
+	function getMemberProgress(){
+		$schedId = $this->input->post('day');
+		$memberId = $this->input->post('member_id');
+		$this->load->model("model_groups");
+		echo $this->model_groups->dbGetMemberProgress($schedId, $memberId);
+	}
+	
+	function addMemberGroup(){
+		$memberId = $this->input->post('member_id');
+		$groupId = $this->input->post('group_id');
+		$this->load->model("model_groups");
+		$this->model_groups->dbAddMemberGroup($memberId, $groupId);
+	}
+	
+	function removeMemberGroup(){		
+		$memberId = $this->input->post('member_id');
+		$groupId = $this->input->post('group_id');
+		$this->load->model("model_groups");
+		$this->model_groups->dbRemoveMemberGroup($memberId, $groupId);
+	}
+	
+	function updateMemberProgress(){
+		$memberId = $this->input->post('member_id');
+		$schedId = $this->input->post('day');
+		$tasks = $this->input->post('tasks');
+		$attend = $this->input->post('attendance');
+		$notes = $this->input->post('notes');
+		$staffId = 1;
+		$this->load->model("model_groups");
+		$this->model_groups->dbUpdateMemberProgress($memberId, $schedId, $tasks, $attend, $staffId, $notes);
+	}
+	
+	function getStaffOptions(){		
+		$this->load->model("model_staff");
+		echo $this->model_staff->dbGetStaffOptions($this->input->post('group'));
+	}
+	
+	
+	function updateGroup(){
+		$groupId = $this->input->post('group');
+		$group = array(			
+			'group_name' => $this->input->post('name'),
+			'lesson_id' => $this->input->post('type'),
+			'skill_id' => $this->input->post('skill'),
+			'max_number' => $this->input->post('num'),
+			'term_id' => $this->input->post('term')
+		);		
+		$sched = array(			
+			'staff_id' =>  $this->input->post('staff'),
+			'weekday' => $this->input->post('day'),
+			'start_time' => $this->input->post('sttime'),
+			'end_time' => $this->input->post('entime')
+		);
+		$this->load->model("model_groups");
+		$this->model_groups->dbUpdateGroup($groupId, $group, $sched);
+	}
+	
+	function createGroup(){		
+		$group = array(			
+			'group_name' => $this->input->post('name'),
+			'lesson_id' => $this->input->post('type'),
+			'skill_id' => $this->input->post('skill'),
+			'max_number' => $this->input->post('num'),
+			'term_id' => $this->input->post('term')
+		);		
+		$sched = array(
+			'group_id' => 0,
+			'staff_id' =>  $this->input->post('staff'),
+			'weekday' => $this->input->post('day'),
+			'date_created' => date('Y-m-d'),
+			'start_time' => $this->input->post('sttime'),
+			'end_time' => $this->input->post('entime')
+		);
+		$this->load->model("model_groups");
+		$this->model_groups->dbCreateGroup($group, $sched);
+	}
+	
 }

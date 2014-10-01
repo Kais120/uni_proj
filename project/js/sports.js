@@ -58,7 +58,8 @@ function skillClick(){
 }
 
 function taskClick(){
-	$("table.skill_table#tasks_list tbody").delegate("tr",'click',function(){		
+	$("table.skill_table#tasks_list tbody").delegate("tr",'click',function(){
+		statusTask=1;		
 		$(this).addClass('active').siblings().removeClass('active');
 		$("ul#task_details").removeClass("hidden");
 		$("button#save_task").removeClass("hidden");
@@ -105,7 +106,7 @@ function updateSkill(i){
 	});	
 }
 
-function updateTask(i){
+function updateTask(i){	
 	$.ajax({
 		type : "POST",
 		cache : false,
@@ -127,7 +128,7 @@ function updateTask(i){
 }
 
 function clickSaveSkill(){
-	$("button#save_skill").click(function(){
+	$("button#save_skill").click(function(){		
 		if (statusSkill==1){
 			updateSkill($("table.skill_table#skills_list tbody tr.active td.skill_id").html());
 		}
@@ -138,15 +139,14 @@ function clickSaveSkill(){
 }
 
 function clickSaveTask(){
-	$("button#save_task").click(function(){
+	$("button#save_task").click(function(){		
 		if (statusTask==1){
 			updateTask($("table.skill_table#tasks_list tbody tr.active td.task_id").html());
 		}
 		if (statusTask==2){		
 			addTask();			
 		}	
-	});
-	
+	});	
 }
 
 function clickAddSkill(){

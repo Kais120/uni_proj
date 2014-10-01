@@ -55,7 +55,7 @@ function parentDataPopulate() {
 	});
 }
 
-function retrieve_data(i) {
+function retrieveData(i) {
 	$("#firstName").val(array[i].parent_fname);
 	$("#middleName").val(array[i].parent_mname);
 	$("#lastName").val(array[i].parent_lname);
@@ -70,7 +70,7 @@ function retrieve_data(i) {
 	$("#member").text(array[i].parent_fname + " " + array[i].parent_lname);
 }
 
-function remove_tabs() {
+function removeTabs() {
 	$(".child-tab").remove();
 	$("#payment_tab").remove();
 	$("#add_child").remove();
@@ -146,7 +146,7 @@ function registerClick() {
 	$("#new_parent_details").click(function () {
 		status = 2;
 		cleanParentFields();
-		remove_tabs();
+		removeTabs();
 		$('tr.active').removeClass('active');
 		$("#member").text("New member");
 		$(".biodata").removeClass('hidden');				
@@ -156,13 +156,13 @@ function registerClick() {
 function clickParent() {
 	$("#parent_list tbody").delegate("tr", "click", function () {
 		status = 1;
-		remove_tabs();
+		removeTabs();
 		$(".biodata").removeClass('hidden');
 		$("ul.tabs").append('<li class="tab-link" id="payment_tab"><span class="glyphicon glyphicon-usd"></span> Payments</li>');
 		$("ul.tabs").append('<li class="tab-link" id="add_child"><span class="glyphicon glyphicon-plus"></span> Add a child</li>');
 		$('.tab-link#member-details').addClass('current');
 		$(this).addClass("active").siblings().removeClass('active');
-		retrieve_data(parseInt($("tr.active td.ID").html()));
+		retrieveData(parseInt($("tr.active td.ID").html()));
 		retrieve_children(parseInt($("tr.active td.ID").html()));
 		onParentFormChange();
 	});

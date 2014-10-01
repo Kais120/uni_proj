@@ -25,7 +25,7 @@
 				</ul>
 			</div>
 			<div class="container col-lg-3">
-				<label for="search">Search by name</label><input type="search" name="search" id="search_parent" placeholder="Parent name"/>
+				<label for="search">Search by name</label><input type="search" name="search" class="form-control pull-left" id="search_parent" placeholder="Parent name"/>
 			</div>
 		</div>
 		<div class="row">

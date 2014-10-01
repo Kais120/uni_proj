@@ -46,6 +46,40 @@
 		function dbAddTask($array){
 			$this->db->insert('skills_details',$array);
 		}
+		
+		function dbPullSports(){
+			$this->db->select("sport_id, sport_description");
+			$this->db->from("sports");
+			$query=$this->db->get();
+			return $query->result();
+		}
+		
+		function dbGetLessons($sportId){
+			$this->db->select("lesson_id, lesson_description, cost");
+			$this->db->from("lessons");
+			$this->db->where("sport_id", $sportId);
+			$query=$this->db->get();
+			return json_encode($query->result());
+		}
+		
+		function dbUpdateLesson($array, $lessonId){
+			$this->db->where("lesson_id", $lessonId);
+			$this->db->update('lessons', $array);
+		}
+		
+		function dbAddLesson($array, $sport){
+			switch (strtolower($sport)){
+				case 'tennis':
+					$array['sport_id'] = 1;
+					break;
+				case 'swimming':
+					$array['sport_id'] = 2;
+					break;
+			}
+			
+			$this->db->insert('lessons',$array);
+			
+		}
 	}
 
 ?>

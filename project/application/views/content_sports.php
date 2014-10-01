@@ -1,5 +1,4 @@
 <link href="<?php echo base_url(); ?>/css/sports.css" type="text/css" rel="stylesheet"/>
-
 	<div id="content">
 		<div class="row">
 			<div class="container col-lg-4 col-lg-offset-1">

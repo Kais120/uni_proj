@@ -46,6 +46,29 @@
 				return 'false';
 		}
 		
+		public function dbGetStaffOptions($groupId){
+			$string = '';
+			$staffId = 0;
+			$this->db->select('staff_id');
+			$this->db->from("schedule_master");	
+			$this->db->where('group_id', $groupId);
+			$query = $this->db->get();
+			if ($query->num_rows() > 0){
+				$staffId = $query->row()->staff_id;
+			}
+			$this->db->select('staff_id, staff_fname, staff_lname');
+			$this->db->from("staff");	
+			$this->db->where('active', 1);
+			$result = $this->db->get()->result();
+			foreach ($result as $row){
+				if ($row->staff_id == $staffId)
+					$string.='<option value="'.$row->staff_id.'" selected>'.$row->staff_fname.' '.$row->staff_lname.'</option>';
+				else
+					$string.='<option value="'.$row->staff_id.'">'.$row->staff_fname.' '.$row->staff_lname.'</option>';
+			}
+			return $string;
+		}
+		
 	}
 
 ?>

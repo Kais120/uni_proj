@@ -1,0 +1,52 @@
+table#lessons_info {
+    border-collapse: collapse;		
+}
+
+#lessons_info tbody, #lessons_info thead{	
+	display: block;
+	overflow-y: auto;
+	margin-bottom: 1%;	
+}
+
+#lessons_info tbody{
+	height: 30vh;
+	border-top: 1px solid black;	
+	border-bottom: 1px solid black;	
+}
+
+#lessons_info tr {
+    background-color: white;    
+}
+
+#lessons_info tr:hover {
+    background-color: #ccc;
+}
+#lessons_info th {	
+    background-color: #fff;		
+}
+#lessons_info th, #lessons_info td {
+    padding: 3px 5px;
+}
+#lessons_info td:hover {
+    cursor: pointer;
+}
+
+#lessons_info tr.active{
+	background-color: #ccc;
+}
+
+ul#lesson_details{
+	padding: 1%;
+	display: table;	
+}
+
+ul#lesson_details li{	
+	display: table-row;
+}
+
+ul#lesson_details li label, ul#lesson_details li input, ul#lesson_details li button{	
+	display: table-cell;	
+	margin: 2px;
+	vertical-align: middle;
+}
+

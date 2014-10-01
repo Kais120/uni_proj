@@ -1,0 +1,75 @@
+ul.tabs{
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+ul.tabs li{
+	background: none;
+	color: #222;
+	display: inline-block;
+	padding: 10px 15px;
+	border-color: #e7e7e7;
+	cursor: pointer;
+}
+
+ul.tabs li.current{
+	background: #ededed;
+	color: #222;
+	border: solid 1px;	
+	border-bottom-style: none;
+}
+
+ul.details{
+	padding: 1%;
+	display: table;	
+}
+
+ul.details li{	
+	display: table-row;
+}
+
+ul.details li label, ul.details li input, ul.details li button{	
+	display: table-cell;	
+	margin: 2px;
+	vertical-align: middle;
+}
+
+table.table_details {
+    border-collapse: collapse;		
+}
+
+.table_details tbody, .table_details thead{	
+	display: block;
+	overflow-y: auto;
+	margin-bottom: 1%;	
+}
+
+.table_details tbody{
+	height: 50vh;
+	border-bottom: 1px solid black;	
+}
+
+.table_details#tasks tbody{
+	height: 30vh;
+}
+
+.table_details tr {
+    background-color: white;    
+}
+
+.table_details tr:hover {
+    background-color: #ccc;
+}
+.table_details th {	
+    background-color: #fff;		
+}
+.table_details th, .table_details td {
+    padding: 3px 5px;
+}
+.table_details td:hover {
+    cursor: pointer;
+}
+
+.table_details tr.active{
+	background-color: #ccc;
+}

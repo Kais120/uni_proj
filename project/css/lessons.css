@@ -1,33 +1,25 @@
-table#lessons_info {
-    border-collapse: collapse;		
+table #lessons_info {
+   width: 10vw;
+   border-collapse: collapse;
 }
 
-#lessons_info tbody, #lessons_info thead{	
-	display: block;
-	overflow-y: auto;
-	margin-bottom: 1%;	
+#lessons_info tbody, #lessons_info thead tr{	
+	display: block;	
 }
 
 #lessons_info tbody{
 	height: 30vh;
-	border-top: 1px solid black;	
-	border-bottom: 1px solid black;	
+	overflow-y: auto;
 }
 
-#lessons_info tr {
-    background-color: white;    
+
+#lessons_info tbody td, #lessons_info thead th{
+	width: 10vw;
 }
 
-#lessons_info tr:hover {
+
+#lessons_info tbody tr:hover {
     background-color: #ccc;
-}
-#lessons_info th {	
-    background-color: #fff;		
-}
-#lessons_info th, #lessons_info td {
-    padding: 3px 5px;
-}
-#lessons_info td:hover {
     cursor: pointer;
 }
 

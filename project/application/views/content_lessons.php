@@ -15,7 +15,7 @@
 		<hr class="divider"></hr>
 		<div class="row">
 			<div class="container col-lg-4 col-lg-offset-1">
-				<table id="lessons_info">
+				<table class="table" id="lessons_info">
 					<thead>
 						<th>Lesson</th>
 						<th>Cost</th>						

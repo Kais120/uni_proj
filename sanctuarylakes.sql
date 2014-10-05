@@ -1,12 +1,9 @@
-create database sanctuarylakes;
-use sanctuarylakes;
-
 -- phpMyAdmin SQL Dump
 -- version 4.1.12
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 01, 2014 at 06:16 PM
+-- Generation Time: Oct 05, 2014 at 09:18 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -33,6 +30,7 @@ CREATE TABLE IF NOT EXISTS `groups_details` (
   `group_id` int(8) NOT NULL,
   `member_id` int(8) NOT NULL,
   `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`group_id`,`member_id`),
   KEY `group_id` (`group_id`),
   KEY `member_id` (`member_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -42,15 +40,15 @@ CREATE TABLE IF NOT EXISTS `groups_details` (
 --
 
 INSERT INTO `groups_details` (`group_id`, `member_id`, `date_added`) VALUES
+(1, 1, '2014-10-04 02:32:53'),
+(1, 3, '2014-10-04 02:32:34'),
 (1, 6, '2014-08-29 12:18:04'),
 (1, 7, '2014-08-29 12:18:04'),
-(2, 3, '2014-08-29 12:18:30'),
 (2, 4, '2014-08-29 12:18:30'),
 (2, 8, '2014-08-29 12:18:42'),
 (2, 9, '2014-08-29 12:18:42'),
-(1, 10, '2014-09-12 03:06:27'),
-(1, 1, '2014-09-30 15:58:45'),
-(1, 5, '2014-10-01 15:45:48');
+(2, 10, '2014-10-04 02:36:03'),
+(3, 215, '2014-10-03 23:53:58');
 
 -- --------------------------------------------------------
 
@@ -70,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `groups_master` (
   KEY `term_id` (`term_id`),
   KEY `lesson_id` (`lesson_id`),
   KEY `skill_id` (`skill_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `groups_master`
@@ -79,8 +77,7 @@ CREATE TABLE IF NOT EXISTS `groups_master` (
 INSERT INTO `groups_master` (`group_id`, `group_name`, `lesson_id`, `skill_id`, `max_number`, `term_id`, `date_created`) VALUES
 (1, 'Group 1', 2, 4, 5, 1, '2014-08-30'),
 (2, 'Group 2', 2, 4, 5, 1, '2014-08-30'),
-(9, 'Test', 3, 15, 1, 1, '0000-00-00'),
-(10, '123', 3, 15, 1, 1, '0000-00-00');
+(3, 'Tennis group', 1, 1, 3, 1, '2014-10-04');
 
 -- --------------------------------------------------------
 
@@ -119,7 +116,6 @@ INSERT INTO `lessons` (`lesson_id`, `lesson_description`, `sport_id`, `cost`) VA
 CREATE TABLE IF NOT EXISTS `medical_conditions_details` (
   `member_id` int(8) NOT NULL,
   `medical_condition_id` int(8) NOT NULL,
-  `medical_condition_description` varchar(100) NOT NULL,
   PRIMARY KEY (`member_id`,`medical_condition_id`),
   KEY `medical_condition_id` (`medical_condition_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -128,23 +124,26 @@ CREATE TABLE IF NOT EXISTS `medical_conditions_details` (
 -- Dumping data for table `medical_conditions_details`
 --
 
-INSERT INTO `medical_conditions_details` (`member_id`, `medical_condition_id`, `medical_condition_description`) VALUES
-(1, 2, 'none'),
-(1, 3, 'none'),
-(3, 4, 'none'),
-(3, 7, 'none'),
-(4, 8, 'None'),
-(5, 8, 'None'),
-(6, 5, 'none'),
-(7, 5, 'None'),
-(8, 8, 'None'),
-(9, 8, 'None'),
-(10, 2, 'none'),
-(115, 3, 'none'),
-(130, 3, 'none'),
-(211, 1, 'none'),
-(211, 3, 'none'),
-(212, 1, 'none');
+INSERT INTO `medical_conditions_details` (`member_id`, `medical_condition_id`) VALUES
+(217, 1),
+(218, 1),
+(221, 1),
+(10, 2),
+(222, 2),
+(115, 3),
+(130, 3),
+(3, 4),
+(218, 4),
+(221, 4),
+(6, 5),
+(7, 5),
+(217, 6),
+(1, 7),
+(3, 7),
+(4, 8),
+(5, 8),
+(8, 8),
+(9, 8);
 
 -- --------------------------------------------------------
 
@@ -193,14 +192,16 @@ CREATE TABLE IF NOT EXISTS `members_progress` (
   KEY `staff_id` (`staff_id`),
   KEY `schedule_id` (`schedule_id`),
   KEY `schedule_id_2` (`schedule_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `members_progress`
 --
 
 INSERT INTO `members_progress` (`progress_id`, `schedule_id`, `member_id`, `entry_date`, `attendance`, `staff_id`, `staff_comments`) VALUES
-(8, 12, 1, '2014-10-01 15:46:12', 1, 1, 'done');
+(10, 54, 215, '2014-10-03 23:54:19', 1, 1, 'well done'),
+(11, 32, 1, '2014-10-04 00:23:45', 1, 1, ''),
+(12, 34, 1, '2014-10-04 02:41:19', 1, 1, '');
 
 -- --------------------------------------------------------
 
@@ -221,7 +222,8 @@ CREATE TABLE IF NOT EXISTS `members_progress_details` (
 --
 
 INSERT INTO `members_progress_details` (`progress_id`, `task_id`) VALUES
-(8, 3);
+(12, 3),
+(11, 4);
 
 -- --------------------------------------------------------
 
@@ -231,9 +233,13 @@ INSERT INTO `members_progress_details` (`progress_id`, `task_id`) VALUES
 
 CREATE TABLE IF NOT EXISTS `members_skills` (
   `member_id` int(8) NOT NULL,
+  `sport_id` int(11) NOT NULL,
   `entry_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `skill_id` int(2) NOT NULL,
-  PRIMARY KEY (`member_id`,`skill_id`),
+  `number_lessons` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`member_id`,`sport_id`),
+  KEY `member_id` (`member_id`),
+  KEY `sport_id` (`sport_id`),
   KEY `skill_id` (`skill_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -241,116 +247,122 @@ CREATE TABLE IF NOT EXISTS `members_skills` (
 -- Dumping data for table `members_skills`
 --
 
-INSERT INTO `members_skills` (`member_id`, `entry_date`, `skill_id`) VALUES
-(1, '2014-09-14 07:56:34', 4),
-(3, '2014-09-14 07:56:34', 4),
-(4, '2014-09-14 07:56:34', 4),
-(5, '2014-09-14 07:56:34', 4),
-(6, '2014-09-14 07:56:34', 4),
-(7, '2014-09-14 07:56:34', 4),
-(8, '2014-09-14 07:56:34', 4),
-(9, '2014-09-14 07:56:34', 4),
-(10, '2014-09-14 07:56:34', 4),
-(111, '2014-09-14 07:59:08', 5),
-(112, '2014-09-14 07:59:08', 5),
-(113, '2014-09-14 07:59:08', 5),
-(114, '2014-09-14 07:59:08', 5),
-(115, '2014-09-14 07:59:08', 5),
-(116, '2014-09-14 07:59:08', 5),
-(117, '2014-09-14 07:59:08', 5),
-(118, '2014-09-14 07:59:08', 5),
-(119, '2014-09-14 07:59:08', 5),
-(120, '2014-09-14 07:59:08', 5),
-(121, '2014-09-14 07:59:08', 5),
-(122, '2014-09-14 07:59:08', 5),
-(123, '2014-09-14 07:59:08', 5),
-(124, '2014-09-14 07:59:08', 5),
-(125, '2014-09-14 07:59:08', 5),
-(126, '2014-09-14 07:59:08', 5),
-(127, '2014-09-14 07:59:08', 5),
-(128, '2014-09-14 07:59:08', 5),
-(129, '2014-09-14 07:59:08', 5),
-(130, '2014-09-14 07:59:08', 5),
-(131, '2014-09-14 07:59:08', 5),
-(132, '2014-09-14 07:59:08', 5),
-(133, '2014-09-14 07:59:08', 5),
-(134, '2014-09-14 07:59:08', 5),
-(135, '2014-09-14 07:59:08', 5),
-(136, '2014-09-14 07:59:08', 5),
-(137, '2014-09-14 07:59:08', 5),
-(138, '2014-09-14 07:59:08', 5),
-(139, '2014-09-14 07:59:08', 5),
-(140, '2014-09-14 07:59:08', 5),
-(141, '2014-09-14 07:59:08', 5),
-(142, '2014-09-14 07:59:08', 5),
-(143, '2014-09-14 07:59:08', 5),
-(144, '2014-09-14 07:59:08', 5),
-(145, '2014-09-14 07:59:08', 5),
-(146, '2014-09-14 07:59:08', 5),
-(147, '2014-09-14 07:59:08', 5),
-(148, '2014-09-14 07:59:08', 5),
-(149, '2014-09-14 07:59:08', 5),
-(150, '2014-09-14 07:59:08', 5),
-(151, '2014-09-14 08:00:08', 6),
-(152, '2014-09-14 08:00:08', 6),
-(153, '2014-09-14 08:00:08', 6),
-(154, '2014-09-14 08:00:08', 6),
-(155, '2014-09-14 08:00:08', 6),
-(156, '2014-09-14 08:00:08', 6),
-(157, '2014-09-14 08:00:08', 6),
-(158, '2014-09-14 08:00:08', 6),
-(159, '2014-09-14 08:00:08', 6),
-(160, '2014-09-14 08:00:08', 6),
-(161, '2014-09-14 08:00:08', 6),
-(162, '2014-09-14 08:00:08', 6),
-(163, '2014-09-14 08:00:08', 6),
-(164, '2014-09-14 08:00:08', 6),
-(165, '2014-09-14 08:00:08', 6),
-(166, '2014-09-14 08:00:08', 6),
-(167, '2014-09-14 08:00:08', 6),
-(168, '2014-09-14 08:00:08', 6),
-(169, '2014-09-14 08:00:08', 6),
-(170, '2014-09-14 08:00:08', 6),
-(171, '2014-09-14 08:00:08', 6),
-(172, '2014-09-14 08:00:08', 6),
-(173, '2014-09-14 08:00:08', 6),
-(174, '2014-09-14 08:00:08', 6),
-(175, '2014-09-14 08:00:08', 6),
-(176, '2014-09-14 08:00:08', 6),
-(177, '2014-09-14 08:00:08', 6),
-(178, '2014-09-14 08:00:08', 6),
-(179, '2014-09-14 08:00:08', 6),
-(180, '2014-09-14 08:00:08', 6),
-(181, '2014-09-14 08:02:10', 7),
-(182, '2014-09-14 08:02:10', 7),
-(183, '2014-09-14 08:02:10', 7),
-(184, '2014-09-14 08:02:10', 7),
-(185, '2014-09-14 08:02:10', 7),
-(186, '2014-09-14 08:02:10', 7),
-(187, '2014-09-14 08:02:10', 7),
-(188, '2014-09-14 08:02:10', 7),
-(189, '2014-09-14 08:02:10', 7),
-(190, '2014-09-14 08:02:10', 7),
-(191, '2014-09-14 08:02:10', 7),
-(192, '2014-09-14 08:02:10', 7),
-(193, '2014-09-14 08:02:10', 7),
-(194, '2014-09-14 08:02:10', 7),
-(195, '2014-09-14 08:02:10', 7),
-(196, '2014-09-14 08:02:10', 7),
-(197, '2014-09-14 08:02:10', 7),
-(198, '2014-09-14 08:02:10', 7),
-(199, '2014-09-14 08:02:10', 7),
-(200, '2014-09-14 08:02:10', 7),
-(201, '2014-09-14 08:02:10', 7),
-(202, '2014-09-14 08:02:10', 7),
-(203, '2014-09-14 08:02:10', 7),
-(204, '2014-09-14 08:02:10', 7),
-(205, '2014-09-14 08:02:10', 7),
-(206, '2014-09-14 08:02:10', 7),
-(207, '2014-09-14 08:02:10', 7),
-(208, '2014-09-14 08:02:10', 7),
-(209, '2014-09-14 08:02:10', 7),
-(210, '2014-09-14 08:02:10', 7);
+INSERT INTO `members_skills` (`member_id`, `sport_id`, `entry_date`, `skill_id`, `number_lessons`) VALUES
+(1, 2, '2014-10-03 23:42:08', 4, 5),
+(3, 2, '2014-10-04 02:27:53', 4, 6),
+(4, 2, '2014-09-14 07:56:34', 4, 5),
+(5, 2, '2014-09-14 07:56:34', 4, 5),
+(6, 2, '2014-09-14 07:56:34', 4, 5),
+(7, 2, '2014-09-14 07:56:34', 4, 5),
+(8, 2, '2014-09-14 07:56:34', 4, 5),
+(9, 2, '2014-09-14 07:56:34', 4, 5),
+(10, 1, '2014-10-03 11:54:41', 15, 0),
+(10, 2, '2014-10-03 11:54:42', 4, 6),
+(111, 2, '2014-09-14 07:59:08', 5, 5),
+(112, 2, '2014-09-14 07:59:08', 5, 5),
+(113, 2, '2014-09-14 07:59:08', 5, 5),
+(114, 2, '2014-09-14 07:59:08', 5, 5),
+(115, 2, '2014-09-14 07:59:08', 5, 5),
+(116, 2, '2014-09-14 07:59:08', 5, 5),
+(117, 2, '2014-09-14 07:59:08', 5, 5),
+(118, 2, '2014-09-14 07:59:08', 5, 5),
+(119, 2, '2014-09-14 07:59:08', 5, 5),
+(120, 2, '2014-09-14 07:59:08', 5, 5),
+(121, 2, '2014-09-14 07:59:08', 5, 5),
+(122, 2, '2014-09-14 07:59:08', 5, 5),
+(123, 2, '2014-09-14 07:59:08', 5, 5),
+(124, 2, '2014-09-14 07:59:08', 5, 5),
+(125, 2, '2014-09-14 07:59:08', 5, 5),
+(126, 2, '2014-09-14 07:59:08', 5, 5),
+(127, 2, '2014-09-14 07:59:08', 5, 5),
+(128, 2, '2014-09-14 07:59:08', 5, 5),
+(129, 2, '2014-09-14 07:59:08', 5, 5),
+(130, 2, '2014-09-14 07:59:08', 5, 5),
+(131, 2, '2014-09-14 07:59:08', 5, 5),
+(132, 2, '2014-09-14 07:59:08', 5, 5),
+(133, 2, '2014-09-14 07:59:08', 5, 5),
+(134, 2, '2014-09-14 07:59:08', 5, 5),
+(135, 2, '2014-09-14 07:59:08', 5, 5),
+(136, 2, '2014-09-14 07:59:08', 5, 5),
+(137, 2, '2014-09-14 07:59:08', 5, 5),
+(138, 2, '2014-09-14 07:59:08', 5, 5),
+(139, 2, '2014-09-14 07:59:08', 5, 5),
+(140, 2, '2014-09-14 07:59:08', 5, 5),
+(141, 2, '2014-09-14 07:59:08', 5, 5),
+(142, 2, '2014-09-14 07:59:08', 5, 5),
+(143, 2, '2014-09-14 07:59:08', 5, 5),
+(144, 2, '2014-09-14 07:59:08', 5, 5),
+(145, 2, '2014-09-14 07:59:08', 5, 5),
+(146, 2, '2014-09-14 07:59:08', 5, 5),
+(147, 2, '2014-09-14 07:59:08', 5, 5),
+(148, 2, '2014-09-14 07:59:08', 5, 5),
+(149, 2, '2014-09-14 07:59:08', 5, 5),
+(150, 2, '2014-09-14 07:59:08', 5, 5),
+(151, 2, '2014-09-14 08:00:08', 6, 5),
+(152, 2, '2014-09-14 08:00:08', 6, 5),
+(153, 2, '2014-09-14 08:00:08', 6, 5),
+(154, 2, '2014-09-14 08:00:08', 6, 5),
+(155, 2, '2014-09-14 08:00:08', 6, 5),
+(156, 2, '2014-09-14 08:00:08', 6, 5),
+(157, 2, '2014-09-14 08:00:08', 6, 5),
+(158, 2, '2014-09-14 08:00:08', 6, 5),
+(159, 2, '2014-09-14 08:00:08', 6, 5),
+(160, 2, '2014-09-14 08:00:08', 6, 5),
+(161, 2, '2014-09-14 08:00:08', 6, 5),
+(162, 2, '2014-09-14 08:00:08', 6, 5),
+(163, 2, '2014-09-14 08:00:08', 6, 5),
+(164, 2, '2014-09-14 08:00:08', 6, 5),
+(165, 2, '2014-09-14 08:00:08', 6, 5),
+(166, 2, '2014-09-14 08:00:08', 6, 5),
+(167, 2, '2014-09-14 08:00:08', 6, 5),
+(168, 2, '2014-09-14 08:00:08', 6, 5),
+(169, 2, '2014-09-14 08:00:08', 6, 5),
+(170, 2, '2014-09-14 08:00:08', 6, 5),
+(171, 2, '2014-09-14 08:00:08', 6, 5),
+(172, 2, '2014-09-14 08:00:08', 6, 5),
+(173, 2, '2014-09-14 08:00:08', 6, 5),
+(174, 2, '2014-09-14 08:00:08', 6, 5),
+(175, 2, '2014-09-14 08:00:08', 6, 5),
+(176, 2, '2014-09-14 08:00:08', 6, 5),
+(177, 2, '2014-09-14 08:00:08', 6, 5),
+(178, 2, '2014-09-14 08:00:08', 6, 5),
+(179, 2, '2014-09-14 08:00:08', 6, 5),
+(180, 2, '2014-09-14 08:00:08', 6, 5),
+(181, 2, '2014-09-14 08:02:10', 7, 5),
+(182, 2, '2014-09-14 08:02:10', 7, 5),
+(183, 2, '2014-09-14 08:02:10', 7, 5),
+(184, 2, '2014-09-14 08:02:10', 7, 5),
+(185, 2, '2014-09-14 08:02:10', 7, 5),
+(186, 2, '2014-09-14 08:02:10', 7, 5),
+(187, 2, '2014-09-14 08:02:10', 7, 5),
+(188, 2, '2014-09-14 08:02:10', 7, 5),
+(189, 2, '2014-09-14 08:02:10', 7, 5),
+(190, 2, '2014-09-14 08:02:10', 7, 5),
+(191, 2, '2014-09-14 08:02:10', 7, 5),
+(192, 2, '2014-09-14 08:02:10', 7, 5),
+(193, 2, '2014-09-14 08:02:10', 7, 5),
+(194, 2, '2014-09-14 08:02:10', 7, 5),
+(195, 2, '2014-09-14 08:02:10', 7, 5),
+(196, 2, '2014-09-14 08:02:10', 7, 5),
+(197, 2, '2014-09-14 08:02:10', 7, 5),
+(198, 2, '2014-09-14 08:02:10', 7, 5),
+(199, 2, '2014-09-14 08:02:10', 7, 5),
+(200, 2, '2014-09-14 08:02:10', 7, 5),
+(201, 2, '2014-09-14 08:02:10', 7, 5),
+(202, 2, '2014-09-14 08:02:10', 7, 5),
+(203, 2, '2014-09-14 08:02:10', 7, 5),
+(204, 2, '2014-09-14 08:02:10', 7, 5),
+(205, 2, '2014-09-14 08:02:10', 7, 5),
+(206, 2, '2014-09-14 08:02:10', 7, 5),
+(207, 2, '2014-09-14 08:02:10', 7, 5),
+(208, 2, '2014-09-14 08:02:10', 7, 5),
+(209, 2, '2014-09-14 08:02:10', 7, 5),
+(210, 2, '2014-09-14 08:02:10', 7, 5),
+(215, 1, '2014-10-03 23:53:27', 1, 6),
+(219, 1, '2014-10-03 12:34:17', 15, 0),
+(219, 2, '2014-10-03 12:34:17', 9, 0),
+(222, 1, '2014-10-03 12:47:18', 13, 12),
+(222, 2, '2014-10-03 12:47:18', 8, 12);
 
 -- --------------------------------------------------------
 
@@ -366,15 +378,19 @@ CREATE TABLE IF NOT EXISTS `payments_details` (
   `amount_paid` decimal(10,0) NOT NULL,
   PRIMARY KEY (`transaction_id`),
   KEY `payment_id` (`payment_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `payments_details`
 --
 
 INSERT INTO `payments_details` (`transaction_id`, `payment_id`, `payment_date`, `payment_type`, `amount_paid`) VALUES
-(1, 1, '2014-10-02', 'eftpos', '130'),
-(2, 2, '2014-10-03', 'eftpos', '130');
+(1, 1, '2014-10-02', 'credit', '120'),
+(6, 10, '2014-10-02', 'eftpos', '10'),
+(7, 10, '2014-10-02', 'cash', '50'),
+(8, 10, '2014-10-03', 'cash', '10'),
+(9, 1, '2014-10-03', 'cash', '0'),
+(10, 1, '2014-10-04', 'cash', '-55');
 
 -- --------------------------------------------------------
 
@@ -386,7 +402,7 @@ CREATE TABLE IF NOT EXISTS `payments_master` (
   `payment_id` int(8) NOT NULL AUTO_INCREMENT,
   `member_id` int(8) NOT NULL,
   `group_id` int(11) NOT NULL,
-  `number_of_lessons` int(2) NOT NULL,
+  `number_lessons` int(11) NOT NULL,
   `total_amount` decimal(10,0) NOT NULL,
   PRIMARY KEY (`payment_id`),
   UNIQUE KEY `Unique1` (`member_id`,`group_id`),
@@ -394,34 +410,17 @@ CREATE TABLE IF NOT EXISTS `payments_master` (
   KEY `lesson_id` (`group_id`),
   KEY `member_id` (`member_id`),
   KEY `group_id` (`group_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `payments_master`
 --
 
-INSERT INTO `payments_master` (`payment_id`, `member_id`, `group_id`, `number_of_lessons`, `total_amount`) VALUES
-(1, 1, 1, 5, '150'),
-(2, 5, 1, 5, '150'),
-(3, 6, 1, 5, '150'),
-(4, 7, 1, 5, '150'),
-(5, 3, 2, 5, '150'),
-(6, 4, 2, 5, '150'),
-(7, 8, 2, 5, '150'),
-(8, 9, 2, 5, '150'),
-(9, 10, 1, 5, '150');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `public_holidays`
---
-
-CREATE TABLE IF NOT EXISTS `public_holidays` (
-  `public_holiday` date NOT NULL,
-  `description` varchar(50) NOT NULL,
-  PRIMARY KEY (`public_holiday`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+INSERT INTO `payments_master` (`payment_id`, `member_id`, `group_id`, `number_lessons`, `total_amount`) VALUES
+(1, 1, 1, 5, '65'),
+(10, 10, 1, 6, '78'),
+(11, 3, 1, 6, '78'),
+(12, 10, 2, 6, '78');
 
 -- --------------------------------------------------------
 
@@ -436,126 +435,133 @@ CREATE TABLE IF NOT EXISTS `registrations_details` (
   `member_mname` varchar(15) DEFAULT NULL,
   `member_lname` varchar(25) NOT NULL,
   `member_dob` date NOT NULL,
+  `medical_notes` text NOT NULL,
   PRIMARY KEY (`member_id`),
   KEY `registration_id` (`registration_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=213 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=223 ;
 
 --
 -- Dumping data for table `registrations_details`
 --
 
-INSERT INTO `registrations_details` (`member_id`, `registration_id`, `member_fname`, `member_mname`, `member_lname`, `member_dob`) VALUES
-(1, 1, 'Alanis', '', 'Morisette', '2011-12-15'),
-(3, 2, 'child 1 of 2 -> reg2', '', 'child 1 of 2 -> reg2', '2008-10-10'),
-(4, 2, 'child 2 of 2 -> reg2', '', 'child 2 of 2 -> reg2', '2010-01-01'),
-(5, 3, 'child 1 of 3 -> reg3', '', 'child 1 of 3 -> reg3', '2008-10-10'),
-(6, 3, 'child 2 of 3 -> reg3', '', 'child 2 of 3 -> reg3', '2010-01-01'),
-(7, 3, 'child 3 of 3 -> reg3', '', 'child 3 of 3 -> reg3', '2008-10-10'),
-(8, 4, 'child 1 of 2 -> reg4', '', 'child 1 of 2 -> reg4', '2009-01-01'),
-(9, 4, 'child 2 of 2 -> reg4', '', 'child 2 of 2 -> reg4', '2008-10-10'),
-(10, 1, 'Star', '', 'Polar', '2011-09-01'),
-(111, 5, 'Chelsea', NULL, 'Gonzales', '2010-10-18'),
-(112, 6, 'Britanni', NULL, 'Hendrix', '2010-12-30'),
-(113, 7, 'Armando', NULL, 'Melton', '2010-10-29'),
-(114, 8, 'Ivor', NULL, 'Pitts', '2009-12-14'),
-(115, 9, 'Neve', '', 'Smith', '2009-04-26'),
-(116, 10, 'Brian', NULL, 'Hall', '2007-07-11'),
-(117, 11, 'Britanni', NULL, 'Middleton', '2005-09-15'),
-(118, 12, 'Shelly', NULL, 'Glenn', '2005-09-28'),
-(119, 13, 'Kenneth', NULL, 'Perkins', '2005-09-28'),
-(120, 14, 'Dora', NULL, 'Swanson', '2007-10-29'),
-(121, 15, 'Basil', NULL, 'Stephenson', '2006-09-15'),
-(122, 16, 'Kaye', NULL, 'Wood', '2009-06-09'),
-(123, 17, 'Mari', NULL, 'Marquez', '2008-08-07'),
-(124, 18, 'Mark', NULL, 'Harris', '2007-03-24'),
-(125, 19, 'Kareem', NULL, 'Steele', '2007-02-06'),
-(126, 20, 'Keith', NULL, 'Briggs', '2009-06-01'),
-(127, 21, 'Donovan', NULL, 'Acevedo', '2008-03-02'),
-(128, 22, 'Kirestin', NULL, 'Mayer', '2009-01-06'),
-(129, 23, 'Bo', NULL, 'Riddle', '2006-02-19'),
-(130, 24, 'Marcia', '', 'Hart', '2009-08-02'),
-(131, 25, 'Colorado', NULL, 'Yang', '2006-08-11'),
-(132, 26, 'Len', NULL, 'Perkins', '2010-10-07'),
-(133, 27, 'Devin', NULL, 'Arnold', '2005-03-07'),
-(134, 28, 'Delilah', NULL, 'George', '2005-11-28'),
-(135, 29, 'Odessa', NULL, 'Estes', '2009-09-12'),
-(136, 30, 'Nora', NULL, 'Mckenzie', '2006-11-19'),
-(137, 31, 'Courtney', NULL, 'Craft', '2006-08-10'),
-(138, 32, 'Colin', NULL, 'Stevenson', '2009-06-07'),
-(139, 33, 'Sage', NULL, 'Noel', '2005-10-20'),
-(140, 34, 'Quynn', NULL, 'Wynn', '2010-02-09'),
-(141, 35, 'Nita', NULL, 'Vang', '2007-02-21'),
-(142, 36, 'Chiquita', NULL, 'Duran', '2008-01-07'),
-(143, 37, 'Rashad', NULL, 'Solis', '2009-04-14'),
-(144, 38, 'Reuben', NULL, 'Knight', '2006-05-01'),
-(145, 39, 'Indira', NULL, 'Watkins', '2008-05-01'),
-(146, 40, 'Imogene', NULL, 'Talley', '2007-02-21'),
-(147, 41, 'Ifeoma', NULL, 'Savage', '2005-07-31'),
-(148, 42, 'Blaine', NULL, 'Navarro', '2006-03-23'),
-(149, 43, 'Calvin', NULL, 'William', '2007-08-17'),
-(150, 44, 'Lev', NULL, 'Waters', '2006-12-26'),
-(151, 45, 'Amir', NULL, 'Sweet', '2006-01-20'),
-(152, 46, 'Yuri', NULL, 'Patton', '2006-05-22'),
-(153, 47, 'Alec', NULL, 'Green', '2010-09-23'),
-(154, 48, 'Portia', NULL, 'Mcdowell', '2007-02-25'),
-(155, 49, 'Elijah', NULL, 'Vang', '2009-05-09'),
-(156, 50, 'Hasad', NULL, 'Carlson', '2006-08-28'),
-(157, 51, 'May', NULL, 'Rivera', '2010-02-10'),
-(158, 52, 'Cheyenne', NULL, 'Kemp', '2006-09-24'),
-(159, 53, 'Ora', NULL, 'Barber', '2006-09-20'),
-(160, 54, 'Tarik', NULL, 'Hodges', '2006-09-11'),
-(161, 55, 'Odessa', NULL, 'Conley', '2007-07-30'),
-(162, 56, 'Kennan', NULL, 'Lamb', '2006-04-07'),
-(163, 57, 'Todd', NULL, 'Daniel', '2010-03-27'),
-(164, 58, 'Xanthus', NULL, 'Walls', '2010-08-03'),
-(165, 59, 'Brianna', NULL, 'Nunez', '2007-10-17'),
-(166, 60, 'Larissa', NULL, 'Solomon', '2009-08-17'),
-(167, 61, 'Tana', NULL, 'Thompson', '2006-08-05'),
-(168, 62, 'Dawn', NULL, 'Howard', '2008-08-21'),
-(169, 63, 'Emerson', NULL, 'Golden', '2010-07-21'),
-(170, 64, 'Kameko', NULL, 'Poole', '2006-02-26'),
-(171, 65, 'Raven', NULL, 'Slater', '2005-10-11'),
-(172, 66, 'Quail', NULL, 'Foreman', '2006-01-24'),
-(173, 67, 'Anika', NULL, 'Alvarez', '2008-08-14'),
-(174, 68, 'Dana', NULL, 'Patrick', '2008-04-11'),
-(175, 69, 'Nomlanga', NULL, 'Curry', '2008-03-28'),
-(176, 70, 'Richard', NULL, 'Ramirez', '2005-08-31'),
-(177, 71, 'Dillon', NULL, 'Allison', '2010-10-05'),
-(178, 72, 'Ariel', NULL, 'Wheeler', '2008-11-23'),
-(179, 73, 'Piper', NULL, 'Koch', '2007-09-29'),
-(180, 74, 'Zelda', NULL, 'Bridges', '2005-05-14'),
-(181, 75, 'Bianca', NULL, 'Delgado', '2009-01-24'),
-(182, 76, 'Joy', NULL, 'York', '2008-07-14'),
-(183, 77, 'Dahlia', NULL, 'Boyer', '2009-07-18'),
-(184, 78, 'Flynn', NULL, 'Vance', '2010-10-02'),
-(185, 79, 'Stacey', NULL, 'Callahan', '2009-08-15'),
-(186, 80, 'Wanda', NULL, 'Thompson', '2009-10-14'),
-(187, 81, 'Abraham', NULL, 'Christensen', '2007-04-02'),
-(188, 82, 'Candace', NULL, 'Adkins', '2005-01-30'),
-(189, 83, 'Zelenia', NULL, 'Ward', '2005-10-08'),
-(190, 84, 'Sara', NULL, 'Leonard', '2009-03-10'),
-(191, 85, 'Thaddeus', NULL, 'Richardson', '2008-12-13'),
-(192, 86, 'Gail', NULL, 'Bowen', '2006-09-04'),
-(193, 87, 'Ruth', NULL, 'Whitfield', '2009-03-02'),
-(194, 88, 'Nyssa', NULL, 'Rocha', '2005-11-19'),
-(195, 89, 'Shafira', NULL, 'Hodge', '2005-04-21'),
-(196, 90, 'Germaine', NULL, 'Mcclure', '2010-06-06'),
-(197, 91, 'Kasimir', NULL, 'Floyd', '2006-01-14'),
-(198, 92, 'Lamar', NULL, 'Moore', '2010-03-14'),
-(199, 93, 'Aileen', NULL, 'Warner', '2009-10-30'),
-(200, 94, 'Veda', NULL, 'Schroeder', '2009-08-15'),
-(201, 95, 'Geraldine', NULL, 'England', '2006-08-05'),
-(202, 96, 'Ezra', NULL, 'Reynolds', '2006-07-21'),
-(203, 97, 'Idona', NULL, 'Richardson', '2007-08-06'),
-(204, 98, 'Jordan', NULL, 'Aguilar', '2006-12-31'),
-(205, 99, 'Moana', NULL, 'Padilla', '2009-01-02'),
-(206, 100, 'Grady', NULL, 'Riley', '2009-12-30'),
-(207, 101, 'Jasmine', NULL, 'Garcia', '2007-12-07'),
-(208, 102, 'Charissa', NULL, 'Tanner', '2009-12-11'),
-(209, 103, 'Shelley', NULL, 'Austin', '2005-08-17'),
-(210, 104, 'Troy', NULL, 'Knox', '2008-09-20'),
-(211, 1, '123', '', '123', '2014-01-01'),
-(212, 105, 'test', '', 'test', '2014-09-12');
+INSERT INTO `registrations_details` (`member_id`, `registration_id`, `member_fname`, `member_mname`, `member_lname`, `member_dob`, `medical_notes`) VALUES
+(1, 1, 'Alanis', '', 'Morisette', '2011-12-15', 'none'),
+(3, 2, 'child 1 of 2 -> reg2', '', 'child 1 of 2 -> reg2', '2008-10-10', 'none'),
+(4, 2, 'child 2 of 2 -> reg2', '', 'child 2 of 2 -> reg2', '2010-01-01', 'none'),
+(5, 3, 'child 1 of 3 -> reg3', '', 'child 1 of 3 -> reg3', '2008-10-10', 'none'),
+(6, 3, 'child 2 of 3 -> reg3', '', 'child 2 of 3 -> reg3', '2010-01-01', 'none'),
+(7, 3, 'child 3 of 3 -> reg3', '', 'child 3 of 3 -> reg3', '2008-10-10', 'none'),
+(8, 4, 'child 1 of 2 -> reg4', '', 'child 1 of 2 -> reg4', '2009-01-01', 'none'),
+(9, 4, 'child 2 of 2 -> reg4', '', 'child 2 of 2 -> reg4', '2008-10-10', 'none'),
+(10, 1, 'Star', '', 'Polar', '2011-09-01', 'none'),
+(111, 5, 'Chelsea', NULL, 'Gonzales', '2010-10-18', 'none'),
+(112, 6, 'Britanni', NULL, 'Hendrix', '2010-12-30', 'none'),
+(113, 7, 'Armando', NULL, 'Melton', '2010-10-29', 'none'),
+(114, 8, 'Ivor', NULL, 'Pitts', '2009-12-14', 'none'),
+(115, 9, 'Neve', '', 'Smith', '2009-04-26', 'none'),
+(116, 10, 'Brian', NULL, 'Hall', '2007-07-11', 'none'),
+(117, 11, 'Britanni', NULL, 'Middleton', '2005-09-15', 'none'),
+(118, 12, 'Shelly', NULL, 'Glenn', '2005-09-28', 'none'),
+(119, 13, 'Kenneth', NULL, 'Perkins', '2005-09-28', 'none'),
+(120, 14, 'Dora', NULL, 'Swanson', '2007-10-29', 'none'),
+(121, 15, 'Basil', NULL, 'Stephenson', '2006-09-15', 'none'),
+(122, 16, 'Kaye', NULL, 'Wood', '2009-06-09', 'none'),
+(123, 17, 'Mari', NULL, 'Marquez', '2008-08-07', 'none'),
+(124, 18, 'Mark', NULL, 'Harris', '2007-03-24', 'none'),
+(125, 19, 'Kareem', NULL, 'Steele', '2007-02-06', 'none'),
+(126, 20, 'Keith', NULL, 'Briggs', '2009-06-01', 'none'),
+(127, 21, 'Donovan', NULL, 'Acevedo', '2008-03-02', 'none'),
+(128, 22, 'Kirestin', NULL, 'Mayer', '2009-01-06', 'none'),
+(129, 23, 'Bo', NULL, 'Riddle', '2006-02-19', 'none'),
+(130, 24, 'Marcia', '', 'Hart', '2009-08-02', 'none'),
+(131, 25, 'Colorado', NULL, 'Yang', '2006-08-11', 'none'),
+(132, 26, 'Len', NULL, 'Perkins', '2010-10-07', 'none'),
+(133, 27, 'Devin', NULL, 'Arnold', '2005-03-07', 'none'),
+(134, 28, 'Delilah', NULL, 'George', '2005-11-28', 'none'),
+(135, 29, 'Odessa', NULL, 'Estes', '2009-09-12', 'none'),
+(136, 30, 'Nora', NULL, 'Mckenzie', '2006-11-19', 'none'),
+(137, 31, 'Courtney', NULL, 'Craft', '2006-08-10', 'none'),
+(138, 32, 'Colin', NULL, 'Stevenson', '2009-06-07', 'none'),
+(139, 33, 'Sage', NULL, 'Noel', '2005-10-20', 'none'),
+(140, 34, 'Quynn', NULL, 'Wynn', '2010-02-09', 'none'),
+(141, 35, 'Nita', NULL, 'Vang', '2007-02-21', 'none'),
+(142, 36, 'Chiquita', NULL, 'Duran', '2008-01-07', 'none'),
+(143, 37, 'Rashad', NULL, 'Solis', '2009-04-14', 'none'),
+(144, 38, 'Reuben', NULL, 'Knight', '2006-05-01', 'none'),
+(145, 39, 'Indira', NULL, 'Watkins', '2008-05-01', 'none'),
+(146, 40, 'Imogene', NULL, 'Talley', '2007-02-21', 'none'),
+(147, 41, 'Ifeoma', NULL, 'Savage', '2005-07-31', 'none'),
+(148, 42, 'Blaine', NULL, 'Navarro', '2006-03-23', 'none'),
+(149, 43, 'Calvin', NULL, 'William', '2007-08-17', 'none'),
+(150, 44, 'Lev', NULL, 'Waters', '2006-12-26', 'none'),
+(151, 45, 'Amir', NULL, 'Sweet', '2006-01-20', 'none'),
+(152, 46, 'Yuri', NULL, 'Patton', '2006-05-22', 'none'),
+(153, 47, 'Alec', NULL, 'Green', '2010-09-23', 'none'),
+(154, 48, 'Portia', NULL, 'Mcdowell', '2007-02-25', 'none'),
+(155, 49, 'Elijah', NULL, 'Vang', '2009-05-09', 'none'),
+(156, 50, 'Hasad', NULL, 'Carlson', '2006-08-28', 'none'),
+(157, 51, 'May', NULL, 'Rivera', '2010-02-10', 'none'),
+(158, 52, 'Cheyenne', NULL, 'Kemp', '2006-09-24', 'none'),
+(159, 53, 'Ora', NULL, 'Barber', '2006-09-20', 'none'),
+(160, 54, 'Tarik', NULL, 'Hodges', '2006-09-11', 'none'),
+(161, 55, 'Odessa', NULL, 'Conley', '2007-07-30', 'none'),
+(162, 56, 'Kennan', NULL, 'Lamb', '2006-04-07', 'none'),
+(163, 57, 'Todd', NULL, 'Daniel', '2010-03-27', 'none'),
+(164, 58, 'Xanthus', NULL, 'Walls', '2010-08-03', 'none'),
+(165, 59, 'Brianna', NULL, 'Nunez', '2007-10-17', 'none'),
+(166, 60, 'Larissa', NULL, 'Solomon', '2009-08-17', 'none'),
+(167, 61, 'Tana', NULL, 'Thompson', '2006-08-05', 'none'),
+(168, 62, 'Dawn', NULL, 'Howard', '2008-08-21', 'none'),
+(169, 63, 'Emerson', NULL, 'Golden', '2010-07-21', 'none'),
+(170, 64, 'Kameko', NULL, 'Poole', '2006-02-26', 'none'),
+(171, 65, 'Raven', NULL, 'Slater', '2005-10-11', 'none'),
+(172, 66, 'Quail', NULL, 'Foreman', '2006-01-24', 'none'),
+(173, 67, 'Anika', NULL, 'Alvarez', '2008-08-14', 'none'),
+(174, 68, 'Dana', NULL, 'Patrick', '2008-04-11', 'none'),
+(175, 69, 'Nomlanga', NULL, 'Curry', '2008-03-28', 'none'),
+(176, 70, 'Richard', NULL, 'Ramirez', '2005-08-31', 'none'),
+(177, 71, 'Dillon', NULL, 'Allison', '2010-10-05', 'none'),
+(178, 72, 'Ariel', NULL, 'Wheeler', '2008-11-23', 'none'),
+(179, 73, 'Piper', NULL, 'Koch', '2007-09-29', 'none'),
+(180, 74, 'Zelda', NULL, 'Bridges', '2005-05-14', 'none'),
+(181, 75, 'Bianca', NULL, 'Delgado', '2009-01-24', 'none'),
+(182, 76, 'Joy', NULL, 'York', '2008-07-14', 'none'),
+(183, 77, 'Dahlia', NULL, 'Boyer', '2009-07-18', 'none'),
+(184, 78, 'Flynn', NULL, 'Vance', '2010-10-02', 'none'),
+(185, 79, 'Stacey', NULL, 'Callahan', '2009-08-15', 'none'),
+(186, 80, 'Wanda', NULL, 'Thompson', '2009-10-14', 'none'),
+(187, 81, 'Abraham', NULL, 'Christensen', '2007-04-02', 'none'),
+(188, 82, 'Candace', NULL, 'Adkins', '2005-01-30', 'none'),
+(189, 83, 'Zelenia', NULL, 'Ward', '2005-10-08', 'none'),
+(190, 84, 'Sara', NULL, 'Leonard', '2009-03-10', 'none'),
+(191, 85, 'Thaddeus', NULL, 'Richardson', '2008-12-13', 'none'),
+(192, 86, 'Gail', NULL, 'Bowen', '2006-09-04', 'none'),
+(193, 87, 'Ruth', NULL, 'Whitfield', '2009-03-02', 'none'),
+(194, 88, 'Nyssa', NULL, 'Rocha', '2005-11-19', 'none'),
+(195, 89, 'Shafira', NULL, 'Hodge', '2005-04-21', 'none'),
+(196, 90, 'Germaine', NULL, 'Mcclure', '2010-06-06', 'none'),
+(197, 91, 'Kasimir', NULL, 'Floyd', '2006-01-14', 'none'),
+(198, 92, 'Lamar', NULL, 'Moore', '2010-03-14', 'none'),
+(199, 93, 'Aileen', NULL, 'Warner', '2009-10-30', 'none'),
+(200, 94, 'Veda', NULL, 'Schroeder', '2009-08-15', 'none'),
+(201, 95, 'Geraldine', NULL, 'England', '2006-08-05', 'none'),
+(202, 96, 'Ezra', NULL, 'Reynolds', '2006-07-21', 'none'),
+(203, 97, 'Idona', NULL, 'Richardson', '2007-08-06', 'none'),
+(204, 98, 'Jordan', NULL, 'Aguilar', '2006-12-31', 'none'),
+(205, 99, 'Moana', NULL, 'Padilla', '2009-01-02', 'none'),
+(206, 100, 'Grady', NULL, 'Riley', '2009-12-30', 'none'),
+(207, 101, 'Jasmine', NULL, 'Garcia', '2007-12-07', 'none'),
+(208, 102, 'Charissa', NULL, 'Tanner', '2009-12-11', 'none'),
+(209, 103, 'Shelley', NULL, 'Austin', '2005-08-17', 'none'),
+(210, 104, 'Troy', NULL, 'Knox', '2008-09-20', 'none'),
+(215, 1, 'Normal', '', 'Name', '2010-02-23', 'HEalthy'),
+(216, 5, 'Arsenal', '', 'London', '2001-05-25', ''),
+(217, 6, '12321', '', '23123', '2014-10-09', 'weqe'),
+(218, 7, 'Rodolfo', '', '324234', '2014-10-01', ''),
+(219, 10, '123', '', '123', '2014-10-02', ''),
+(220, 10, '1q2w3e', '', '1q2w3e', '2014-10-01', ''),
+(221, 9, '1q2w2we', '', '1q1q2w1', '2014-10-17', ''),
+(222, 2, 'Kurwa', '', 'Mac', '2014-10-01', '');
 
 -- --------------------------------------------------------
 
@@ -577,7 +583,7 @@ CREATE TABLE IF NOT EXISTS `registrations_master` (
   `mobile_number` int(10) DEFAULT NULL,
   `office_number` int(10) DEFAULT NULL,
   PRIMARY KEY (`registration_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=108 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=107 ;
 
 --
 -- Dumping data for table `registrations_master`
@@ -705,23 +711,13 @@ CREATE TABLE IF NOT EXISTS `schedule_details` (
   `end_time` time NOT NULL,
   PRIMARY KEY (`schedule_id`),
   KEY `schedule_id` (`group_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=52 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=62 ;
 
 --
 -- Dumping data for table `schedule_details`
 --
 
 INSERT INTO `schedule_details` (`schedule_id`, `group_id`, `schedule_date`, `start_time`, `end_time`) VALUES
-(12, 1, '2014-10-06', '10:30:00', '12:30:00'),
-(13, 1, '2014-10-13', '10:30:00', '12:30:00'),
-(14, 1, '2014-10-20', '10:30:00', '12:30:00'),
-(15, 1, '2014-10-27', '10:30:00', '12:30:00'),
-(16, 1, '2014-11-03', '10:30:00', '12:30:00'),
-(17, 1, '2014-11-10', '10:30:00', '12:30:00'),
-(18, 1, '2014-11-17', '10:30:00', '12:30:00'),
-(19, 1, '2014-11-24', '10:30:00', '12:30:00'),
-(20, 1, '2014-12-01', '10:30:00', '12:30:00'),
-(21, 1, '2014-12-08', '10:30:00', '12:30:00'),
 (22, 2, '2014-10-09', '10:30:00', '12:30:00'),
 (23, 2, '2014-10-16', '10:30:00', '12:30:00'),
 (24, 2, '2014-10-23', '10:30:00', '12:30:00'),
@@ -732,16 +728,26 @@ INSERT INTO `schedule_details` (`schedule_id`, `group_id`, `schedule_date`, `sta
 (29, 2, '2014-11-27', '10:30:00', '12:30:00'),
 (30, 2, '2014-12-04', '10:30:00', '12:30:00'),
 (31, 2, '2014-12-11', '10:30:00', '12:30:00'),
-(42, 10, '2014-10-10', '02:00:00', '03:00:00'),
-(43, 10, '2014-10-17', '02:00:00', '03:00:00'),
-(44, 10, '2014-10-24', '02:00:00', '03:00:00'),
-(45, 10, '2014-10-31', '02:00:00', '03:00:00'),
-(46, 10, '2014-11-07', '02:00:00', '03:00:00'),
-(47, 10, '2014-11-14', '02:00:00', '03:00:00'),
-(48, 10, '2014-11-21', '02:00:00', '03:00:00'),
-(49, 10, '2014-11-28', '02:00:00', '03:00:00'),
-(50, 10, '2014-12-05', '02:00:00', '03:00:00'),
-(51, 10, '2014-12-12', '02:00:00', '03:00:00');
+(32, 1, '2014-10-06', '10:30:00', '12:00:00'),
+(33, 1, '2014-10-13', '10:30:00', '12:00:00'),
+(34, 1, '2014-10-20', '10:30:00', '12:00:00'),
+(35, 1, '2014-10-27', '10:30:00', '12:00:00'),
+(36, 1, '2014-11-03', '10:30:00', '12:00:00'),
+(37, 1, '2014-11-10', '10:30:00', '12:00:00'),
+(38, 1, '2014-11-17', '10:30:00', '12:00:00'),
+(39, 1, '2014-11-24', '10:30:00', '12:00:00'),
+(40, 1, '2014-12-01', '10:30:00', '12:00:00'),
+(41, 1, '2014-12-08', '10:30:00', '12:00:00'),
+(52, 3, '2014-10-09', '09:00:00', '10:00:00'),
+(53, 3, '2014-10-16', '09:00:00', '10:00:00'),
+(54, 3, '2014-10-23', '09:00:00', '10:00:00'),
+(55, 3, '2014-10-30', '09:00:00', '10:00:00'),
+(56, 3, '2014-11-06', '09:00:00', '10:00:00'),
+(57, 3, '2014-11-13', '09:00:00', '10:00:00'),
+(58, 3, '2014-11-20', '09:00:00', '10:00:00'),
+(59, 3, '2014-11-27', '09:00:00', '10:00:00'),
+(60, 3, '2014-12-04', '09:00:00', '10:00:00'),
+(61, 3, '2014-12-11', '09:00:00', '10:00:00');
 
 -- --------------------------------------------------------
 
@@ -768,10 +774,9 @@ CREATE TABLE IF NOT EXISTS `schedule_master` (
 --
 
 INSERT INTO `schedule_master` (`group_id`, `staff_id`, `date_created`, `weekday`, `start_time`, `end_time`) VALUES
-(1, 5, '2014-09-29', 1, '10:30:00', '12:30:00'),
+(1, 5, '2014-09-29', 1, '10:30:00', '12:00:00'),
 (2, 5, '2014-09-29', 4, '10:30:00', '12:30:00'),
-(9, 1, '2014-10-01', 0, '01:00:00', '03:00:00'),
-(10, 1, '2014-10-01', 5, '02:00:00', '03:00:00');
+(3, 1, '2014-10-04', 4, '09:00:00', '10:00:00');
 
 -- --------------------------------------------------------
 
@@ -916,7 +921,7 @@ CREATE TABLE IF NOT EXISTS `terms` (
   PRIMARY KEY (`term_id`),
   UNIQUE KEY `term_description` (`term_description`),
   UNIQUE KEY `start_date` (`start_date`,`end_date`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `terms`
@@ -925,7 +930,8 @@ CREATE TABLE IF NOT EXISTS `terms` (
 INSERT INTO `terms` (`term_id`, `term_description`, `start_date`, `end_date`) VALUES
 (1, 'Term 4', '2014-10-06', '2014-12-13'),
 (2, 'Term 2', '2013-01-01', '2013-04-30'),
-(3, 'test', '2014-08-01', '2014-09-25');
+(3, 'test', '2014-08-01', '2014-09-25'),
+(4, 'term oct', '2014-10-01', '2014-12-31');
 
 -- --------------------------------------------------------
 
@@ -988,36 +994,36 @@ ALTER TABLE `lessons`
 -- Constraints for table `medical_conditions_details`
 --
 ALTER TABLE `medical_conditions_details`
-  ADD CONSTRAINT `medical_conditions_details_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `registrations_details` (`member_id`),
-  ADD CONSTRAINT `medical_conditions_details_ibfk_2` FOREIGN KEY (`medical_condition_id`) REFERENCES `medical_conditions_master` (`medical_condition_id`);
+  ADD CONSTRAINT `medical_conditions_details_ibfk_2` FOREIGN KEY (`medical_condition_id`) REFERENCES `medical_conditions_master` (`medical_condition_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `medical_conditions_details_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `registrations_details` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `members_progress`
 --
 ALTER TABLE `members_progress`
-  ADD CONSTRAINT `members_progress_ibfk_4` FOREIGN KEY (`schedule_id`) REFERENCES `schedule_details` (`schedule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `members_progress_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `registrations_details` (`member_id`),
-  ADD CONSTRAINT `members_progress_ibfk_3` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`staff_id`);
+  ADD CONSTRAINT `members_progress_ibfk_3` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`staff_id`),
+  ADD CONSTRAINT `members_progress_ibfk_4` FOREIGN KEY (`schedule_id`) REFERENCES `schedule_details` (`schedule_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `members_progress_details`
 --
 ALTER TABLE `members_progress_details`
-  ADD CONSTRAINT `members_progress_details_ibfk_3` FOREIGN KEY (`progress_id`) REFERENCES `members_progress` (`progress_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `members_progress_details_ibfk_2` FOREIGN KEY (`task_id`) REFERENCES `skills_details` (`task_id`);
+  ADD CONSTRAINT `members_progress_details_ibfk_2` FOREIGN KEY (`task_id`) REFERENCES `skills_details` (`task_id`),
+  ADD CONSTRAINT `members_progress_details_ibfk_3` FOREIGN KEY (`progress_id`) REFERENCES `members_progress` (`progress_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `members_skills`
 --
 ALTER TABLE `members_skills`
-  ADD CONSTRAINT `members_skills_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `registrations_details` (`member_id`),
-  ADD CONSTRAINT `members_skills_ibfk_2` FOREIGN KEY (`skill_id`) REFERENCES `skills_master` (`skill_id`);
+  ADD CONSTRAINT `members_skills_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `registrations_details` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `members_skills_ibfk_2` FOREIGN KEY (`skill_id`) REFERENCES `skills_master` (`skill_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `payments_details`
 --
 ALTER TABLE `payments_details`
-  ADD CONSTRAINT `payments_details_ibfk_1` FOREIGN KEY (`payment_id`) REFERENCES `payments_master` (`payment_id`);
+  ADD CONSTRAINT `payments_details_ibfk_1` FOREIGN KEY (`payment_id`) REFERENCES `payments_master` (`payment_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `payments_master`
@@ -1036,14 +1042,14 @@ ALTER TABLE `registrations_details`
 -- Constraints for table `schedule_details`
 --
 ALTER TABLE `schedule_details`
-  ADD CONSTRAINT `schedule_details_ibfk_3` FOREIGN KEY (`group_id`) REFERENCES `schedule_master` (`group_id`);
+  ADD CONSTRAINT `schedule_details_ibfk_3` FOREIGN KEY (`group_id`) REFERENCES `schedule_master` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `schedule_master`
 --
 ALTER TABLE `schedule_master`
-  ADD CONSTRAINT `schedule_master_ibfk_3` FOREIGN KEY (`group_id`) REFERENCES `groups_master` (`group_id`),
-  ADD CONSTRAINT `schedule_master_ibfk_4` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`staff_id`);
+  ADD CONSTRAINT `schedule_master_ibfk_4` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`staff_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `schedule_master_ibfk_3` FOREIGN KEY (`group_id`) REFERENCES `groups_master` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `skills_details`

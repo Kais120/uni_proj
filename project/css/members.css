@@ -1,43 +1,42 @@
-table #parent_list {
-    border-collapse: collapse;	
+table .member_list {
+   width: 15vw;
+   border-collapse: collapse;
+   border-spacing: 0;
 }
 
-#parent_list tbody, #parent_list thead{	
-	display: block;
-	overflow-y: auto;
-	margin-bottom: 1%;	
+.member_list tbody, .member_list thead tr{	
+	display: block;	
 }
 
-#parent_list tbody{
+.member_list tbody{
 	height: 55vh;
-	border-top: 1px solid black;	
-	border-bottom: 1px solid black;	
+	overflow-y: auto;
 }
 
-#parent_list tr {
-    background-color: white;    
-}
-
-#parent_list tr:hover {
-    background-color: #ccc;
-}
-#parent_list th {	
-    background-color: #fff;	
-	width: 10vw;
-}
-#parent_list th, #parent_list td {
-    padding: 3px 5px;
-}
-#parent_list td:hover {
-    cursor: pointer;
-}
-
-#parent_list td.fname, #parent_list td.lname{
+.member_list#parent_list tbody td:first-child, .member_list#parent_list thead th:first-child{
 	width: 5vw;
 }
 
-#parent_list tr.active{
+.member_list#payments tbody td:first-child, .member_list#payments thead th:first-child{
+	width: 5vw;
+}
+
+.member_list tbody td, .member_list thead th{
+	width: 15vw;
+}
+
+
+.member_list tbody tr:hover {
+    background-color: #ccc;
+    cursor: pointer;
+}
+
+.member_list tr.active{
 	background-color: #ccc;
+}
+
+#payments tbody{
+	height: 30vh;
 }
 
 ul.tabs{
@@ -57,7 +56,7 @@ ul.tabs li{
 ul.tabs li.current{
 	background: #ededed;
 	color: #222;
-	border: solid 1px;	
+	border: solid #ccc 1px;	
 	border-bottom-style: none;
 }
 
@@ -82,10 +81,14 @@ ul.fields li, ul.medical li{
 	margin-bottom: 1%;
 }
 
-ul.fields li label, ul.fields li input, ul.medical li label, ul.medical li select{	
+ul.fields li label, ul.fields li input, ul.fields li select{	
 	display: table-cell;
 	margin-left: 20px;
 	vertical-align: middle;
+}
+
+ul.fields li button{
+	display: table-row;
 }
 
 div.biodata{	

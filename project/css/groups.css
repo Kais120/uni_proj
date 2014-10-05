@@ -15,7 +15,7 @@ ul.tabs li{
 ul.tabs li.current{
 	background: #ededed;
 	color: #222;
-	border: solid 1px;	
+	border: solid #ccc 1px;	
 	border-bottom-style: none;
 }
 
@@ -34,42 +34,56 @@ ul.details li label, ul.details li input, ul.details li button{
 	vertical-align: middle;
 }
 
-table.table_details {
-    border-collapse: collapse;		
+table .table_details {
+   width: 15vw;
+   border-collapse: collapse;
 }
 
-.table_details tbody, .table_details thead{	
-	display: block;
-	overflow-y: auto;
-	margin-bottom: 1%;	
+.table_details tbody, .table_details thead tr{	
+	display: block;	
 }
 
 .table_details tbody{
-	height: 50vh;
-	border-bottom: 1px solid black;	
+	height: 55vh;
+	overflow-y: auto;
 }
 
-.table_details#tasks tbody{
-	height: 30vh;
+.table_details tbody td:first-child, .table_details thead th:first-child{
+	width: 5vw;
 }
 
-.table_details tr {
-    background-color: white;    
+.table_details tbody td, .table_details thead th{
+	width: 15vw;
 }
 
-.table_details tr:hover {
+
+.table_details tbody tr:hover {
     background-color: #ccc;
-}
-.table_details th {	
-    background-color: #fff;		
-}
-.table_details th, .table_details td {
-    padding: 3px 5px;
-}
-.table_details td:hover {
     cursor: pointer;
 }
 
 .table_details tr.active{
 	background-color: #ccc;
 }
+
+table #tasks {
+   width: 10vw;
+   border-collapse: collapse;
+}
+
+#tasks tbody, #tasks thead tr{	
+	display: block;	
+}
+
+#tasks tbody{
+	text-align: left;
+	height:20vh;
+	overflow-y: auto;
+}
+
+
+#tasks tbody td, #tasks thead th{
+	width: 10vw;
+}
+
+

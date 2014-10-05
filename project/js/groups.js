@@ -238,6 +238,7 @@ function selectDay(){
 }
 
 function populateProgress(){
+	emptyProgress();
 	$.post(js_base_url("site/getMemberProgress"), {
 			'day': $("select#training_day").val(),
 			'member_id' : $("table#members tbody tr.active td.member_id").html(),					

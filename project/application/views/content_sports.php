@@ -8,9 +8,10 @@
 				</ul>
 			</div>
 		</div>
+		<hr class="divider"></hr>
 		<div class="row">
 			<div class="container col-lg-4 col-lg-offset-1">
-				<table class="skill_table" id="skills_list">
+				<table class="skill_table table" id="skills_list">
 					<thead>
 						<th>ID</th><th>Band</th><th>Description</th>
 					</thead>
@@ -37,7 +38,7 @@
 		<div id="tasks" class="hidden">
 		<div class="row">
 			<div class="container col-lg-4 col-lg-offset-1">
-				<table class="skill_table" id="tasks_list">
+				<table class="skill_table table" id="tasks_list">
 					<thead>
 						<th>ID</th><th>Task</th><th>Description</th>
 					</thead>

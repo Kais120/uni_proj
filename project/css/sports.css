@@ -15,7 +15,7 @@ ul.tabs li{
 ul.tabs li.current{
 	background: #ededed;
 	color: #222;
-	border: solid 1px;	
+	border: solid #ccc 1px;	
 	border-bottom-style: none;
 }
 
@@ -24,32 +24,31 @@ table.skill_table {
 	width: 30vw;
 }
 
-.skill_table tbody, .skill_table thead{	
-	display: block;
-	overflow-y: auto;
-	margin-bottom: 1%;	
+table .skill_table {
+   width: 15vw;
+   border-collapse: collapse;
+}
+
+.skill_table tbody, .skill_table thead tr{	
+	display: block;	
 }
 
 .skill_table tbody{
 	height: 30vh;
-	border-top: 1px solid black;	
-	border-bottom: 1px solid black;	
+	overflow-y: auto;
 }
 
-.skill_table tr {
-    background-color: white;    
+.skill_table tbody td:first-child, .skill_table thead th:first-child{
+	width: 5vw;
 }
 
-.skill_table tr:hover {
+.skill_table tbody td, .skill_table thead th{
+	width: 15vw;
+}
+
+
+.skill_table tbody tr:hover {
     background-color: #ccc;
-}
-.skill_table th {	
-    background-color: #fff;		
-}
-.skill_table th, .skill_table td {
-    padding: 3px 5px;
-}
-.skill_table td:hover {
     cursor: pointer;
 }
 

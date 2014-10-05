@@ -9,7 +9,7 @@ function yearClick(){
 		else	
 			$("input#search_parent").prop('disabled', true);	
 			
-		$("#payment_list tbody tr").remove();		
+		$("#payment_list tbody tr").not('.theader').remove();		
 		
 		$("select.term option").not(".default").remove();
 		
@@ -47,7 +47,7 @@ function termClick(){
 	$("select.term").change(function(){		
 		if($("select.term option:selected").val()!==''){
 			$("input#search_parent").prop('disabled', false);
-			$("#payment_list tbody tr").remove();
+			$("#payment_list tbody tr").not('.theader').remove();
 			getPayments($("select.term option:selected").val(), $("select.year").val());			
 		}
 	});
@@ -73,7 +73,7 @@ function getPayments(term, year){
 }
 
 function paymentClick(){
-	$("table#payment_list tbody").delegate("tr", "click", function () {
+	$("table#payment_list tbody").delegate("tr:not(.theader)", "click", function () {
 		$(this).addClass("active").siblings().removeClass('active');
 		$("div.edit").removeClass("hidden");
 		getPaymentDetails($(this).children("td.transaction_id").html());
@@ -144,6 +144,22 @@ function formChange(){
 	});
 }
 
+function searchParent(){
+	$('input#search_parent').keyup(function(){	
+		$('table#payment_list tbody tr').addClass('hidden');
+		$('ul#payment_details').addClass('hidden');
+		var input = $(this).val();		
+		if (!input){			
+			$('table#payment_list tbody tr').removeClass('hidden');			
+		}else{
+			$('table#payment_list tbody tr').each(function(){
+				if ($(this).html().indexOf(input)>-1)
+					$(this).removeClass('hidden');
+			})
+		}
+	});
+}
+
 var main = function(){
 	$("input#search_parent").prop('disabled', true);	
 	$("button#save_payment").addClass('disabled');
@@ -152,6 +168,7 @@ var main = function(){
 	termClick();
 	formChange();
 	clickSave();
+	searchParent();
 }
 
 $(document).ready(main);

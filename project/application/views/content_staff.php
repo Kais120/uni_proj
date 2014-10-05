@@ -18,7 +18,7 @@
 					print('<p style="color: red">Inactive staff is not displayed</p>');
 				}
 			?>
-			<table id="staff_list">
+			<table class="table" id="staff_list">
 				<thead>
 					<th>First name</th>
 					<th>Last name</th>

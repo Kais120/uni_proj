@@ -66,8 +66,7 @@
 					</select>
 				</li>
 				<li><button class="btn btn-default disabled" id="save_changes">Save changes</button></li>				
-			</ul>
-			<p style="color: red">Warning! If you update day, start time or end time, the members' progress will be lost</p>
+			</ul>			
 		</div>		
 		<div class="container col-lg-3 col-lg-offset-1">
 			<table class="table table_details" id="members">

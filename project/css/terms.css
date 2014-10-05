@@ -1,33 +1,28 @@
 table #term_list {
-    border-collapse: collapse;	
+   width: 15vw;
+   border-collapse: collapse;
 }
 
-#term_list tbody, #term_list thead{	
-	display: block;
-	overflow-y: auto;
-	margin-bottom: 1%;	
+#term_list tbody, #term_list thead tr{	
+	display: block;	
 }
 
 #term_list tbody{
-	height: 60vh;
-	border-top: 1px solid black;	
-	border-bottom: 1px solid black;	
+	height: 55vh;
+	overflow-y: auto;
 }
 
-#term_list tr {
-    background-color: white;    
+#term_list tbody td:first-child, #term_list thead th:first-child{
+	width: 5vw;
 }
 
-#term_list tr:hover {
+#term_list tbody td, #term_list thead th{
+	width: 15vw;
+}
+
+
+#term_list tbody tr:hover {
     background-color: #ccc;
-}
-#term_list th {	
-    background-color: #fff;		
-}
-#term_list th, #term_list td {
-    padding: 3px 5px;
-}
-#term_list td:hover {
     cursor: pointer;
 }
 

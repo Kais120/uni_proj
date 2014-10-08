@@ -14,6 +14,15 @@
 			$query = $this->db->get();
 			return json_encode($query->result());
 		}
+				
+		public function dbPullProfile($staffId){
+			$this->db->select("staff.*, users.username");
+			$this->db->from("staff, users");			
+			$this->db->where("staff.staff_id", $staffId);
+			$this->db->where("users.staff_id = staff.staff_id");
+			$query = $this->db->get();
+			return $query->row();
+		}
 		
 		public function dbUpdateStaff($staffId, $staff, $password, $type){
 			$this->db->where("staff_id", $staffId);
@@ -28,6 +37,13 @@
 				$array = array('type' => $type);
 			$this->db->where("staff_id", $staffId);
 			$this->db->update("users", $array);
+		}
+		
+		function dbSaveProfile($staffId, $staff, $password){
+			$this->db->where("staff_id", $staffId);
+			$this->db->update("staff", $staff);
+			$this->db->where("staff_id", $staffId);
+			$this->db->update("users", array('password' =>  $password));			
 		}
 		
 		public function dbAddStaff($staff, $user){

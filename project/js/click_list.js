@@ -323,6 +323,8 @@ function onTabClick() {
 			status = 3;
 			$(".child-content").addClass('current').siblings().removeClass('current');
 			$("#save_child_details").addClass("disabled");
+			$("select#progress_term").val('null');
+			$("table#progress_list tbody tr").remove();
 			retrieveChildData(parseInt($(this).attr('data-value')));
 		} else if ($(this).is('#payment_tab')) {
 			$(".payment-content").addClass('current').siblings().removeClass('current');

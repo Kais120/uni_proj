@@ -60,8 +60,8 @@ function onFormChange(){
 }
 
 function onSubmit(){
-	if(status){
-		$("form#staff_action").submit(function(e){
+	$("form#staff_action").submit(function(e){
+		if(status==true){
 			var username = $("input[name='username']").val();	
 			var result;
 			$.post(js_base_url("site/checkUsername"), {'username' : username}, function(data){
@@ -70,9 +70,9 @@ function onSubmit(){
 			if (result='true'){
 				alert('The username is already exists');
 				e.preventDefault();
-			}				
-		});
-	}	
+			}	
+		}
+	});		
 }
 
 function clickNewStaff(){

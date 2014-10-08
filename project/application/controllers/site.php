@@ -1,15 +1,15 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+session_start();
 class Site extends CI_Controller {
-	public function index(){		
-		$this->home();	
+	function __construct(){
+		parent::__construct();
+		$this->load->model('model_user','',TRUE);
+		if(!$this->session->userdata('logged_in'))
+			redirect('login', 'refresh');
 	}
-	
-	public function home(){	
-		$this->load->view("site_header");
-		$this->load->view("site_nav");		
-		$this->load->view("content_login");
-		$this->load->view("site_footer");	
+
+	public function index(){			
+		$this->schedule();	
 	}
 	
 	public function members(){			
@@ -595,5 +595,39 @@ class Site extends CI_Controller {
 		$end = $this->input->get('end');
 		$this->load->model('model_sport');
 		echo $this->model_sport->dbGetSchedule('2',$start, $end);
+	}
+	
+	function logout(){
+	   $this->session->unset_userdata('logged_in');
+	   $this->session->sess_destroy();
+	   redirect('login', 'refresh');
+	}
+	
+	function profile(){
+		$this->load->view("site_header");
+		$this->load->view("site_nav");
+		$this->load->model("model_staff");
+		$data['details']=$this->model_staff->dbPullProfile($this->session->userdata('logged_in')['id']);
+		$this->load->view("content_profile", $data);
+		$this->load->view("site_footer");		
+	}
+	
+	function saveProfile(){
+		$staffId = $this->session->userdata('logged_in')['id'];
+		$staff = array(			
+			'staff_fname' => $this->input->post('fname'),
+			'staff_mname' => $this->input->post('mname'),
+			'staff_lname' => $this->input->post('lname'),
+			'home_number' => $this->input->post('hnumber'),
+			'mobile_number' => $this->input->post('mnumber'),
+			'emg_contact_name' => $this->input->post('emgname'),
+			'emg_contact_number' => $this->input->post('emgnumber'),
+			'staff_email' => $this->input->post('email')			
+		);		
+		$this->load->library('encrypt');
+		$password = $this->encrypt->encode($this->input->post('password'));		
+		$this->load->model("model_staff");
+		$this->model_staff->dbSaveProfile($staffId, $staff, $password);
+		header( 'Location: '.base_url().'site/profile');		
 	}
 }

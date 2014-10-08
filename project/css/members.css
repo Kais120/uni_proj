@@ -1,7 +1,6 @@
 table .member_list {
    width: 15vw;
-   border-collapse: collapse;
-   border-spacing: 0;
+   border-collapse: collapse;   
 }
 
 .member_list tbody, .member_list thead tr{	
@@ -10,14 +9,14 @@ table .member_list {
 
 .member_list tbody{
 	height: 55vh;
-	overflow-y: auto;
+	overflow-y: scroll;
 }
 
-.member_list#parent_list tbody td:first-child, .member_list#parent_list thead th:first-child{
+#parent_list tbody td:first-child, #parent_list thead th:first-child{
 	width: 5vw;
 }
 
-.member_list#payments tbody td:first-child, .member_list#payments thead th:first-child{
+#payments tbody td:first-child, #payments thead th:first-child{
 	width: 5vw;
 }
 

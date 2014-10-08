@@ -14,7 +14,7 @@
 								}
 							?>					
 						</select>
-					</li>
+					</li>					
 					<li id="term_select" class="hidden">
 						<label for="term">Term</label>
 						<select name="term" class="form-control term">							
@@ -23,6 +23,7 @@
 						</select>
 					</li>
 				</ul>
+				<input type="checkbox" name="owing" />Show unpaid only
 			</div>
 			<div class="container col-lg-3">
 				<label for="search">Search</label><input type="search" name="search" class="form-control pull-left" id="search_parent"/>

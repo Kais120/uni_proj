@@ -9,7 +9,7 @@ table #term_list {
 
 #term_list tbody{
 	height: 55vh;
-	overflow-y: auto;
+	overflow-y: scroll;
 }
 
 #term_list tbody td:first-child, #term_list thead th:first-child{

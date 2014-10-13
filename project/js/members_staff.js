@@ -2,7 +2,6 @@ var array = {};
 var array_child = {};
 var array_medical = 'null';
 var status = 0;
-var statusPayment = 0;
 
 function onParentFormChange() {
 	$(".biodata :input").keydown(function () {
@@ -39,7 +38,7 @@ function parentDataPopulate() {
 	$.ajax({
 		type : "POST",
 		cache : false,
-		url : js_base_url("site/getMemberInfo"),
+		url : js_base_url("site_staff/getMemberInfo"),
 		contentType : "application/json; charset=utf-8",
 		dataType : 'json',
 		success : function (data) {
@@ -75,7 +74,7 @@ function removeTabs() {
 
 function retrieve_children(i) {
 	$.ajax({
-		url : js_base_url("site/getChildInfo"),
+		url : js_base_url("site_staff/getChildInfo"),
 		cache : false,
 		type : 'POST',
 		data : {
@@ -101,7 +100,7 @@ function retrieveChildData(i) {
 	$("#medical_notes").val(array_child[i].medical_notes);
 	loadMemberSkills();
 	$.ajax({
-		url : js_base_url("site/getChildMedical"),
+		url : js_base_url("site_staff/getChildMedical"),
 		cache : false,
 		type : 'POST',
 		data : {
@@ -191,7 +190,7 @@ function addChild() {
 	var key = $("tr.active td.ID").html();
 
 	$.ajax({
-		url : js_base_url("site/addChild"),
+		url : js_base_url("site_staff/addChild"),
 		type : 'POST',
 		data : {
 			'parentKey' : key,
@@ -218,7 +217,7 @@ function updateChild() {
 	var key = $("li.tab-link.child-tab.current").attr('data-value');
 
 	$.ajax({
-		url : js_base_url("site/updateChildInfo"),
+		url : js_base_url("site_staff/updateChildInfo"),
 		type : 'POST',
 		data : {
 			'key' : key,
@@ -248,7 +247,7 @@ function updateChild() {
 function updateParent() {
 	var key = $("tr.active td.ID").html();
 	$.ajax({
-		url : js_base_url("site/updateParentInfo"),
+		url : js_base_url("site_staff/updateParentInfo"),
 		type : 'POST',
 		dataType : 'json',
 		data : {
@@ -277,7 +276,7 @@ function updateParent() {
 
 function registerParent() {
 	$.ajax({
-		url : js_base_url("site/addParent"),
+		url : js_base_url("site_staff/addParent"),
 		type : 'POST',
 		data : {
 			'firstName' : $("#firstName").val(),
@@ -326,15 +325,253 @@ function onTabClick() {
 			$("#save_child_details").addClass("disabled");
 			$("select#progress_term").val('null');
 			$("table#progress_list tbody tr").remove();
-			$("div#tasks_list").empty();
 			retrieveChildData(parseInt($(this).attr('data-value')));
-			loadProgressTerms();
 		} else if ($(this).is('#payment_tab')) {
 			$(".payment-content").addClass('current').siblings().removeClass('current');
-			loadPaymentTerms();
+			$('select#payment_term').val('null');
+			$('table#payments tbody tr').remove();
+			$('ul#payment_details').addClass('hidden');
+			getChildSelect();
 		} else {
 			$(".member-details").addClass('current').siblings().removeClass('current');
 		}
+	});
+}
+
+function loadYears() {
+	$("select.year option").remove();
+	$('select.term option').not("[value='null']").remove();
+	$.ajax({
+		type : 'post',
+		url : js_base_url("site_staff/getYearsSelect"),
+		dataType : 'html',
+		success : function (data) {
+			$("select.year").append(data);
+		}
+	});
+	$.ajax({
+		type : 'post',
+		url : js_base_url("site_staff/getTermsSelect"),
+		data : {
+			'year' : new Date().getFullYear()
+		},
+		dataType : 'html',
+		success : function (data) {
+			$("select.term").append(data);
+		}
+	})
+}
+
+function loadTerms() {
+	$.ajax({
+		type : 'post',
+		url : js_base_url("site_staff/getTermsSelect"),
+		data : {
+			'year' : $("select#payment_year").val()
+		},
+		dataType : 'html',
+		success : function (data) {
+			$("select#payment_term option").not("[value='null']").remove();
+			$("select#payment_term").append(data);
+		}
+	});
+}
+
+function onSelectTermChange() {
+	$('select#payment_term').change(function () {
+		$('ul#payment_details').addClass('hidden');
+		$('select#child').val('null');
+		$('select#group').val('null');
+		if ($(this).val !== 'null') {
+			$('div#group_payment_panel').removeClass('hidden');
+			getPayments();
+		} else
+			$('table#payments tbody tr').remove();
+	});
+}
+
+function getPayments() {
+	$.post(js_base_url("site_staff/getPaymentsList"), {
+		'parent' : $('table#parent_list tbody tr.active td.ID').html(),
+		'term' : $('select#payment_term').val()
+	},
+		function (data) {
+		$('table#payments tbody tr').remove();
+		$('table#payments tbody').append(data);
+	}, 'html')
+}
+
+function onClickPayment() {
+	$('#payments tbody').delegate('tr', 'click', function () {
+		$(this).addClass("active").siblings().removeClass('active');
+		$('ul#payment_details').removeClass('hidden');
+		getPaymentDetails();
+	});
+}
+
+function getPaymentDetails() {
+	$.post(js_base_url("site_staff/getPaymentDetailsParent"), {
+		'transaction_id' : $('#payments tbody tr.active td.payment_id').html()
+	},
+		function (data) {
+		$("input#overall").val(data.overall);
+		$("input#paid").val(data.paid);
+		switch (data.type.toLowerCase()) {
+		case 'cash':
+			$("select#type").val('cash');
+			break;
+		case 'credit':
+			$("select#type").val('credit');
+			break;
+		case 'eftpos':
+			$("select#type").val('eftpos');
+			break;
+		}
+		$("input#date").val(data.date);
+	}, 'json');
+}
+
+function getChildSelect() {
+	$.post(js_base_url("site_staff/getSelectChild"), {
+		'parent' : $('table#parent_list tbody tr.active td.ID').html()
+	}, function (data) {
+		$('select#child option').not("[value='null']").remove();
+		$('select#child').append(data);
+	}, 'html');
+}
+
+function onSelectChildChange() {
+	$('select#child').change(function () {
+		$('ul#group_payment_details').addClass('hidden');
+		$('ul#new_payment_fields').addClass('hidden');
+		$('button#add_payment_group').addClass('disabled');
+		$('button#save_new_payment').addClass('disabled');
+		$('button#save_payment_group').addClass('disabled');
+		$('select#group option').not('[value="null"]').remove();
+		if ($(this).val() !== 'null') {
+			$('ul#group_payment_details').addClass('hidden');
+			$('ul#group_payment_details li input').val('');
+			getGroupSelect();
+		}
+	});
+}
+
+function getGroupSelect() {
+	$.post(js_base_url("site_staff/getGroupChild"), {
+		'term' : $('select#payment_term').val(),
+		'child' : $('select#child').val()
+	},
+		function (data) {
+		$('select#group').append(data);
+		$('select#group option:empty').remove();
+	}, 'html');
+}
+
+function onSelectGroupChange() {
+	$('select#group').change(function () {
+		$('button#save_payment_group').addClass('disabled');
+		$('button#add_payment_group').addClass('disabled');
+		$('button#save_new_payment').addClass('disabled');
+		if ($(this).val() !== 'null') {
+			$.post(js_base_url("site_staff/getPaymentDetailsGroup"), {
+				'group' : $('select#group').val(),
+				'child' : $('select#child').val()
+			},
+				function (data) {
+				$('button#add_payment_group').removeClass('disabled');
+				$('ul#group_payment_details').removeClass('hidden');
+				$('ul#group_payment_details li input').val('');
+				$('input#num_lessons').val(data.num);
+				$('input#total_amount').val(data.total);
+			}, 'json');
+		} else {
+			$('ul#group_payment_details').addClass('hidden');
+		}
+	});
+}
+
+function onPaymentDetailsChange() {
+	$("input#paid, select#type, input#date").bind('keydown change', function () {
+		$('button#save_payment').removeClass('disabled');
+	})
+}
+
+function onSelectYearChange() {
+	$('select#payment_year').change(function () {
+		$('ul#payment_details').addClass('hidden');
+		$('table#payments tbody tr').remove();
+		loadTerms();
+	});
+}
+
+function onClickSavePayment() {
+	$('button#save_payment').click(function () {
+		$.post(js_base_url("site_staff/updatePayment"), {
+			'transaction_id' : $('table#payments tbody tr.active td.payment_id').html(),
+			'paid_date' : $('input#date').val(),
+			'amount' : $('input#paid').val(),
+			'type' : $('select#type').val()
+		}, function () {
+			alert('Changes saved');
+			$('table#payments tbody tr.active td.amount').html($('input#paid').val());
+			$('table#payments tbody tr.active td.payment_date').html($('input#date').val());
+			$('table#payments tbody tr.active td.payment_type').html($('select#type').val());
+			$('button#save_payment').addClass('disabled');
+		});
+	});
+}
+
+function onGroupPaymentDetailsChange() {
+	$('ul#group_payment_details li input').bind('keydown change', function () {
+		$('button#save_payment_group').removeClass('disabled');
+	});
+}
+
+function onSavePaymentGroupClick() {
+	$('button#save_payment_group').click(function () {
+		$.post(js_base_url("site_staff/updatePaymentGroup"), {
+			'group' : $('select#group').val(),
+			'child' : $('select#child').val(),
+			'num_lessons' : $('input#num_lessons').val(),
+			'total' : $('input#total_amount').val()
+		}, function () {
+			$('button#save_payment_group').addClass('disabled');
+			$('ul#new_payment_fields').addClass('hidden');
+			alert('Changes saved');
+			getPayments();
+			$("ul#payment_details").addClass('hidden');
+		});
+	});
+}
+
+function onNewPaymentChange() {
+	$('select#type_new, input#amount').bind('keydown change', function () {
+		$('button#save_new_payment').removeClass('disabled');
+	});
+}
+
+function onClickSaveNewPayment() {
+	$('button#save_new_payment').click(function () {
+		$.post(js_base_url("site_staff/addNewPayment"), {
+			'group' : $('select#group').val(),
+			'child' : $('select#child').val(),
+			'type' : $('select#type_new').val(),
+			'amount' : $('input#amount').val()
+		}, function () {
+			$('button#save_new_payment').addClass('disabled');
+			alert('Payment added');
+			getPayments();
+			$("ul#payment_details").addClass('hidden');
+			$('ul#new_payment_fields').addClass('hidden');
+		});
+
+	});
+}
+
+function onAddNewPaymentClick() {
+	$('button#add_payment_group').click(function () {
+		$('ul#new_payment_fields li input').val('');
+		$('ul#new_payment_fields').removeClass('hidden');
 	});
 }
 
@@ -345,7 +582,7 @@ function loadMemberSkills() {
 	$('input#tennis_number').val('');
 	$('input#swimming_number').attr('readonly', true);
 	$('input#swimming_number').val('');
-	$.post(js_base_url("site/getChildLevels"), {
+	$.post(js_base_url("site_staff/getChildLevels"), {
 		'child' : $("li.tab-link.child-tab.current").attr('data-value'),
 	}, function (data) {
 		$.each(data, function (key, value) {
@@ -364,7 +601,7 @@ function loadMemberSkills() {
 }
 
 function getSkillsList() {
-	$.post(js_base_url("site/getSkillsList"),
+	$.post(js_base_url("site_staff/getSkillsList"),
 		function (data) {
 		$.each(data, function (key, value) {
 			if (value.sport_id == '1')
@@ -402,13 +639,13 @@ function onSkillSelectChange() {
 	});
 }
 
-function onProgressYearChange() {
+function onProgressYearChange(){
 	$('select#progress_year').change(function () {
 		$("div#tasks_list").empty();
 		$('table#progress_list tbody tr').remove();
 		if ($(this).val() !== 'null') {
-			loadProgressTerms();
-		} else {
+			loadTerms();
+		}else {
 			$('select#progress_term').not('[value="null"]').remove();
 		}
 	});
@@ -426,7 +663,7 @@ function onProgressTermChange() {
 };
 
 function loadProgress() {
-	$.post(js_base_url("site/getMemberProgressList"), {
+	$.post(js_base_url("site_staff/getMemberProgressList"), {
 		'child' : $("li.tab-link.child-tab.current").attr('data-value'),
 		'term' : $('select#progress_term').val()
 	}, function (data) {
@@ -435,15 +672,15 @@ function loadProgress() {
 	}, 'html');
 }
 
-function onProgressClick() {
-	$('table#progress_list tbody').delegate('tr', 'click', function () {
+function onProgressClick(){
+	$('table#progress_list tbody').delegate('tr','click',function(){
 		$(this).addClass('active').siblings().removeClass('active');
 		loadDetails();
 	});
 }
 
-function loadDetails() {
-	$.post(js_base_url("site/getPerformedTasks"), {
+function loadDetails(){
+	$.post(js_base_url("site_staff/getPerformedTasks"), {
 		'progress' : $('table#progress_list tbody tr.active').attr('data-value')
 	}, function (data) {
 		$("div#tasks_list").empty();
@@ -451,213 +688,24 @@ function loadDetails() {
 	}, 'html');
 }
 
-function searchByName() {
-	$("input#parent_search").keyup(function () {
+function searchByName(){
+	$("input#parent_search").keyup(function(){
 		var input = $("input#parent_search").val();
 		$('table#parent_list tbody tr').addClass('hidden');
 		$('div.biodata').addClass('hidden');
-		removeTabs();
-		if (!input) {
-			$('table#parent_list tbody tr').removeClass('hidden');
-		} else {
-			$('table#parent_list tbody tr').each(function () {
-				if ($(this).children('.fname').html().indexOf(input) > -1 || $(this).children('.lname').html().indexOf(input) > -1)
+		removeTabs();		
+		if (!input){
+			$('table#parent_list tbody tr').removeClass('hidden');	
+		}else{		
+			$('table#parent_list tbody tr').each(function(){				
+				if ($(this).children('.fname').html().indexOf(input)>-1 || $(this).children('.lname').html().indexOf(input)>-1)
 					$(this).removeClass('hidden');
 			});
 		}
 	});
 }
 
-function loadYears() {
-	$.post(js_base_url('site/get_year_select'),
-		function (data) {
-		$('select.year').append(data);
-	}, 'html');
-}
-
-function onYearClick() {
-	$('select#payment_year').change(function(){
-		loadPaymentTerms();
-	});
-}
-
-function loadPaymentTerms(){
-	$.post(js_base_url('site/get_term_select'),
-		{
-			'year': $('select#payment_year').val()
-		},
-		function (data) {
-			$('select#payment_term option').not('[value="null"]').remove();
-			$('select#payment_term').append(data);
-	}, 'html');
-}
-
-function onPaymentTermClick(){
-	$('select#payment_term').change(function(){
-		$.post(js_base_url('site/get_parent_payments'),
-			{
-				'term' : $('select#payment_term').val(),
-				'parent' : $('table#parent_list tbody tr.active td.ID').html()
-			},function(data){
-				$('table#payment_list tbody tr').remove();
-				$('table#payment_list tbody').append(data);			
-			},'html'
-		);
-	});
-};
-
-function onPaymentClick(){
-	$('table#payment_list tbody').delegate('tr','click',function(){
-		$(this).addClass("active").siblings().removeClass('active');
-		$("div.edit").removeClass("hidden");
-		getPaymentDetails($(this).children("td.payment_id").html());
-		getTransactions($(this).children("td.payment_id").html());
-		$('div#transactions').removeClass('hidden');
-		$('div#trans_details').addClass('hidden');
-	});
-}
-
-function getPaymentDetails(paymentId) {
-	$.ajax({
-		type : "POST",
-		cache : false,
-		url : js_base_url("site/get_payment_details"),
-		data : {
-			'payment_id' : paymentId
-		},
-		dataType : 'json',
-		success : function (data) {
-			$('input#num_lessons').val(data.numlessons);
-			$('input#total').val(data.total);
-		}
-	});
-}
-
-function getTransactions(paymentId) {
-	$.post(js_base_url("site/get_transactions"), {
-		'payment_id' : paymentId
-	},
-		function (data) {
-		$("table#transaction_list tbody tr").remove()
-		$("table#transaction_list tbody").append(data);
-	}, 'html');
-}
-
-function transactionClick(){
-	$('table#transaction_list tbody').delegate('tr','click',function(){
-		$(this).addClass("active").siblings().removeClass('active');
-		$('input#amount').val($(this).children('td.amount').html());
-		$('select#type').val($(this).children('td.payment_type').html());		
-		$('div#trans_details').removeClass('hidden');
-		$('button#save_transaction').addClass('disabled');
-		statusPayment=0;
-	});
-}
-
-function onClickNewTransaction(){
-	$('button#new_transaction').click(function(){
-		$('table#transaction_list tbody tr').removeClass('active');
-		$('input#amount').val('');
-		$('select#type').val('cash');
-		$('div#trans_details').removeClass('hidden');
-		statusPayment = 1;
-	});
-}
-
-function onClickSaveTransaction(){
-	$('button#save_transaction').click(function(){
-		$('div#trans_details').addClass('hidden');
-		$('div#transactions').addClass('hidden');
-		if (statusPayment==0)
-			saveTransaction();
-		if (statusPayment==1)
-			addTransaction();
-			
-	});
-}
-
-function addTransaction(){
-	$.post(js_base_url('site/add_transaction'),
-		{
-			'payment_id' : $("table#payment_list tbody tr.active td.payment_id").html(),
-			'amount' : $('input#amount').val(),
-			'type' : $('select#type').val()
-		},function(){
-			$('button#save_transaction').addClass('disabled');
-			getPayments($("select.term").val(), $("select.year").val());						
-		}
-	);
-};
-
-function saveTransaction(){
-	$.post(js_base_url('site/save_transaction'),
-		{
-			'transaction_id' : $("table#transaction_list tbody tr.active td.transaction_id").html(),
-			'amount' : $('input#amount').val(),
-			'type' : $('select#type').val()
-		},function(){
-			$('button#save_transaction').addClass('disabled');
-			getPayments($("select.term").val(), $("select.year").val());	
-					
-		}
-	);
-}
-
-function formChange() {
-	$("input#num_lessons, input#total").bind('keyup change', function () {
-		$("button#save_payment").removeClass('disabled');
-	});
-	
-	$("input#amount, select#type").bind('keyup change', function(){
-		$("button#save_transaction").removeClass('disabled');
-	});
-}
-
-function clickSave() {
-	$("button#save_payment").click(function () {
-		$.ajax({
-			type : "POST",
-			cache : false,
-			url : js_base_url("site/save_payment"),
-			data : {
-				'payment_id' : $("table#payment_list tbody tr.active td.payment_id").html(),
-				'num_lessons' : $('input#num_lessons').val(),
-				'total' : $('input#total').val()
-			},
-			success : function () {
-				alert('saved');
-				$("div.edit").addClass("hidden");
-				$('button#save_payment').addClass('disabled');
-			}
-		});
-		getPayments();
-	});
-}
-
-function getPayments() {
-	$.post(js_base_url('site/get_parent_payments'),
-		{
-			'term' : $('select#payment_term').val(),
-			'parent' : $('table#parent_list tbody tr.active td.ID').html()
-		},function(data){
-			$('table#payment_list tbody tr').remove();
-			$('table#payment_list tbody').append(data);			
-		},'html'
-	);
-}
-
-function loadProgressTerms(){
-	$.post(js_base_url('site/get_term_select'),
-		{
-			'year': $('select#progress_year').val()
-		},
-		function (data) {
-			$('select#progress_term option').not('[value="null"]').remove();
-			$('select#progress_term').append(data);
-	}, 'html');
-}
-
-var main = function () {
+var main = function () {	
 	parentDataPopulate();
 	getSkillsList();
 	onRegisterClick();
@@ -667,20 +715,24 @@ var main = function () {
 	onTabClick();
 	onChildFormChange();
 	onParentFormChange();
+	loadYears();
+	onSelectTermChange();
+	onClickPayment();
+	onSelectChildChange();
+	onSelectGroupChange();
+	onPaymentDetailsChange();
+	onSelectYearChange();
+	onClickSavePayment();
+	onGroupPaymentDetailsChange();
+	onSavePaymentGroupClick();
+	onNewPaymentChange();
+	onClickSaveNewPayment();
+	onAddNewPaymentClick();
 	onSkillSelectChange();
 	onProgressTermChange();
 	onProgressClick();
 	onProgressYearChange();
 	searchByName();
-	loadYears();
-	onYearClick();
-	onPaymentTermClick();
-	onPaymentClick();
-	transactionClick();
-	onClickNewTransaction();
-	onClickSaveTransaction();
-	formChange();
-	clickSave();
 }
 
 $(document).ready(main);

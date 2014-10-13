@@ -7,14 +7,18 @@
 			return $array;					
 		}	
 		
-		function dbGetTermDetails($year){			
-			$this->db->select('*');
+		function db_get_term_details($year){			
+			$string='';
+			$this->db->select('term_id, term_description');
 			$this->db->from('terms');
 			if ($year!='All'){
 				$this->db->where('YEAR(start_date)', $year);			
 			}
 			$query = $this->db->get();
-			return json_encode($query->result());	
+			foreach ($query->result() as $row){
+				$string.='<option value="'.$row->term_id.'">'.$row->term_description.'</option>';
+			}
+			return ($string);	
 		}
 		
 		function dbAddTerm ($array){
@@ -26,7 +30,7 @@
 			$this->db->update('terms',$array);
 		}
 		
-		function dbGetYearSelect(){
+		function db_get_year_select(){
 			$query = $this->db->query('SELECT DISTINCT YEAR(start_date) AS year FROM terms');		
 			$result = $query->result();
 			$string = '';
@@ -39,7 +43,7 @@
 			return $string;
 		}
 		
-		function dbGetTermSelect($year){
+		function db_get_term_select($year){
 			$this->db->select('term_id, term_description');
 			$this->db->from('terms');
 			$this->db->where('YEAR(start_date)', $year);
@@ -50,6 +54,16 @@
 				$string.='<option value="'.$row->term_id.'">'.$row->term_description.'</option>';
 			}			
 			return $string;
+		}
+		
+		function db_get_terms_details($year){			
+			$this->db->select('*');
+			$this->db->from('terms');
+			if ($year!='All'){
+				$this->db->where('YEAR(start_date)', $year);			
+			}
+			$query = $this->db->get();
+			return json_encode($query->result());	
 		}
 		
 	}

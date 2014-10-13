@@ -25,7 +25,10 @@ class verify_login extends CI_Controller {
 	   else
 	   {
 		 //Go to private area
-			redirect('site', 'refresh');
+			if($this->get_account_type()=='administrator')			
+				redirect('site', 'refresh');
+			else
+				redirect('site_staff', 'refresh');
 	   }
 	}
  
@@ -53,6 +56,10 @@ class verify_login extends CI_Controller {
 			$this->form_validation->set_message('check_database', 'Invalid username or password');
 			return false;
 		}
+	}
+	
+	private function get_account_type(){
+		return $this->model_user->db_get_account_type($this->session->userdata('logged_in')['id']);
 	}
 }
 ?>

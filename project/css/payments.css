@@ -1,32 +1,33 @@
-table #payment_list {
+table .table {
    width: 15vw;
    border-collapse: collapse;
 }
 
-#payment_list tbody, #payment_list thead tr{	
+.table tbody, .table thead tr{	
 	display: block;	
 }
 
-#payment_list tbody{
-	height: 55vh;
+.table tbody{
+	height: 30vh;
 	overflow-y: auto;
 }
 
-#payment_list tbody td:first-child, #payment_list thead th:first-child{
+
+.table tbody td:first-child, .table thead th:first-child{
 	width: 5vw;
 }
 
-#payment_list tbody td, #payment_list thead th{
+.table tbody td, .table thead th{
 	width: 15vw;
 }
 
 
-#payment_list tbody tr:hover {
+.table tbody tr:hover {
     background-color: #ccc;
     cursor: pointer;
 }
 
-#payment_list tr.active{
+.table tr.active{
 	background-color: #ccc;
 }
 

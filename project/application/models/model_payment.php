@@ -1,138 +1,124 @@
 <?php 
 	class model_payment extends CI_Model{		
 		
-		function dbGetPayments($term, $year){			
-			$this->db->select('p.transaction_id, r.parent_fname, r.parent_lname, p.payment_date, p.amount_paid');
-			$this->db->from('payments_details p, payments_master p1, registrations_master r, 
-				terms t, registrations_details rd, groups_master g');			
-			$this->db->where('rd.registration_id = r.registration_id and p1.member_id = rd.member_id and
-				p.payment_id = p1.payment_id and p1.group_id = g.group_id and g.term_id = t.term_id');
-					
-			if ($term!='All'){
-				$this->db->where('g.term_id', $term);			
-			}
-			$query = $this->db->get();
-			return json_encode($query->result());	
-		}
-		
-		function dbGetPaymentDetails($transactionId){			
-			$this->db->select('payment_date, amount_paid, payment_type');
-			$this->db->from('payments_details');			
-			$this->db->where('transaction_id', $transactionId);		
-			$query = $this->db->get();
-			return json_encode($query->result());	
-		}
-		
-		function dbSavePayment($transactionId, $array){
-			$this->db->where('transaction_id',$transactionId);
-			$this->db->update('payments_details',$array);
-			$this->db->select('p.transaction_id, r.parent_fname, r.parent_lname, p.payment_date, p.amount_paid');
-			$this->db->from('payments_details p, payments_master p1, registrations_master r, 
-				terms t, registrations_details rd, groups_master g');			
-			$this->db->where('rd.registration_id = r.registration_id and p1.member_id = rd.member_id and
-				p.payment_id = p1.payment_id and p1.group_id = g.group_id and g.term_id = t.term_id');
-			$this->db->where('p.transaction_id',$transactionId);
-			$query = $this->db->get();
-			return json_encode($query->result());		 
-		}
-		
-		function dbUpdatePayment($transactionId, $array){
-			$this->db->where('transaction_id',$transactionId);
-			$this->db->update('payments_details',$array);
-		}
-		
-		function dbGetPaymentsList($parent, $term){
-			$string = '';
-			$this->db->select('pd.transaction_id, rd.member_fname, rd.member_lname, gm.group_name, pd.amount_paid, pd.payment_type, pm.total_amount, pd.payment_date');
-			$this->db->from('payments_details pd, registrations_details rd, registrations_master rm, groups_master gm, payments_master pm');
-			$this->db->where('rd.registration_id = rm.registration_id and pd.payment_id = pm.payment_id 
-				and rd.member_id = pm.member_id and pm.group_id = gm.group_id');
-			$this->db->where('rm.registration_id',$parent);
-			$this->db->where('gm.term_id',$term);
-			$query = $this->db->get();
-			$result = $query->result();
-			
-			foreach ($result as $row){
-				$string.='<tr><td class="payment_id">'.$row->transaction_id.'</td>
-				<td>'.$row->member_fname.'</td><td>'.$row->member_lname.'</td>
-				<td>'.$row->group_name.'</td><td class="amount">'.$row->amount_paid.'</td>
-				<td class="payment_type">'.$row->payment_type.'</td><td class="payment_date">'.$row->payment_date.'</td>
-				<td>'.$row->total_amount.'</td></tr>';
+		function dbGetPayments($term, $year){
+			$string='';
+			$this->db->select('pm.payment_id, rm.parent_fname, rm.parent_lname, 
+				rd.member_fname, rd.member_lname, YEAR(t.start_date) as year, 
+				t.term_description, s.sport_description, sk.skill_band, 
+				gm.group_name, IFNULL(SUM(pd.amount_paid),0) as sum, pm.total_amount', false);
+			$this->db->from('payments_master pm, registrations_master rm, registrations_details rd, terms t, sports s, skills_master sk, groups_master gm');			
+			$this->db->join('payments_details pd', 'pd.payment_id = pm.payment_id', 'left');
+			$this->db->where('rd.member_id = pm.member_id and rd.registration_id = rm.registration_id and pm.group_id = gm.group_id and 
+				gm.term_id = t.term_id and gm.skill_id = sk.skill_id and sk.sport_id = s.sport_id');
 				
-			}
+			if ($term != 'all' && $term != 'empty')
+				$this->db->where('gm.term_id',$term);
+			if ($year != 'all' && $year != 'empty')
+				$this->db->where('YEAR(t.start_date) ',$year);
 			
-			return $string;
-		}
-		
-		function dbGetPaymentDetailsParent($transactionId){
-			$payId = 0;
-			$array = array(
-				'overall' => '',				
-				'paid' => 0,
-				'type' => '',
-				'date' => '0000-00-00'
-			);
-			$this->db->select("pm.total_amount, pm.payment_id, pd.amount_paid, pd.payment_type, pd.payment_date");
-			$this->db->from('payments_details pd, payments_master pm');
-			$this->db->where('pd.payment_id = pm.payment_id');
-			$this->db->where('pd.transaction_id', $transactionId);
+			$this->db->group_by("pm.payment_id"); 
+				
 			$query = $this->db->get();
-			
-			if ($query->num_rows() > 0){
-				$row = $query->row();				
-				$array['paid'] = $row->amount_paid;
-				$array['type'] = $row->payment_type;
-				$array['date'] = $row->payment_date;
-				$payId = $row->payment_id;
-				$total = $row->total_amount;				
-				$this->db->select('sum(amount_paid) as sum');
-				$this->db->from('payments_details');				
-				$this->db->where('payment_id', $payId);
-				$query = $this->db->get();
-				if ($query->num_rows() > 0){
-					$row = $query->row();
-					$array['overall'] = $row->sum.'/'.$total;
-					return json_encode($array);
-				}				
+			foreach ($query->result() as $row){
+				if ($row->sum<$row->total_amount)
+					$string.='<tr class="critical">';
+				else
+					$string.='<tr>';
+				$string.='<td class="payment_id">'.$row->payment_id.'</td>
+						<td>'.$row->parent_fname.' '.$row->parent_lname.'</td>
+						<td>'.$row->member_fname.' '.$row->member_lname.'</td>
+						<td>'.$row->year.'</td>
+						<td>'.$row->term_description.'</td>
+						<td>'.$row->sport_description.'</td>
+						<td>'.$row->skill_band.'</td>
+						<td>'.$row->group_name.'</td>
+						<td>'.$row->sum.'/'.$row->total_amount.'</td>
+					</tr>';
 			}
+			
+			return $string;				
 		}
 		
-		function dbGetPaymentDetailsGroup($group, $child){
-			$array = array (
-				'total' => 0,
-				'num' => 0
-			);
-			$this->db->select('total_amount, number_lessons');
+		function db_get_payment_details($paymentId){			
+			$this->db->select('number_lessons, total_amount');
 			$this->db->from('payments_master');			
-			$this->db->where('group_id', $group);
-			$this->db->where('member_id', $child);
+			$this->db->where('payment_id', $paymentId);		
 			$query = $this->db->get();
 			if ($query->num_rows() > 0){
 				$row = $query->row();
-				$array['total'] = $row->total_amount;
-				$array['num'] = $row->number_lessons;
-			}
-			return json_encode($array);
+				$array = array(
+					'numlessons' => $row->number_lessons,
+					'total' => $row-> total_amount
+				);
+				return json_encode($array);	
+			}			
 		}
 		
-		function dbUpdatePaymentGroup($groupId, $memberId, $array){
-			$this->db->where('group_id',$groupId);
-			$this->db->where('member_id',$memberId);
-			$this->db->update('payments_master',$array);
+		function db_save_payment($paymentId, $array){
+			$this->db->where('payment_id',$paymentId);
+			$this->db->update('payments_master',$array);				 
 		}
 		
-		function dbAddNewPayment($groupId, $memberId, $array){
-			$this->db->select('payment_id');
-			$this->db->from('payments_master');
-			$this->db->where('group_id',$groupId);
-			$this->db->where('member_id',$memberId);
+		function db_get_transactions($paymentId){
+			$string = '';
+			$this->db->select('transaction_id, payment_date, payment_type, amount_paid');
+			$this->db->from('payments_details');	
+			$this->db->where('payment_id',$paymentId);			
 			$query = $this->db->get();
-			if ($query->num_rows() > 0){
-				$row = $query->row();
-				$array['payment_id'] = $row->payment_id;
-				$this->db->insert('payments_details', $array);
+			foreach ($query->result() as $row){				
+				$string.='<tr>
+						<td class="transaction_id">'.$row->transaction_id.'</td>
+						<td>'.$row->payment_date.'</td>
+						<td class="payment_type">'.$row->payment_type.'</td>
+						<td class="amount">'.$row->amount_paid.'</td>						
+					</tr>';
 			}
 			
+			return $string;	
+		}
+		
+		function db_add_transaction($array){
+			$this->db->insert('payments_details', $array);
+		}
+		
+		function db_save_transaction($transactionId, $array){
+			$this->db->where('transaction_id',$transactionId);
+			$this->db->update('payments_details',$array);
+		}
+			
+		function db_get_parent_payments($term, $parent){
+			$string='';
+			$this->db->select('pm.payment_id, rd.member_fname, rd.member_lname, YEAR(t.start_date) as year, 
+				t.term_description, s.sport_description, sk.skill_band, 
+				gm.group_name, IFNULL(SUM(pd.amount_paid),0) as sum, pm.total_amount', false);
+			$this->db->from('payments_master pm, registrations_master rm, registrations_details rd, terms t, sports s, skills_master sk, groups_master gm');			
+			$this->db->join('payments_details pd', 'pd.payment_id = pm.payment_id', 'left');
+			$this->db->where('rd.member_id = pm.member_id and rd.registration_id = rm.registration_id and pm.group_id = gm.group_id and 
+				gm.term_id = t.term_id and gm.skill_id = sk.skill_id and sk.sport_id = s.sport_id');
+				
+			$this->db->where('gm.term_id',$term);			
+			$this->db->where('rm.registration_id',$parent);	
+			$this->db->group_by("pm.payment_id"); 
+				
+			$query = $this->db->get();
+			foreach ($query->result() as $row){
+				if ($row->sum<$row->total_amount)
+					$string.='<tr class="critical">';
+				else
+					$string.='<tr>';
+				$string.='<td class="payment_id">'.$row->payment_id.'</td>						
+						<td>'.$row->member_fname.' '.$row->member_lname.'</td>
+						<td>'.$row->year.'</td>
+						<td>'.$row->term_description.'</td>
+						<td>'.$row->sport_description.'</td>
+						<td>'.$row->skill_band.'</td>
+						<td>'.$row->group_name.'</td>
+						<td>'.$row->sum.'/'.$row->total_amount.'</td>
+					</tr>';
+			}
+			
+			return $string;			
 		}
 	}
 

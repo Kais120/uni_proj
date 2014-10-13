@@ -97,19 +97,21 @@ class model_sport extends CI_Model {
 		$events = array();
 		$item = array(
 			'id' => '',
+			'group_id' => '',
 			'title' => '',
 			'start' => '',
 			'end' => ''
 		);
-		$this->db->select('sd.schedule_id, gm.group_name, skm.skill_band, sd.schedule_date, sd.start_time, sd.end_time');
+		$this->db->select('sd.schedule_id, gm.group_id, gm.group_name, skm.skill_band, sd.schedule_date, sd.start_time, sd.end_time');
 		$this->db->from('groups_master gm, schedule_details sd, schedule_master sm, skills_master skm');
 		$this->db->where('sm.group_id = gm.group_id and sd.group_id = sm.group_id and gm.skill_id = skm.skill_id');
 		$this->db->where('sd.schedule_date >=', $start);
 		$this->db->where('sd.schedule_date <=', $end);
-		//$this->db->where('skm.sport_id', $sportId);
+		$this->db->where('skm.sport_id', $sportId);
 		$query = $this->db->get();
 		foreach ($query->result() as $row){
-			$item['id'] =  $row-> schedule_id;
+			$item['id'] =  $row->schedule_id;
+			$item['group_id'] =  $row->group_id;
 			$item['title'] =  $row->group_name.' '.$row->skill_band;
 			$item['start'] =  $row->schedule_date.'T'.$row->start_time;
 			$item['end'] = $row->schedule_date.'T'.$row->end_time;
@@ -117,6 +119,11 @@ class model_sport extends CI_Model {
 		}
 		
 		return json_encode($events);
+	}
+	
+	function db_save_event($schedId, $array){
+		$this->db->where('schedule_id', $schedId);
+		$this->db->update('schedule_details', $array);
 	}
 }
 ?>

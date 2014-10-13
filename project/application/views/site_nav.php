@@ -14,6 +14,7 @@
 				<li><a href="<?php echo base_url(); ?>site/payments">Payments</a></li>
 				<li><a href="<?php echo base_url(); ?>site/staff">Staff</a></li>
 				<li><a href="<?php echo base_url(); ?>site/lessons">Lessons</a></li>
+				<li><a href="<?php echo base_url(); ?>site/assignments">Assignments</a></li>
 			</ul>			
 		</div>			
 	 </div>

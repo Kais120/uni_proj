@@ -3,8 +3,20 @@
 	<div class="row">
 		<div class="container col-lg-10 col-lg-offset-1">
 			<ul class="tabs" id="mytab">
-				<li class="tab-link current" id="tennis">Tennis</li>			
-				<li class="tab-link" id="swimming">Swimming</li>			
+				<?php
+					if (isset($groupSport) && $groupSport==2){						
+						print('
+							<li class="tab-link" id="tennis">Tennis</li>			
+							<li class="tab-link current" id="swimming">Swimming</li>
+						');
+					}else{						
+						print('
+							<li class="tab-link current" id="tennis">Tennis</li>			
+							<li class="tab-link" id="swimming">Swimming</li>
+						');							
+					}				
+				?>
+							
 			</ul>
 		</div>	
 	</div>	
@@ -20,19 +32,34 @@
 				<li>
 					<label for="term" id="term">Term</label>
 					<select class="form-control hidden" id="term">
-						<option value="null" class="null">Select term</option>
+						<?php 
+							if (isset($groupTerm)){
+								print ('<option value="'.$groupTerm['term_id'].'" selected>'.$groupTerm['term_description'].'</option>');
+							}
+						?>
+						<option value="null" class="null">Select term</option>							
 					</select>
 				</li>
 				<li>
 					<label for="skill" class="hidden" id="skill">Skill level</label>
 					<select class="form-control hidden" id="skill">
 						<option value="null" class="null">Select skill</option>
+						<?php 
+							if (isset($groupSkill)){
+								print ('<option value="'.$groupSkill['skill_id'].'" selected>'.$groupSkill['skill_band'].'</option>');
+							}
+						?>
 					</select>
 				</li>
 				<li>
 					<label for="skill" class="hidden" id="group">Group</label>
 					<select class="form-control hidden" id="group">
 						<option value="null" class="null">Select a group or create new</option>
+						<?php 
+							if (isset($groupId) && isset($groupName)){
+								print ('<option value="'.$groupId.'" selected>'.$groupName.'</option>');
+							}
+						?>
 					</select>
 				</li>
 			</ul>

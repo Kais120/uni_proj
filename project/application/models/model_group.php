@@ -161,6 +161,24 @@
 			return $string;
 		}
 		
+		function dbGetChildrenListStaff($groupId, $skillId){
+			$string='';
+			$array = array();
+			$this->db->select("r.member_id, r.member_fname, r.member_lname");
+			$this->db->from("registrations_details r, groups_details g");
+			$this->db->where("g.member_id = r.member_id");
+			$this->db->where("g.group_id", $groupId);
+			$query = $this->db->get();
+			$result = $query->result();
+			foreach ($result as $row){
+				$string.='<tr><td class="member_id">'.$row->member_id.'</td><td>'.$row->member_fname.'</td><td>'.
+					$row->member_lname.'</td></tr>';
+				$array[] = $row->member_id;
+			}				
+			
+			return $string;
+		}		
+		
 		function dbGetTrainingDays($groupId){
 			$string='';
 			$scheduleId=0;
@@ -400,22 +418,7 @@
 			return $array;
 		}
 		
-		function dbGetGroupChild($term, $child){
-			$string = '';
-			$this->db->select('gm.group_id, gm.group_name');
-			$this->db->from('groups_master gm, groups_details gd');
-			$this->db->where('gd.group_id = gm.group_id');
-			$this->db->where('gd.member_id', $child);
-			$this->db->where('gm.term_id', $term);
-			$query = $this->db->get();
-			$result = $query->result();
-			foreach ($result as $row){
-				$string.= '<option value="'.$row->group_id.'">'.$row->group_name.'</option>';
-			}
 			
-			return $string;
-		}
-		
 		function dbGetPerformedTasks($progress){
 			$string='<h4>Tasks performed:</h4>';
 			$string.='<ul>';
@@ -484,6 +487,78 @@
 					
 				}
 			}
+		}
+		
+		function db_get_assignments($term){
+			$string='';
+			$this->db->select('st.staff_fname, st.staff_lname, sp.sport_description, sk.skill_band, gm.group_name');
+			$this->db->from('staff st, sports sp, skills_master sk, groups_master gm, schedule_master sm');
+			$this->db->where('sm.staff_id = st.staff_id and sm.group_id = gm.group_id and gm.skill_id = sk.skill_id 
+				and sk.sport_id = sp.sport_id');
+			$this->db->where('gm.term_id', $term);
+			$query=$this->db->get();
+			foreach ($query->result() as $row){
+				$string.='
+					<tr>
+						<td>'.$row->staff_fname.' '.$row->staff_lname.'</td>
+						<td>'.$row->sport_description.'</td>
+						<td>'.$row->skill_band.'</td>
+						<td>'.$row->group_name.'</td>
+					</tr>
+				';
+			}
+			return $string;
+		}
+		
+		function db_get_group_name($groupId){
+			$this->db->select('group_name');
+			$this->db->from('groups_master');
+			$this->db->where('group_id', $groupId);
+			$query = $this->db->get();
+			if ($query->num_rows() > 0){
+				return $query->row()->group_name;
+			}
+		}
+		
+		function db_get_group_skill($groupId){
+			$this->db->select('sk.skill_id, sk.skill_band');
+			$this->db->from('groups_master gm, skills_master sk');
+			$this->db->where('gm.skill_id = sk.skill_id');
+			$this->db->where('gm.group_id', $groupId);
+			$query = $this->db->get();
+			if ($query->num_rows() > 0){
+				$array = array(
+					'skill_id' => $query->row()->skill_id,
+					'skill_band' => $query->row()->skill_band
+				);
+				return $array;
+			}
+		}
+		
+		function db_get_group_term($groupId){
+			$this->db->select('t.term_id, t.term_description');
+			$this->db->from('groups_master gm, terms t');
+			$this->db->where('gm.term_id = t.term_id');
+			$this->db->where('gm.group_id', $groupId);
+			$query = $this->db->get();
+			if ($query->num_rows() > 0){
+				$array = array(
+					'term_id' => $query->row()->term_id,
+					'term_description' => $query->row()->term_description
+				);
+				return $array;
+			}
+		}
+		
+		function db_get_group_sport($groupId){
+			$this->db->select('s.sport_id');
+			$this->db->from('groups_master gm, sports s, skills_master sk');
+			$this->db->where('gm.skill_id = sk.skill_id and sk.sport_id = s.sport_id');
+			$this->db->where('gm.group_id', $groupId);
+			$query = $this->db->get();
+			if ($query->num_rows() > 0){
+				return $query->row()->sport_id;
+			}			
 		}
 	
 	}

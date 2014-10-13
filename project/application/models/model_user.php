@@ -23,5 +23,12 @@ class model_user extends CI_Model
 			return false;
 		}
 	}
+	
+	function db_get_account_type($id){
+		$this->db->select('type');
+		$this->db->from('users');
+		$this->db->where('staff_id',$id);
+		return $this->db->get()->row()->type;
+	}
 }
 ?>

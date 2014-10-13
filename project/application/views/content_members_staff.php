@@ -4,7 +4,7 @@
 		<div class="container col-lg-6 col-lg-offset-1">
 			<h1 id="member"> Select a member or create a new one </h1>
 			<hr class="divider"></hr>
-			<label for="search">Filter by name</label><input type="search" name="search" id="parent_search" class="form-control" placeholder="Parent name" />			
+			<label for="search">Search by name</label><input type="search" name="search" id="parent_search" class="form-control" placeholder="Parent name" />			
 		</div>
 	</div>	
 	<hr class="divider"></hr>
@@ -123,7 +123,8 @@
 				</div>
 			</div>
 		</div>
-	</div>	
+	</div>
+	
 	<div class="tab-content payment-content">
 		<div class="row">
 			<div class="container col-lg-3 col-lg-offset-1">
@@ -136,81 +137,105 @@
 				</select> 
 			</div>
 		</div>
-		<hr class="divider"></hr>
 		<div class="row">
-			<div class="container col-lg-4 col-lg-offset-1">
-				<h3>Payments</h3>
-			</div>
-		</div>
-		<div class="row">
-			<div class="container col-lg-6 col-lg-offset-1">				
-				<table class="table member_list" id="payment_list">					
+			<div class="container col-lg-6 col-lg-offset-1">
+				<table class="table member_list" id="payments">
 					<thead>
 						<tr>
 							<th>ID</th>
-							<th>Child</th>
-							<th>Year</th>
-							<th>Term</th>
-							<th>Sport</th>
-							<th>Level</th>
+							<th>First name</th>
+							<th>Last name</th>
 							<th>Group</th>
-							<th>Paid/Due</th>							
-						<tr>
+							<th>Paid</th>
+							<th>Method</th>
+							<th>Date</th>
+							<th>Amount to pay</th>						
+						</tr>
 					</thead>
-					<tbody>						
+					<tbody>
 					</tbody>
 				</table>
-			</div>		
-			<div class="container col-lg-3 edit">
-				<ul class="fields" id="payment_details">
-					<li><label for="num_lessons">Number of lessons</label><input type="number" class="form-control" id="num_lessons"></li>
-					<li><label for="total">Amount due</label><input type="number" class="form-control" id="total"></li>					
-				</ul>	
-				<button class="btn btn-default pull-right disabled" id="save_payment">Save changes</button>
-			</div>	
-		</div>
-		<div class="" id="transactions">
-			<div class="row">
-				<hr class="divider"></hr>
-				<div class="container col-lg-4 col-lg-offset-1">
-					<h3>Transactions</h3>
-				</div>
 			</div>
-			<div class="row">			
-				<div class="container col-lg-4 col-lg-offset-1">
-					<table class="table member_list" id="transaction_list">					
-						<thead>
-							<tr>
-								<th>ID</th>
-								<th>Date</th>
-								<th>Type</th>
-								<th>Amount</th>														
-							<tr>
-						</thead>
-						<tbody>						
-						</tbody>
-					</table>
-					<button class="btn btn-default" id="new_transaction">Add new</button>
-				</div>	
-				<div class="container col-lg-3" id="trans_details">
-					<ul class="fields">
-						<li><label>Type</label>
-							<select class="form-control" id="type">
-								<option value="cash">Cash</option>
-								<option value="credit">Credit</option>
-								<option value="eftpos">EFTPOS</option>
-							</select>
-						</li>
-						<li><label>Amount</label><input type="number" class="form-control" id="amount"></li>
-						<li><button class="btn btn-default disabled" id="save_transaction">Save</button></li>					
-					</ul>
-				</div>
-			</div>		
+			<div class="container col-lg-4">
+				<ul class="fields hidden" id="payment_details">
+					<li><label>Overall</label><input type="text" class="form-control" id="overall" readonly></li>
+					<li><label>Amount</label><input type="number" class="form-control" id="paid"></li>
+					<li>
+						<label for="type">Method</label>
+						<select class="form-control" id="type">
+							<option value="cash">Cash</option>
+							<option value="credit">Credit</option>
+							<option value="eftpos">EFTPOS</option>
+						</select>						
+					</li>
+					<li><label>Date</label><input type="date" class="form-control" id="date"></li>
+					<li><button class="btn btn-default pull-right disabled" id="save_payment">Save changes</button></li>
+				</ul>				
+			</div>
+		</div>	
+		<hr class="divider"></hr>
+		<div class="row hidden" id="group_payment_panel">
+			<div div class="container col-lg-4 col-lg-offset-1">
+				<ul class="fields">
+					<li>
+						<label>Child</label>
+						<select class="form-control" id="child">
+							<option value="null">Select a child</option>
+						</select> 
+					</li>
+					<li>
+						<label>Group</label>
+						<select class="form-control" id="group">
+							<option value="null">Select a group</option>
+						</select> 
+					</li>
+					<li>
+						<button class="btn btn-default disabled" id="add_payment_group">Add a new payment</button>
+					</li>
+				</ul>
+			</div>	
+			<div div class="container col-lg-4">
+				<ul class="fields hidden" id="group_payment_details">
+					<li>
+						<label>Number of lessons</label>
+						<input type="number" class="form-control" id="num_lessons">						
+					</li>
+					<li>
+						<label>Total amount to pay</label>
+						<input type="number" class="form-control" id="total_amount">						
+					</li>					
+					<li>
+						<button class="btn btn-default disabled" id="save_payment_group">Save</button>
+					</li>
+				</ul>
+			</div>
 		</div>		
-	</div>	
+		<div class="row">
+			<div div class="container col-lg-4 col-lg-offset-1">
+				<ul class="fields hidden" id="new_payment_fields">
+					<li>
+						<label for="type">Method</label>
+						<select class="form-control" id="type_new">
+							<option value="cash">Cash</option>
+							<option value="credit">Credit</option>
+							<option value="eftpos">EFTPOS</option>
+						</select>	
+					</li>
+					<li>
+						<label>Amount</label><input type="number" class="form-control" id="amount">
+					</li>
+					<li>
+						<button class="btn btn-default disabled" id="save_new_payment">Save</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	
 </div>
 
-<script src="<?php echo base_url(); ?>js/click_list.js"></script>
+<script src="<?php echo base_url(); ?>js/members_staff.js"></script>
 
 
 

@@ -8,7 +8,7 @@ function yearSelection() {
 		$.ajax({
 			type : "POST",
 			cache : false,
-			url : js_base_url("site/getTerms"),					
+			url : js_base_url("site/get_terms_details"),					
 			data: {'year' : $(this).val()},	
 			dataType : 'json',
 			success : function (data) {	

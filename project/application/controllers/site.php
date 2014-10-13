@@ -4,8 +4,10 @@ class Site extends CI_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->load->model('model_user','',TRUE);
-		if(!$this->session->userdata('logged_in'))
+		/*if(!$this->session->userdata('logged_in'))
 			redirect('login', 'refresh');
+		if($this->get_account_type()=='staff')
+			redirect('site_staff', 'refresh');*/
 	}
 
 	public function index(){			
@@ -109,6 +111,13 @@ class Site extends CI_Controller {
 		$this->model_member->dbAddParent($array);
 	}		
 		
+	function get_parent_payments(){
+		$term = $this->input->post('term');
+		$parent = $this->input->post('parent');
+		$this->load->model("model_payment");
+		echo $this->model_payment->db_get_parent_payments($term, $parent);		
+	}
+	
 	public function terms(){				
 		$this->load->view("site_header");
 		$this->load->view("site_nav");
@@ -118,10 +127,16 @@ class Site extends CI_Controller {
 		$this->load->view("site_footer");
 	}
 	
-	public function getTerms(){
+	public function get_terms(){
 		$year = $this->input->post('year');
 		$this->load->model("model_term");
-		echo $this->model_term->dbGetTermDetails($year);
+		echo $this->model_term->db_get_term_details($year);
+	}
+	
+	public function get_terms_details(){
+		$year = $this->input->post('year');
+		$this->load->model("model_term");
+		echo $this->model_term->db_get_terms_details($year);
 	}
 	
 	public function addTerm(){
@@ -161,34 +176,49 @@ class Site extends CI_Controller {
 		echo $this->model_payment->dbGetPayments($term, $year);		
 	}
 	
-	public function getPaymentDetails(){
-		$transactionId = $this->input->post('transaction_id');		
+	public function get_payment_details(){
+		$paymentId = $this->input->post('payment_id');		
 		$this->load->model("model_payment");
-		echo $this->model_payment->dbGetPaymentDetails($transactionId);		
+		echo $this->model_payment->db_get_payment_details($paymentId);		
 	}	
 	
-	public function savePayment(){
-		$transactionId = $this->input->post('transaction_id');
-		$array = array(		
-			'payment_date' => $this->input->post('paid_date'),
-			'amount_paid' => $this->input->post('amount'),
-			'payment_type' => $this->input->post('type')			
+	public function save_payment(){
+		$paymentId = $this->input->post('payment_id');
+		$array = array(					
+			'number_lessons' => $this->input->post('num_lessons'),
+			'total_amount' => $this->input->post('total')			
 		);		
 		$this->load->model("model_payment");
-		echo $this->model_payment->dbSavePayment($transactionId, $array);		
+		$this->model_payment->db_save_payment($paymentId, $array);		
 	}
 	
-	public function updatePayment(){
-		$transactionId = $this->input->post('transaction_id');
-		$array = array(		
-			'payment_date' => $this->input->post('paid_date'),
-			'amount_paid' => $this->input->post('amount'),
-			'payment_type' => $this->input->post('type')			
-		);		
+	function get_transactions(){
 		$this->load->model("model_payment");
-		$this->model_payment->dbUpdatePayment($transactionId, $array);		
+		echo $this->model_payment->db_get_transactions($this->input->post('payment_id'));
 	}
 	
+	function add_transaction(){
+		$array = array(
+			'payment_id' => $this->input->post('payment_id'),
+			'payment_date' => date('Y-m-d'),
+			'payment_type' => $this->input->post('type'),
+			'amount_paid' => $this->input->post('amount')
+		);
+		$this->load->model("model_payment");
+		$this->model_payment->db_add_transaction($array);
+	}
+	
+	function save_transaction(){
+		$transactionId = $this->input->post('transaction_id');
+		$array = array(
+			'payment_type' => $this->input->post('type'),
+			'amount_paid' => $this->input->post('amount')
+		);
+		$this->load->model("model_payment");
+		$this->model_payment->db_save_transaction($transactionId, $array);
+	}
+	
+		
 	public function sports(){				
 		$this->load->view("site_header");
 		$this->load->view("site_nav");		
@@ -364,9 +394,15 @@ class Site extends CI_Controller {
 	}
 	
 	public function groups(){
+		$data['groupId'] = $this->input->get('group_id');
+		$this->load->model("model_group");
+		$data['groupName'] = $this->model_group->db_get_group_name($data['groupId']);
+		$data['groupSkill'] = $this->model_group->db_get_group_skill($data['groupId']);		
+		$data['groupSport'] = $this->model_group->db_get_group_sport($data['groupId']);
+		$data['groupTerm'] = $this->model_group->db_get_group_term($data['groupId']);
 		$this->load->view("site_header");
 		$this->load->view("site_nav");				
-		$this->load->view("content_groups");
+		$this->load->view("content_groups", $data);
 		$this->load->view("site_footer");
 	}
 	
@@ -375,14 +411,14 @@ class Site extends CI_Controller {
 		echo $this->model_group->dbGetSkills($this->input->post('sport'));
 	}
 	
-	function getYearsSelect(){
+	function get_year_select(){
 		$this->load->model("model_term");
-		echo $this->model_term->dbGetYearSelect();
+		echo $this->model_term->db_get_year_select();
 	}
 	
-	function getTermsSelect(){
+	function get_term_select(){
 		$this->load->model("model_term");
-		echo $this->model_term->dbGetTermSelect($this->input->post('year'));
+		echo $this->model_term->db_get_term_select($this->input->post('year'));
 	}
 	
 	function getGroupsSelect(){
@@ -461,7 +497,7 @@ class Site extends CI_Controller {
 		$tasks = $this->input->post('tasks');
 		$attend = $this->input->post('attendance');
 		$notes = $this->input->post('notes');
-		$staffId = 1;
+		$staffId = $this->session->userdata('logged_in')['id'];
 		$this->load->model("model_group");
 		$this->model_group->dbUpdateMemberProgress($memberId, $schedId, $tasks, $attend, $staffId, $notes);
 	}
@@ -511,57 +547,7 @@ class Site extends CI_Controller {
 		$this->model_group->dbCreateGroup($group, $sched);
 	}
 	
-	function getPaymentsList(){
-		$parent = $this->input->post('parent');
-		$term = $this->input->post('term');
-		$this->load->model("model_payment");
-		echo $this->model_payment->dbGetPaymentsList($parent, $term);
-	}
-		
-	function getPaymentDetailsParent(){
-		$transactionId = $this->input->post('transaction_id');
-		$this->load->model("model_payment");
-		echo $this->model_payment->dbGetPaymentDetailsParent($transactionId);
-	}
 	
-	function getSelectChild(){
-		$this->load->model("model_member");
-		echo $this->model_member->dbGetSelectChild($this->input->post('parent'));
-	}
-	
-	function getGroupChild(){
-		$this->load->model("model_group");
-		echo $this->model_group->dbGetGroupChild($this->input->post('term'), $this->input->post('child'));
-	}
-	
-	function getPaymentDetailsGroup(){
-		$this->load->model("model_payment");
-		echo $this->model_payment->dbGetPaymentDetailsGroup($this->input->post('group'), $this->input->post('child'));
-	}
-	
-	function updatePaymentGroup(){
-		$array = array(
-			'number_lessons' => $this->input->post('num_lessons'),
-			'total_amount' => $this->input->post('total')
-		);
-		$groupId = $this->input->post('group');
-		$memberId = $this->input->post('child');
-		$this->load->model("model_payment");
-		$this->model_payment->dbUpdatePaymentGroup($groupId, $memberId, $array);
-	}
-	
-	function addNewPayment(){
-		$array = array(
-			'payment_id' => 0,
-			'payment_date' => date('Y-m-d'),
-			'payment_type' => $this->input->post('type'),
-			'amount_paid' => $this->input->post('amount')
-		);
-		$groupId = $this->input->post('group');
-		$memberId = $this->input->post('child');
-		$this->load->model("model_payment");
-		$this->model_payment->dbAddNewPayment($groupId, $memberId, $array);
-	}
 	
 	function getChildLevels(){		
 		$this->load->model("model_sport");
@@ -590,11 +576,12 @@ class Site extends CI_Controller {
 		$this->load->view("site_footer");	
 	}
 	
-	function getSchedule(){
-		$start = $this->input->get('start');
-		$end = $this->input->get('end');
+	function get_schedule(){
+		$start = $this->input->post('start');
+		$end = $this->input->post('end');
+		$sport = $this->input->post('sport');
 		$this->load->model('model_sport');
-		echo $this->model_sport->dbGetSchedule('2',$start, $end);
+		echo $this->model_sport->dbGetSchedule($sport,$start, $end);
 	}
 	
 	function logout(){
@@ -629,5 +616,34 @@ class Site extends CI_Controller {
 		$this->load->model("model_staff");
 		$this->model_staff->dbSaveProfile($staffId, $staff, $password);
 		header( 'Location: '.base_url().'site/profile');		
+	}
+	
+	private function get_account_type(){
+		return $this->model_user->db_get_account_type($this->session->userdata('logged_in')['id']);
+	}
+	
+	public function assignments(){
+		$this->load->view("site_header");
+		$this->load->view("site_nav");
+		$this->load->model("model_term");
+		$data["year"]=$this->model_term->dbPull();	
+		$this->load->view("content_assignment", $data);
+		$this->load->view("site_footer");
+	}
+	
+	function get_assignments(){
+		$this->load->model("model_group");
+		echo $this->model_group->db_get_assignments($this->input->post('term'));	
+	}
+	
+	function save_event(){
+		$schedId = $this->input->post('id');
+		$array = array(
+			'schedule_date' => $this->input->post('date'),		
+			'start_time' => $this->input->post('start'),
+			'end_time' =>  $this->input->post('end')
+		);		
+		$this->load->model("model_sport");
+		$this->model_sport->db_save_event($schedId, $array);		
 	}
 }

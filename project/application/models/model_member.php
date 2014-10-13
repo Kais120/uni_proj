@@ -84,18 +84,6 @@ class model_member extends CI_Model {
 		
 	}
 
-	function dbGetSelectChild($regId) {
-		$string = '';
-		$this->db->select("member_id, member_fname, member_lname");
-		$this->db->from('registrations_details');
-		$this->db->where('registration_id', $regId);
-		$query = $this->db->get();
-
-		foreach($query->result() as $row) {
-			$string .= '<option value="'.$row->member_id.'">'.$row->member_fname.' '.$row->member_lname.'</option>';
-		}
-		return $string;
-	}
 	
 	private function dbUpdateMemberSkills($skill){
 		foreach ($skill as $id => $row){

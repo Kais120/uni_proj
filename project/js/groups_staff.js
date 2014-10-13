@@ -22,7 +22,7 @@ function onYearClick(){
 		
 		$.ajax({
 			type : 'post',
-			url : js_base_url("site/get_term_select"),
+			url : js_base_url("site_staff/getTermsSelect"),
 			data : {'year' : $("select#year").val()},
 			dataType : 'html',
 			success : function (data){
@@ -45,7 +45,7 @@ function onTermClick(){
 		if ($("select#term").val()!=='null'){
 			$.ajax({
 				type : 'post',
-				url : js_base_url("site/getSkillsSelect"),
+				url : js_base_url("site_staff/getSkillsSelect"),
 				data : {					
 					'sport' : $("li.tab-link.current").attr("id")
 				},
@@ -67,7 +67,7 @@ function onSkillClick(){
 		if ($("select#skill").val()!=='null'){
 			$.ajax({
 				type : 'post',
-				url : js_base_url("site/getGroupsSelect"),
+				url : js_base_url("site_staff/getGroupsSelect"),
 				data : {					
 					'skill' : $("select#skill").val(),
 					'term' : $("select#term").val()
@@ -86,10 +86,10 @@ function onSkillClick(){
 
 function loadYears(){	
 	$("select#year option").remove();
-	//$('select#term option').not(".null").remove();
+	$('select#term option').not(".null").remove();
 	$.ajax({
 		type : 'Post',
-		url : js_base_url("site/get_year_select"),		
+		url : js_base_url("site_staff/getYearsSelect"),		
 		dataType : 'html',
 		success : function (data){
 			$("select#year").append(data);
@@ -97,7 +97,7 @@ function loadYears(){
 	});
 	$.ajax({
 		type : 'post',
-		url : js_base_url("site/get_term_select"),
+		url : js_base_url("site_staff/getTermsSelect"),
 		data : {'year' : new Date().getFullYear()},
 		dataType : 'html',
 		success : function (data){
@@ -116,11 +116,6 @@ function onGroupClick(){
 		}		
 		$('div#main_content').removeClass('hidden');	
 		$('button#save_changes').addClass('disabled');
-		getListOfStaff();
-		pullLessons();
-		getDayOfWeek();
-		getNumParticipants();	
-		getTimes();
 		getChildren();
 		getDays();
 		getGroupTasks();	
@@ -132,7 +127,7 @@ function pullLessons(){
 	if ($("select#group").val()!=='null'){		
 		$.ajax({
 			type : 'post',
-			url : js_base_url("site/getLessonsSelect"),
+			url : js_base_url("site_staff/getLessonsSelect"),
 			data : {					
 				'sport' : $("li.tab-link.current").attr("id"),
 				'group' : $("select#group").val()
@@ -148,13 +143,13 @@ function pullLessons(){
 }
 
 function getDayOfWeek(){
-	$.post(js_base_url("site/getGroupDay"), {'group': $("select#group").val()}, function(data){		
+	$.post(js_base_url("site_staff/getGroupDay"), {'group': $("select#group").val()}, function(data){		
 		$("input:radio[name='day'][value='"+data+"']").prop('checked', true);
 	});
 }
 
 function getNumParticipants(){
-	$.post(js_base_url("site/getNumPeople"), {'group': $("select#group").val()}, function(data){		
+	$.post(js_base_url("site_staff/getNumPeople"), {'group': $("select#group").val()}, function(data){		
 		$("input#number_members").val(data);
 	});
 }
@@ -165,14 +160,14 @@ function clickDay(){
 }
 
 function getTimes(){	
-	$.post(js_base_url("site/getGroupTimes"), {'group': $("select#group").val()}, function(data){		
+	$.post(js_base_url("site_staff/getGroupTimes"), {'group': $("select#group").val()}, function(data){		
 		$("input#start_time").val(data.start_time);
 		$("input#end_time").val(data.end_time);		
 	}, 'json');
 }
 
 function getChildren(){
-	$.post(js_base_url("site/getChildrenList"), {
+	$.post(js_base_url("site_staff/getChildrenList"), {
 			'group': $("select#group").val(), 			
 			'skill': $("select#skill").val()
 		}, 
@@ -183,7 +178,7 @@ function getChildren(){
 }
 
 function getDays(){	
-	$.post(js_base_url("site/getTrainingDays"), {
+	$.post(js_base_url("site_staff/getTrainingDays"), {
 			'group': $("select#group").val(),			
 		}, 
 		function(data){	
@@ -193,7 +188,7 @@ function getDays(){
 }
 
 function getGroupTasks(){
-	$.post(js_base_url("site/getGroupTasks"), {
+	$.post(js_base_url("site_staff/getGroupTasks"), {
 			'skill': $("select#skill").val(),			
 		}, 
 		function(data){		
@@ -204,14 +199,10 @@ function getGroupTasks(){
 
 function clickMember(){
 	$('table#members tbody').delegate('tr', 'click', function(){		
-		if($(this).find("input").prop('checked')){			
-			$("button#save_progress").addClass('disabled');
-			$(this).addClass('active').siblings().removeClass('active');
-			emptyProgress();
-			getProgress();
-		}else{
-			emptyProgress();
-		}
+		$("button#save_progress").addClass('disabled');
+		$(this).addClass('active').siblings().removeClass('active');
+		emptyProgress();
+		getProgress();		
 	});
 }
 
@@ -239,7 +230,7 @@ function selectDay(){
 
 function populateProgress(){
 	emptyProgress();
-	$.post(js_base_url("site/getMemberProgress"), {
+	$.post(js_base_url("site_staff/getMemberProgress"), {
 			'day': $("select#training_day").val(),
 			'member_id' : $("table#members tbody tr.active td.member_id").html(),					
 		}, 
@@ -273,14 +264,14 @@ function tickChange(){
 }
 
 function removeMember(i){
-	$.post(js_base_url("site/removeMemberGroup"), {
+	$.post(js_base_url("site_staff/removeMemberGroup"), {
 			'member_id' : i,
 			'group_id' : $("select#group").val()
 		});
 }
 
 function addMember(i){
-	$.post(js_base_url("site/addMemberGroup"), {
+	$.post(js_base_url("site_staff/addMemberGroup"), {
 			'member_id' : i,
 			'group_id' : $("select#group").val()
 		});
@@ -296,7 +287,7 @@ function clickSaveProgress(){
 			});
 			var array = JSON.stringify(tasks);	
 					
-			$.post(js_base_url("site/updateMemberProgress"),
+			$.post(js_base_url("site_staff/updateMemberProgress"),
 				{
 					'member_id' : $("table#members tbody tr.active td.member_id").html(),
 					'day' : $("select#training_day").val(),
@@ -348,7 +339,7 @@ function clickSaveGroup(){
 
 function updateGroup(){	
 	var grId = $('select#group').val();
-	$.post(js_base_url("site/updateGroup"),
+	$.post(js_base_url("site_staff/updateGroup"),
 		{
 			'group' : grId,			
 			'name' : $('input#group_name').val(),
@@ -369,7 +360,7 @@ function updateGroup(){
 }
 
 function createGroup(){
-	$.post(js_base_url("site/createGroup"),
+	$.post(js_base_url("site_staff/createGroup"),
 		{				
 			'name' : $('input#group_name').val(),
 			'type' : $('select#lesson').val(),
@@ -395,7 +386,7 @@ function clickAddGroup(){
 		$('input:radio[name="day"]').prop('checked',false);
 		$.ajax({
 			type : 'post',
-			url : js_base_url("site/getLessonsSelect"),
+			url : js_base_url("site_staff/getLessonsSelect"),
 			data : {					
 				'sport' : $("li.tab-link.current").attr("id"),
 				'group' : $("select#group").val()
@@ -423,34 +414,6 @@ function showFullInfo(){
 	$('div#personal_data').removeClass('hidden');
 }
 
-function getListOfStaff(){
-	$.post(js_base_url("site/getStaffOptions"),
-		{
-			'group' : $('select#group').val()			
-		},function(data){
-			$('select#staff').html(data);
-		},'html');
-}
-
-function initialLoad(){
-	if ($('select#group').val()!=='null'){		
-		$('div#main_content').removeClass('hidden');
-		$("label#skill").removeClass('hidden');		
-		$("label#group").removeClass('hidden')
-		$('select#skill').removeClass('hidden');
-		$('select#group').removeClass('hidden');
-		getListOfStaff();
-		pullLessons();
-		getDayOfWeek();
-		getNumParticipants();	
-		getTimes();
-		getChildren();
-		getDays();
-		getGroupTasks();	
-		showFullInfo();			
-	}
-}
-
 var main = function(){
 	tabClick();
 	loadYears();	
@@ -460,15 +423,10 @@ var main = function(){
 	onGroupClick();	
 	clickDay();
 	clickMember();
-	getProgress();
-	tickChange();
+	getProgress();	
 	clickSaveProgress();
 	selectDay();
-	onProgressChange();	
-	onGroupDetailsChange();	
-	clickAddGroup();
-	clickSaveGroup();
-	initialLoad();
+	onProgressChange();		
 }
 
 $(document).ready(main);

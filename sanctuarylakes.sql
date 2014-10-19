@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 19, 2014 at 04:34 AM
+-- Generation Time: Oct 19, 2014 at 04:39 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -202,8 +202,8 @@ INSERT INTO `members_progress` (`progress_id`, `schedule_id`, `member_id`, `entr
 (10, 54, 215, '2014-10-03 23:54:19', 1, 1, 'well done'),
 (11, 32, 1, '2014-10-04 00:23:45', 1, 1, ''),
 (12, 34, 1, '2014-10-04 02:41:19', 1, 1, ''),
-(13, 22, 4, '2014-10-13 05:41:01', 1, 8, ''),
-(15, 23, 4, '2014-10-13 05:46:34', 1, 8, '');
+(13, 22, 4, '2014-10-13 05:41:01', 1, NULL, ''),
+(15, 23, 4, '2014-10-13 05:46:34', 1, NULL, '');
 
 -- --------------------------------------------------------
 
@@ -902,7 +902,6 @@ INSERT INTO `staff` (`staff_id`, `staff_fname`, `staff_mname`, `staff_lname`, `h
 (5, 'CAITLYN', '', 'CAITLYN', '', '', '', '', '', 1),
 (6, 'EMILY', NULL, 'EMILY', NULL, NULL, NULL, NULL, NULL, 1),
 (7, 'LEISA', '', 'LEISA', '', '', '', '', '', 0),
-(8, 'Kaissar', '', 'Shalabayev', '', '', '', '', '', 1),
 (14, '1q2w3e', '', '1q2w3e', '', '', '', '', '', 1),
 (15, 'Test', '', 'Test', '', '', '', '', '', 1);
 
@@ -962,8 +961,7 @@ INSERT INTO `users` (`staff_id`, `username`, `type`, `password`, `question`, `an
 (5, 'caitlyn', 'staff', '', NULL, NULL),
 (6, 'emily', 'staff', '', NULL, NULL),
 (7, 'leisa', 'staff', '', NULL, NULL),
-(8, 'kshalabaev', 'administrator', 'f/+axEzRETjUezMY5avt6aslBLGc1eSBTIFrhCXPLr9rfCItQUXL9M4q6lXgbvN3DBtHSQiLBTa43up2dbgp6Q==', NULL, NULL),
-(15, 'tester', 'staff', '9gAUGtyX93gCrs2qvHQBtLAs3R3ZQUh3SPqia+l+AYGxXiPYxq6VOCbgqi/ZvN+O8umRCWJ30MZdjkmFJAveJA==', NULL, NULL);
+(15, 'tester', 'administrator', 'LpQJiajVkkXduHeof0yFlZa0ZHN7Oly0oAct4FIhTWFVCIMB5OJHQ8iavGFKLgOdvMCocXyn0LaDAGG3nxYEqg==', NULL, NULL);
 
 --
 -- Constraints for dumped tables
@@ -1001,8 +999,8 @@ ALTER TABLE `medical_conditions_details`
 -- Constraints for table `members_progress`
 --
 ALTER TABLE `members_progress`
+  ADD CONSTRAINT `members_progress_ibfk_3` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`staff_id`) ON DELETE SET NULL ON UPDATE SET NULL,
   ADD CONSTRAINT `members_progress_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `registrations_details` (`member_id`),
-  ADD CONSTRAINT `members_progress_ibfk_3` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`staff_id`),
   ADD CONSTRAINT `members_progress_ibfk_4` FOREIGN KEY (`schedule_id`) REFERENCES `schedule_details` (`schedule_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --

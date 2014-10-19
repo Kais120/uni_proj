@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 05, 2014 at 09:18 AM
+-- Generation Time: Oct 19, 2014 at 04:34 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -192,7 +192,7 @@ CREATE TABLE IF NOT EXISTS `members_progress` (
   KEY `staff_id` (`staff_id`),
   KEY `schedule_id` (`schedule_id`),
   KEY `schedule_id_2` (`schedule_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 --
 -- Dumping data for table `members_progress`
@@ -201,7 +201,9 @@ CREATE TABLE IF NOT EXISTS `members_progress` (
 INSERT INTO `members_progress` (`progress_id`, `schedule_id`, `member_id`, `entry_date`, `attendance`, `staff_id`, `staff_comments`) VALUES
 (10, 54, 215, '2014-10-03 23:54:19', 1, 1, 'well done'),
 (11, 32, 1, '2014-10-04 00:23:45', 1, 1, ''),
-(12, 34, 1, '2014-10-04 02:41:19', 1, 1, '');
+(12, 34, 1, '2014-10-04 02:41:19', 1, 1, ''),
+(13, 22, 4, '2014-10-13 05:41:01', 1, 8, ''),
+(15, 23, 4, '2014-10-13 05:46:34', 1, 8, '');
 
 -- --------------------------------------------------------
 
@@ -223,7 +225,8 @@ CREATE TABLE IF NOT EXISTS `members_progress_details` (
 
 INSERT INTO `members_progress_details` (`progress_id`, `task_id`) VALUES
 (12, 3),
-(11, 4);
+(11, 4),
+(13, 5);
 
 -- --------------------------------------------------------
 
@@ -248,7 +251,7 @@ CREATE TABLE IF NOT EXISTS `members_skills` (
 --
 
 INSERT INTO `members_skills` (`member_id`, `sport_id`, `entry_date`, `skill_id`, `number_lessons`) VALUES
-(1, 2, '2014-10-03 23:42:08', 4, 5),
+(1, 2, '2014-10-07 13:24:43', 4, 5),
 (3, 2, '2014-10-04 02:27:53', 4, 6),
 (4, 2, '2014-09-14 07:56:34', 4, 5),
 (5, 2, '2014-09-14 07:56:34', 4, 5),
@@ -256,7 +259,6 @@ INSERT INTO `members_skills` (`member_id`, `sport_id`, `entry_date`, `skill_id`,
 (7, 2, '2014-09-14 07:56:34', 4, 5),
 (8, 2, '2014-09-14 07:56:34', 4, 5),
 (9, 2, '2014-09-14 07:56:34', 4, 5),
-(10, 1, '2014-10-03 11:54:41', 15, 0),
 (10, 2, '2014-10-03 11:54:42', 4, 6),
 (111, 2, '2014-09-14 07:59:08', 5, 5),
 (112, 2, '2014-09-14 07:59:08', 5, 5),
@@ -359,10 +361,9 @@ INSERT INTO `members_skills` (`member_id`, `sport_id`, `entry_date`, `skill_id`,
 (209, 2, '2014-09-14 08:02:10', 7, 5),
 (210, 2, '2014-09-14 08:02:10', 7, 5),
 (215, 1, '2014-10-03 23:53:27', 1, 6),
-(219, 1, '2014-10-03 12:34:17', 15, 0),
 (219, 2, '2014-10-03 12:34:17', 9, 0),
-(222, 1, '2014-10-03 12:47:18', 13, 12),
-(222, 2, '2014-10-03 12:47:18', 8, 12);
+(222, 2, '2014-10-11 08:18:38', 8, 12),
+(223, 1, '2014-10-13 06:27:04', 1, 4);
 
 -- --------------------------------------------------------
 
@@ -378,7 +379,7 @@ CREATE TABLE IF NOT EXISTS `payments_details` (
   `amount_paid` decimal(10,0) NOT NULL,
   PRIMARY KEY (`transaction_id`),
   KEY `payment_id` (`payment_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
 
 --
 -- Dumping data for table `payments_details`
@@ -388,9 +389,12 @@ INSERT INTO `payments_details` (`transaction_id`, `payment_id`, `payment_date`, 
 (1, 1, '2014-10-02', 'credit', '120'),
 (6, 10, '2014-10-02', 'eftpos', '10'),
 (7, 10, '2014-10-02', 'cash', '50'),
-(8, 10, '2014-10-03', 'cash', '10'),
+(8, 10, '2014-10-03', 'cash', '11'),
 (9, 1, '2014-10-03', 'cash', '0'),
-(10, 1, '2014-10-04', 'cash', '-55');
+(10, 1, '2014-10-04', 'cash', '-55'),
+(15, 10, '2014-10-12', 'cash', '6'),
+(16, 11, '2014-10-12', 'cash', '5'),
+(17, 12, '2014-10-12', 'cash', '6');
 
 -- --------------------------------------------------------
 
@@ -418,7 +422,7 @@ CREATE TABLE IF NOT EXISTS `payments_master` (
 
 INSERT INTO `payments_master` (`payment_id`, `member_id`, `group_id`, `number_lessons`, `total_amount`) VALUES
 (1, 1, 1, 5, '65'),
-(10, 10, 1, 6, '78'),
+(10, 10, 1, 5, '78'),
 (11, 3, 1, 6, '78'),
 (12, 10, 2, 6, '78');
 
@@ -438,14 +442,14 @@ CREATE TABLE IF NOT EXISTS `registrations_details` (
   `medical_notes` text NOT NULL,
   PRIMARY KEY (`member_id`),
   KEY `registration_id` (`registration_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=223 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=224 ;
 
 --
 -- Dumping data for table `registrations_details`
 --
 
 INSERT INTO `registrations_details` (`member_id`, `registration_id`, `member_fname`, `member_mname`, `member_lname`, `member_dob`, `medical_notes`) VALUES
-(1, 1, 'Alanis', '', 'Morisette', '2011-12-15', 'none'),
+(1, 1, 'Mary', '', 'Morris', '2011-12-15', 'none'),
 (3, 2, 'child 1 of 2 -> reg2', '', 'child 1 of 2 -> reg2', '2008-10-10', 'none'),
 (4, 2, 'child 2 of 2 -> reg2', '', 'child 2 of 2 -> reg2', '2010-01-01', 'none'),
 (5, 3, 'child 1 of 3 -> reg3', '', 'child 1 of 3 -> reg3', '2008-10-10', 'none'),
@@ -561,7 +565,8 @@ INSERT INTO `registrations_details` (`member_id`, `registration_id`, `member_fna
 (219, 10, '123', '', '123', '2014-10-02', ''),
 (220, 10, '1q2w3e', '', '1q2w3e', '2014-10-01', ''),
 (221, 9, '1q2w2we', '', '1q1q2w1', '2014-10-17', ''),
-(222, 2, 'Kurwa', '', 'Mac', '2014-10-01', '');
+(222, 2, 'Vyk', '', 'Mac', '2014-10-01', ''),
+(223, 103, 'Loch', '', 'Stetson', '0000-00-00', '');
 
 -- --------------------------------------------------------
 
@@ -593,7 +598,7 @@ INSERT INTO `registrations_master` (`registration_id`, `parent_fname`, `parent_m
 (1, 'Name', '', 'Surname', 'ADD 1', 'ADD 1', 'SANCTUARY LAKES', 3300, '', 0, 0, 0),
 (2, 'Give', 'it normal', 'name', 'ADD 2', 'ADD 2', 'SANCTUARY LAKES', 3390, '', 0, 0, 0),
 (3, 'Do', 'you', 'Understand', 'ADD 3', 'ADD 3', 'SANCTUARY LAKES', 3300, '', 0, 0, 0),
-(4, 'Bloody', '', 'Racist', 'ADD 4', 'ADD 4', 'SANCTUARY LAKES', 3300, '', 0, 0, 0),
+(4, 'Bamby', '', 'Rorson', 'ADD 4', 'ADD 4', 'SANCTUARY LAKES', 3300, '', 0, 0, 0),
 (5, 'Xenos', NULL, 'Gonzales', 'P.O. Box 5', 'Oldenburg', 'Sanctuary Lakes', 3030, NULL, NULL, NULL, NULL),
 (6, 'Hannah', '', 'Hendrix', 'Ap #334-78', 'Bras', 'Sanctuary Lakes', 3030, '', 0, 0, 0),
 (7, 'Neve', NULL, 'Melton', '725-6065 C', 'Forio', 'Sanctuary Lakes', 3030, NULL, NULL, NULL, NULL),
@@ -791,7 +796,7 @@ CREATE TABLE IF NOT EXISTS `skills_details` (
   `task_description` varchar(100) NOT NULL,
   PRIMARY KEY (`task_id`),
   UNIQUE KEY `skill_id` (`skill_id`,`task`,`task_description`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
 
 --
 -- Dumping data for table `skills_details`
@@ -811,10 +816,7 @@ INSERT INTO `skills_details` (`skill_id`, `task_id`, `task`, `task_description`)
 (5, 12, 'MOVEMENT AND SWIMMING STROKES', 'KICK ON BACK UNASSISTED FOR 10 METERS'),
 (5, 11, 'MOVEMENT AND SWIMMING STROKES', 'KICK WITH BOARD ON FRONT AND BACK WITH CORRECT BODY POSITIONING FOR 10 METERS'),
 (5, 8, 'UNDER WATER SKILLS', 'SUBMERGE FACE AND BLOW BUBBLES'),
-(5, 14, 'WATER SAFETY', 'LEARN POOL SAFETY RULES'),
-(12, 19, 'test', 'test'),
-(12, 20, 'test1', 'test1'),
-(13, 15, '12', '1q2w3e');
+(5, 14, 'WATER SAFETY', 'LEARN POOL SAFETY RULES');
 
 -- --------------------------------------------------------
 
@@ -829,18 +831,14 @@ CREATE TABLE IF NOT EXISTS `skills_master` (
   `skill_band_description` varchar(50) NOT NULL,
   PRIMARY KEY (`skill_id`),
   UNIQUE KEY `sport_id` (`sport_id`,`skill_band`,`skill_band_description`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `skills_master`
 --
 
 INSERT INTO `skills_master` (`skill_id`, `sport_id`, `skill_band`, `skill_band_description`) VALUES
-(15, 1, 'Mew', 'Skill'),
-(13, 1, 'My', 'Skill'),
-(1, 1, 'One', 'Beginner'),
-(12, 1, 'test', 'test'),
-(14, 1, 'tested', 'test'),
+(1, 1, 'ONE', 'Beginner'),
 (3, 1, 'THREE', 'ADVANCED'),
 (2, 1, 'TWO', 'INTERMEDIATE'),
 (10, 2, 'BLUE', 'SQUAD-SWIM, SURVIVE & COMPETE'),
@@ -890,14 +888,14 @@ CREATE TABLE IF NOT EXISTS `staff` (
   `staff_email` varchar(50) DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`staff_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 --
 -- Dumping data for table `staff`
 --
 
 INSERT INTO `staff` (`staff_id`, `staff_fname`, `staff_mname`, `staff_lname`, `home_number`, `mobile_number`, `emg_contact_name`, `emg_contact_number`, `staff_email`, `active`) VALUES
-(1, 'Daniel', '', 'Tupples', '', '', '', '', '', 1),
+(1, 'Daniel', '', 'Tipples', '', '', '', '', '', 1),
 (2, 'KEONE', NULL, 'KEONE', NULL, NULL, NULL, NULL, NULL, 0),
 (3, 'Neil', '', 'Neilsen', '', '', '', '', '', 1),
 (4, 'LANI', NULL, 'LANI', NULL, NULL, NULL, NULL, NULL, 1),
@@ -905,7 +903,8 @@ INSERT INTO `staff` (`staff_id`, `staff_fname`, `staff_mname`, `staff_lname`, `h
 (6, 'EMILY', NULL, 'EMILY', NULL, NULL, NULL, NULL, NULL, 1),
 (7, 'LEISA', '', 'LEISA', '', '', '', '', '', 0),
 (8, 'Kaissar', '', 'Shalabayev', '', '', '', '', '', 1),
-(14, '1q2w3e', '', '1q2w3e', '', '', '', '', '', 1);
+(14, '1q2w3e', '', '1q2w3e', '', '', '', '', '', 1),
+(15, 'Test', '', 'Test', '', '', '', '', '', 1);
 
 -- --------------------------------------------------------
 
@@ -943,7 +942,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `staff_id` int(8) NOT NULL,
   `username` varchar(15) NOT NULL,
   `type` varchar(15) NOT NULL,
-  `password` varchar(25) NOT NULL,
+  `password` varchar(250) NOT NULL,
   `question` varchar(100) DEFAULT NULL,
   `answer` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`staff_id`),
@@ -956,14 +955,15 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`staff_id`, `username`, `type`, `password`, `question`, `answer`) VALUES
-(1, 'dtupples', 'administrator', 'dtupples', NULL, NULL),
+(1, 'dtipples', 'administrator', 'TLiLIO3A+2XL60jPlEc/RVP3hSphRWXzLVufKAc9pzDVLzrEhpdHRRoZCJ4z5AR8DD8Mb/ZsPPsbvCcghP46Eg==', NULL, NULL),
 (2, 'keone', 'staff', '', NULL, NULL),
 (3, 'nell', 'staff', 'pgWwXpzkQPSGfqaKlGAsgk4u/', NULL, NULL),
 (4, 'lani', 'staff', '', NULL, NULL),
 (5, 'caitlyn', 'staff', '', NULL, NULL),
 (6, 'emily', 'staff', '', NULL, NULL),
 (7, 'leisa', 'staff', '', NULL, NULL),
-(8, 'kshalabaev', 'staff', 'PvAQd7ZAXWGFv0KdnbrMUEaV4', NULL, NULL);
+(8, 'kshalabaev', 'administrator', 'f/+axEzRETjUezMY5avt6aslBLGc1eSBTIFrhCXPLr9rfCItQUXL9M4q6lXgbvN3DBtHSQiLBTa43up2dbgp6Q==', NULL, NULL),
+(15, 'tester', 'staff', '9gAUGtyX93gCrs2qvHQBtLAs3R3ZQUh3SPqia+l+AYGxXiPYxq6VOCbgqi/ZvN+O8umRCWJ30MZdjkmFJAveJA==', NULL, NULL);
 
 --
 -- Constraints for dumped tables
@@ -994,8 +994,8 @@ ALTER TABLE `lessons`
 -- Constraints for table `medical_conditions_details`
 --
 ALTER TABLE `medical_conditions_details`
-  ADD CONSTRAINT `medical_conditions_details_ibfk_2` FOREIGN KEY (`medical_condition_id`) REFERENCES `medical_conditions_master` (`medical_condition_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `medical_conditions_details_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `registrations_details` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `medical_conditions_details_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `registrations_details` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `medical_conditions_details_ibfk_2` FOREIGN KEY (`medical_condition_id`) REFERENCES `medical_conditions_master` (`medical_condition_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `members_progress`
@@ -1048,14 +1048,14 @@ ALTER TABLE `schedule_details`
 -- Constraints for table `schedule_master`
 --
 ALTER TABLE `schedule_master`
-  ADD CONSTRAINT `schedule_master_ibfk_4` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`staff_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `schedule_master_ibfk_3` FOREIGN KEY (`group_id`) REFERENCES `groups_master` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `schedule_master_ibfk_3` FOREIGN KEY (`group_id`) REFERENCES `groups_master` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `schedule_master_ibfk_4` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`staff_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `skills_details`
 --
 ALTER TABLE `skills_details`
-  ADD CONSTRAINT `skills_details_ibfk_1` FOREIGN KEY (`skill_id`) REFERENCES `skills_master` (`skill_id`);
+  ADD CONSTRAINT `skills_details_ibfk_1` FOREIGN KEY (`skill_id`) REFERENCES `skills_master` (`skill_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `skills_master`

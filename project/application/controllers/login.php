@@ -23,7 +23,7 @@ class login extends CI_Controller {
 	
 	public function find_username(){
 		$this->load->model("model_user");
-		$this->session->set_userdata($this->input->post('username'));
+		$this->session->set_userdata('username',$this->input->post('username'));
 		$question = $this->model_user->db_find_question($this->session->userdata('username'));
 		if ($question=="none"){
 			$data["message"]="Username not found";

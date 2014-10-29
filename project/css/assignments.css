@@ -21,3 +21,7 @@ ul.assignment_menu li label, ul.assignment_menu li input{
 	height: 30vh;
 	overflow-y: auto;
 }
+
+.table tbody td, .table thead th{
+	width: 15vw;
+}

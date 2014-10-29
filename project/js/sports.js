@@ -30,7 +30,7 @@ function getSkills(i){
 	$.ajax({
 		type : "POST",
 		cache : false,
-		url : js_base_url("site/getSkills"),					
+		url : js_base_url("getSkills"),					
 		data: {'key' : i},	
 		dataType : 'json',
 		success : function (data){
@@ -73,7 +73,7 @@ function loadTasks(i){
 	$.ajax({
 		type : "POST",
 		cache : false,
-		url : js_base_url("site/getTasks"),					
+		url : js_base_url("getTasks"),					
 		data: {'key' : i},	
 		dataType : 'json',
 		success : function (data){
@@ -89,7 +89,7 @@ function updateSkill(i){
 	$.ajax({
 		type : "POST",
 		cache : false,
-		url : js_base_url("site/updateSkill"),					
+		url : js_base_url("updateSkill"),					
 		data: {
 			'key' : i,
 			'skill_band' : $("ul#skill_details li input#band").val(),
@@ -110,7 +110,7 @@ function updateTask(i){
 	$.ajax({
 		type : "POST",
 		cache : false,
-		url : js_base_url("site/updateTask"),					
+		url : js_base_url("updateTask"),					
 		data: {
 			'key' : i,
 			'task_name' : $("ul#task_details li input#task").val(),
@@ -128,7 +128,12 @@ function updateTask(i){
 }
 
 function clickSaveSkill(){
-	$("button#save_skill").click(function(){		
+	$("button#save_skill").click(function(){	
+		if ($("input#band").val().trim()=='' || $("input#skill_description").val().trim()==''){
+			alert("Please fill all fields");
+			return;
+		}
+	
 		if (statusSkill==1){
 			updateSkill($("table.skill_table#skills_list tbody tr.active td.skill_id").html());
 		}
@@ -140,6 +145,11 @@ function clickSaveSkill(){
 
 function clickSaveTask(){
 	$("button#save_task").click(function(){		
+		if ($("input#task").val().trim()=='' || $("textarea#task_description").val().trim()==''){
+			alert("Please fill all fields");
+			return;
+		}
+	
 		if (statusTask==1){
 			updateTask($("table.skill_table#tasks_list tbody tr.active td.task_id").html());
 		}
@@ -187,7 +197,7 @@ function addSkill(){
 	$.ajax({
 		type : "POST",
 		cache : false,
-		url : js_base_url("site/addSkill"),					
+		url : js_base_url("addSkill"),					
 		data: {
 			'sport' : select,
 			'skill_band' : $("ul#skill_details li input#band").val(),
@@ -204,7 +214,7 @@ function addTask(){
 	$.ajax({
 		type : "POST",
 		cache : false,
-		url : js_base_url("site/addTask"),					
+		url : js_base_url("addTask"),					
 		data: {
 			'skill_id' : $("table.skill_table#skills_list tbody tr.active td.skill_id").html(),
 			'task' : $("ul#task_details li input#task").val(),

@@ -11,12 +11,12 @@
 			<ul class="tabs" id="mytab">
 				<li class="tab-link current" id="tennis">Tennis</li>			
 				<li class="tab-link" id="swimming">Swimming</li>			
-			</ul>
+			</ul>			
 		</div>	
+	</div>			
+	<div id='loading'>loading...</div>	
+	<div id='calendar'>
+		<div id="calendarTrash" class="calendar-trash"><img height="4%" width="4%" src='<?php echo base_url(); ?>img/trashcan.png'></img></div>
 	</div>	
-	
-	<div id='loading'>loading...</div>
-
-	<div id='calendar'></div>
 </div>
 

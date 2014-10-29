@@ -6,7 +6,7 @@
 		</div>	
 		<div>
 			<ul class="nav navbar-nav navbar-left">
-				<li><a href="<?php echo base_url(); ?>site/members">Members</a></li>
+				<li><a href="<?php echo base_url(); ?>site/members">Registrations</a></li>
 				<li><a href="<?php echo base_url(); ?>site/terms">Terms</a></li>
 				<li><a href="<?php echo base_url(); ?>site/schedule">Schedule</a></li>				
 				<li><a href="<?php echo base_url(); ?>site/sports">Skills</a></li>
@@ -23,7 +23,7 @@
 		<div class="container col-lg-3 col-lg-offset-8">
 			<ul class="pull-right" style="display: table">
 				<li style="display: table-row">
-					<label style="display: table-cell; vertical-align: middle">You logged in as <a href="<?php echo base_url();?>site/profile"><?php echo $this->session->userdata('logged_in')['username']; ?></a></label>				
+					<label style="display: table-cell; vertical-align: middle">You logged in as <a href="<?php echo base_url();?>site/profile"><?php echo $this->session->userdata('logged_in')['username']; ?></a></label>&nbsp;				
 					<a style="display: table-cell; vertical-align: middle;" href="<?php echo base_url();?>site/logout"><span class="glyphicon glyphicon-log-out"></span></a>
 				</li>
 			</ul>

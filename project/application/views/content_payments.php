@@ -51,7 +51,7 @@
 					</tbody>
 				</table>
 			</div>		
-			<div class="container col-lg-3 edit hidden">
+			<div class="container col-lg-3 hidden" id="edit">
 				<ul class="payment_details">
 					<li><label for="num_lessons">Number of lessons</label><input type="number" class="form-control" id="num_lessons"></li>
 					<li><label for="total">Amount due</label><input type="number" class="form-control" id="total"></li>					

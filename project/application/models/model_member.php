@@ -33,26 +33,30 @@ class model_member extends CI_Model {
 	function dbUpdateParent($key, $array) {
 		$this->db->where('registration_id', $key);
 		$this->db->update('registrations_master', $array);
-		$query = $this->db->query('SELECT * from registrations_master where registration_id ='.$key);
-		$array = $query->result();
-		return json_encode($array);
+		$this->db->select("*");
+		$this->db->from("registrations_master");
+		$this->db->where("registration_id",$key);
+		$result = $this->db->get();
+		return json_encode($result->result());
 	}
 
 	function dbUpdateChild($key, $array, $medical, $skill) {
 		$this->db->where('member_id', $key);
 		$this->db->update('registrations_details', $array);
-		$query = $this->db->query('SELECT * from registrations_details where member_id ='.$key);
+		$this->db->select("*");
+		$this->db->from("registrations_details");
+		$this->db->where("member_id",$key);
+		$query = $this->db->get();
 		$array = $query->result();
+		
+		$this->db->where("member_id", $key);
+		$this->db->delete('medical_conditions_details');
 
-		if ($medical != 'null') {
-			$this->db->where('member_id', $key);
-			$this->db->delete('medical_conditions_details');
-
-			foreach($medical as $id => $value) {
-				$this->db->set('member_id', $key);
-				$this->db->set('medical_condition_id', $id);				
-				$this->db->insert('medical_conditions_details');
-			}
+		if ($medical!="")
+		foreach($medical as $value) {
+			$this->db->set('member_id', $key);
+			$this->db->set('medical_condition_id', $value);				
+			$this->db->insert('medical_conditions_details');		
 		}
 		
 		$this->dbUpdateMemberSkills($skill, $key);
@@ -64,7 +68,7 @@ class model_member extends CI_Model {
 		$this->db->insert('registrations_master', $array);
 	}
 
-	function dbAddChild($array, $medical, $skill) {
+	function db_add_child($array, $medical, $skill) {
 		$this->db->insert('registrations_details', $array);			
 		$key = $this->db->insert_id();		
 
@@ -117,6 +121,41 @@ class model_member extends CI_Model {
 		}
 		return $string;
 		
+	}
+	
+	function db_check_parent($regId){
+		$this->db->select("*");
+		$this->db->from("registrations_details");
+		$this->db->where("registration_id", $regId);
+		$query=$this->db->get();
+		return $query->num_rows();			
+	}
+	
+	function db_delete_parent($regId){
+		$this->db->delete('registrations_master', array('registration_id' => $regId)); 					
+	}
+	
+	function db_check_child($memId){
+		$this->db->select("*");
+		$this->db->from("members_progress");
+		$this->db->where("member_id", $memId);
+		$numProg=$this->db->get()->num_rows();
+		$this->db->select("*");
+		$this->db->from("groups_details");
+		$this->db->where("member_id", $memId);
+		$numGroup=$this->db->get()->num_rows();
+		$this->db->select("*");
+		$this->db->from("payments_master");
+		$this->db->where("member_id", $memId);
+		$numPayment=$this->db->get()->num_rows();
+		if ($numProg>0 || $numGroup>0 || $numPayment>0)
+			return 0;
+		else
+			return 1;
+	}
+	
+	function db_delete_child($memId){
+		$this->db->delete('registrations_details', array('member_id' => $memId)); 					
 	}
 }
 

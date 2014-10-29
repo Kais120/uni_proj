@@ -21,13 +21,27 @@
 			return ($string);	
 		}
 		
-		function dbAddTerm ($array){
-			$this->db->insert('terms', $array);
+		function db_add_term ($array){
+			$dateStart = new DateTime($array['start_date']);
+			$dateEnd = new DateTime($array['end_date']);
+			if ($dateStart>=$dateEnd)
+				return 'fail';
+			else{
+				$this->db->insert('terms', $array);
+				return 'success';
+			}
 		}
 		
-		function dbUpdateTerm ($array, $key){
-			$this->db->where('term_id',$key);
-			$this->db->update('terms',$array);
+		function db_update_term ($array, $key){
+			$dateStart = new DateTime($array['start_date']);
+			$dateEnd = new DateTime($array['end_date']);
+			if ($dateEnd<=$dateStart)
+				return 'fail';
+			else{
+				$this->db->where('term_id',$key);
+				$this->db->update('terms',$array);
+				return 'success';
+			}
 		}
 		
 		function db_get_year_select(){

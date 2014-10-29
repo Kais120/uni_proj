@@ -26,18 +26,23 @@
 			<ul class="details">
 				<li>
 					<label for="year">Year</label>
-					<select class="form-control" id="year">				
+					<select class="form-control" id="year">							
+						<?php 
+							if (isset($groupYear)){
+								print ($groupYear);
+							}
+						?>
 					</select>
 				</li>
 				<li>
 					<label for="term" id="term">Term</label>
-					<select class="form-control hidden" id="term">
+					<select class="form-control hidden" id="term">						
+						<option value="null" class="null">Select term</option>
 						<?php 
 							if (isset($groupTerm)){
-								print ('<option value="'.$groupTerm['term_id'].'" selected>'.$groupTerm['term_description'].'</option>');
+								print ($groupTerm);
 							}
 						?>
-						<option value="null" class="null">Select term</option>							
 					</select>
 				</li>
 				<li>
@@ -46,7 +51,7 @@
 						<option value="null" class="null">Select skill</option>
 						<?php 
 							if (isset($groupSkill)){
-								print ('<option value="'.$groupSkill['skill_id'].'" selected>'.$groupSkill['skill_band'].'</option>');
+								print ($groupSkill);
 							}
 						?>
 					</select>
@@ -56,18 +61,18 @@
 					<select class="form-control hidden" id="group">
 						<option value="null" class="null">Select a group or create new</option>
 						<?php 
-							if (isset($groupId) && isset($groupName)){
-								print ('<option value="'.$groupId.'" selected>'.$groupName.'</option>');
+							if (isset($groupName)){
+								print ($groupName);
 							}
 						?>
 					</select>
 				</li>
 			</ul>
-			<button class="btn btn-default" id="add_group">Add group</button>
+			<button class="btn btn-default hidden" id="add_group">Add group</button>
 		</div>	
-	</div>		
-	<hr class="divider"></hr>
+	</div>			
 	<div class="row hidden" id="main_content">
+		<hr class="divider"></hr>
 		<div class="container col-lg-2 col-lg-offset-1">			
 			<ul class="details" id="group_details">
 				<li>
@@ -78,7 +83,7 @@
 				<li><label for="group_name">Name</label><input type="text" class="form-control" name="group_name" id="group_name"></li>
 				<li><label for="number_members">Number of participants</label><input type="number" class="form-control" name="number_members" id="number_members"></li>
 				<li><label for="day">Day of the week</label></li>
-				<li><input type="radio" name="day" value="1">Monday</li>
+				<li><input type="radio" name="day" value="1" selected>Monday</li>
 				<li><input type="radio" name="day" value="2">Tuesday</li>
 				<li><input type="radio" name="day" value="3">Wednesday</li>
 				<li><input type="radio" name="day" value="4">Thursday</li>

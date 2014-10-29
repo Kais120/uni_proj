@@ -2,11 +2,10 @@ var status=false;
 
 function staffClick(){
 	$("table#staff_list tbody").delegate('tr','click',function(){
-		status = false;
-		console.log(status);
+		status = false;		
 		$("form#staff_action").removeClass("hidden");
 		$(this).addClass("active").siblings().removeClass("active");
-		$("form#staff_action").attr("action", js_base_url("site/saveStaff"));		
+		$("form#staff_action").attr("action", js_base_url("saveStaff"));		
 		$("ul#staff_details li input[name='username']").attr('readonly', true);
 		$("ul#staff_details li input[name='password']").attr('required', false);
 		loadDetails();
@@ -17,7 +16,7 @@ function loadDetails(){
 	$.ajax({
 		type : "POST",
 		cache : false,
-		url : js_base_url("site/getStaffDetails"),					
+		url : js_base_url("getStaffDetails"),					
 		data: {'key' : $("table#staff_list tbody tr.active").attr('data-value')},	
 		dataType : 'json',
 		success : function (data){
@@ -64,7 +63,7 @@ function onSubmit(){
 		if(status==true){
 			var username = $("input[name='username']").val();	
 			var result;
-			$.post(js_base_url("site/checkUsername"), {'username' : username}, function(data){
+			$.post(js_base_url("checkUsername"), {'username' : username}, function(data){
 				result = data;
 			});	
 			if (result='true'){
@@ -86,7 +85,7 @@ function clickNewStaff(){
 		$("ul#staff_details li select[name='type']").val('staff');
 		$("ul#staff_details li input[name='username']").attr('readonly', false);
 		$("ul#staff_details li input[name='password']").attr('required', true);
-		$("form#staff_action").attr("action", js_base_url("site/addStaff"));		
+		$("form#staff_action").attr("action", js_base_url("addStaff"));		
 	});
 }
 

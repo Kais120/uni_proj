@@ -3,44 +3,75 @@
 	<div class="row">
 		<div class="container col-lg-10 col-lg-offset-1">
 			<ul class="tabs" id="mytab">
-				<li class="tab-link current" id="tennis">Tennis</li>			
-				<li class="tab-link" id="swimming">Swimming</li>			
+				<?php
+					if (isset($groupSport) && $groupSport==2){						
+						print('
+							<li class="tab-link" id="tennis">Tennis</li>			
+							<li class="tab-link current" id="swimming">Swimming</li>
+						');
+					}else{						
+						print('
+							<li class="tab-link current" id="tennis">Tennis</li>			
+							<li class="tab-link" id="swimming">Swimming</li>
+						');							
+					}				
+				?>
+							
 			</ul>
 		</div>	
-	</div>	
-	<hr class="divider"></hr>
+	</div>		
 	<div class="row">
+	<hr class="divider"></hr>
 		<div class="container col-lg-4 col-lg-offset-1" id="select_menu">
 			<ul class="details">
 				<li>
 					<label for="year">Year</label>
-					<select class="form-control" id="year">				
+					<select class="form-control" id="year">							
+						<?php 
+							if (isset($groupYear)){
+								print ($groupYear);
+							}
+						?>
 					</select>
 				</li>
 				<li>
 					<label for="term" id="term">Term</label>
-					<select class="form-control hidden" id="term">
+					<select class="form-control hidden" id="term">						
 						<option value="null" class="null">Select term</option>
+						<?php 
+							if (isset($groupTerm)){
+								print ($groupTerm);
+							}
+						?>
 					</select>
 				</li>
 				<li>
 					<label for="skill" class="hidden" id="skill">Skill level</label>
 					<select class="form-control hidden" id="skill">
 						<option value="null" class="null">Select skill</option>
+						<?php 
+							if (isset($groupSkill)){
+								print ($groupSkill);
+							}
+						?>
 					</select>
 				</li>
 				<li>
 					<label for="skill" class="hidden" id="group">Group</label>
 					<select class="form-control hidden" id="group">
-						<option value="null" class="null">Select a group or create new</option>
+						<option value="null" class="null">Select a group</option>
+						<?php 
+							if (isset($groupName)){
+								print ($groupName);
+							}
+						?>
 					</select>
 				</li>
-			</ul>
-			<button class="btn btn-default" id="add_group">Add group</button>
+			</ul>			
 		</div>	
 	</div>		
-	<hr class="divider"></hr>
-	<div class="row hidden" id="main_content">		
+	<div class="row hidden" id="main_content">	
+		<hr class="divider"></hr>
 		<div class="container col-lg-3 col-lg-offset-1">
 			<table class="table table_details" id="members">
 				<thead>

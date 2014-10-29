@@ -5,7 +5,7 @@ function pullLessons(){
 	if ($("select#sport").val()!=='null'){
 		$.ajax({
 			type : 'Post',
-			url : js_base_url("site/getLessons"),
+			url : js_base_url("getLessons"),
 			data: {'sport_id' : $("select#sport").val()},
 			dataType : 'json',
 			success : function (data){
@@ -25,6 +25,10 @@ function clickSport(){
 		$("table#lessons_info tbody tr").remove();
 		$("ul#lesson_details li input[name='sport_type']").val($("select#sport option:selected").html());
 		pullLessons();
+		if ($(this).val()!='null')
+			$('button#new_lesson').removeClass("hidden");
+		else
+			$('button#new_lesson').addClass("hidden");
 	});
 }
 
@@ -32,7 +36,7 @@ function clickLesson(){
 	$("table#lessons_info tbody").delegate('tr','click', function(){
 		$(this).addClass('active').siblings().removeClass('active');
 		$("form#lesson_update").removeClass('hidden');
-		$("form#lesson_update").attr('action', js_base_url("site/updateLesson"));
+		$("form#lesson_update").attr('action', js_base_url("updateLesson"));
 		pullLessonDetails();
 	});
 }
@@ -48,7 +52,7 @@ function clickNewLesson(){
 		$("table#lessons_info tbody tr").removeClass('active');
 		$("ul#lesson_details li input").not("[name='sport_type']").val('');
 		$("form#lesson_update").removeClass('hidden');
-		$("form#lesson_update").attr('action', js_base_url("site/addLesson"));
+		$("form#lesson_update").attr('action', js_base_url("addLesson"));
 	});
 }
 

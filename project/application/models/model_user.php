@@ -30,5 +30,37 @@ class model_user extends CI_Model
 		$this->db->where('staff_id',$id);
 		return $this->db->get()->row()->type;
 	}
+	
+	function db_find_question($username){
+			$question="none";
+			$this->db->select("question");
+			$this->db->from("users");
+			$this->db->where("username",$username);
+			$query = $this->db->get();
+						
+			if ($query->num_rows()>0)
+				$question=$query->row()->question;
+			
+			return $question;
+		}
+		
+	function db_get_result($username, $answer){		
+		$result=false;
+		$pass="";
+		$this->db->select("answer");
+		$this->db->from("users");
+		$this->db->where("username",$username);	
+		$reply = $this->db->get()->row()->answer;
+		if (strcmp($answer, $reply) == 0){			
+			$this->db->select("password");
+			$this->db->from("users");
+			$this->db->where("username",$username);
+			$query = $this->db->get();			
+			$pass = $query->row()->password;						
+		}	
+		$this->load->library('encrypt');
+		$result=$this->encrypt->decode("$pass");
+		return $result;
+	}
 }
 ?>

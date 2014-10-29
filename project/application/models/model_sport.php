@@ -125,6 +125,19 @@ class model_sport extends CI_Model {
 		$this->db->where('schedule_id', $schedId);
 		$this->db->update('schedule_details', $array);
 	}
+	
+	function db_delete_event($schedId){		
+		$currentDate = new DateTime(date('Y-m-d'));
+		$this->db->select('schedule_date');
+		$this->db->from('schedule_details');
+		$this->db->where('schedule_id',$schedId);
+		$eventDate = new DateTime($this->db->get()->row()->schedule_date);
+		if ($currentDate < $eventDate){			
+			$this->db->delete('schedule_details', array('schedule_id' => $schedId));
+			return "success";
+		}else
+			return "fail";		
+	}
 }
 ?>
 

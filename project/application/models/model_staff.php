@@ -15,8 +15,8 @@
 			return json_encode($query->result());
 		}
 				
-		public function dbPullProfile($staffId){
-			$this->db->select("staff.*, users.username");
+		public function db_pull_profile($staffId){
+			$this->db->select("staff.*, users.username, users.question, users.answer");
 			$this->db->from("staff, users");			
 			$this->db->where("staff.staff_id", $staffId);
 			$this->db->where("users.staff_id = staff.staff_id");
@@ -39,11 +39,11 @@
 			$this->db->update("users", $array);
 		}
 		
-		function dbSaveProfile($staffId, $staff, $password){
+		function db_save_profile($staffId, $staff, $user){
 			$this->db->where("staff_id", $staffId);
 			$this->db->update("staff", $staff);
 			$this->db->where("staff_id", $staffId);
-			$this->db->update("users", array('password' =>  $password));			
+			$this->db->update("users", $user);			
 		}
 		
 		public function dbAddStaff($staff, $user){
@@ -83,7 +83,7 @@
 					$string.='<option value="'.$row->staff_id.'">'.$row->staff_fname.' '.$row->staff_lname.'</option>';
 			}
 			return $string;
-		}
+		}		
 		
 	}
 

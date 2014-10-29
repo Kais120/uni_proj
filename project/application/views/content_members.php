@@ -28,34 +28,37 @@
 				<tbody>							
 				</tbody>	
 			</table>
-			<button class="btn btn-default pull-left" id="new_parent_details">Register new member</button>
+			<button class="btn btn-default pull-left" id="new_parent_details">New registration</button>
+			<button class="btn btn-default pull-right disabled" id="delete_parent">Delete</button>
 		</div>	
 		<div class="container col-lg-4 biodata hidden">
 			<ul class="fields">
-				<li><label>First Name</label><input type="text" class="form-control" id="firstName"></li>
-				<li><label>Middle Name</label><input type="text" class="form-control" id="middleName"></li>
-				<li><label>Last Name</label><input type="text" class="form-control" id="lastName"></li>
-				<li><label>Address Line 1</label><input type="text" class="form-control" id="addrLine1"></li>
-				<li><label>Address Line 2</label><input type="text" class="form-control" id="addrLine2"></li>
-				<li><label>Suburb</label><input type="text" class="form-control" id="suburb"></li>
-				<li><label>Postcode</label><input type="number" class="form-control" id="postcode"></li>
-				<li><label>Email</label><input type="text" class="form-control" id="email"></li>
-				<li><label>Home Number</label><input type="text" class="form-control" id="homeNumber"></li>
-				<li><label>Mobile Number</label><input type="text" class="form-control" id="mobileNumber"></li>
-				<li><label>Office Number</label><input type="text" class="form-control" id="officeNumber"></li>		
+				<li><label>First Name*</label><input type="text" class="form-control" id="firstName"/></li>
+				<li><label>Middle Name</label><input type="text" class="form-control" id="middleName"/></li>
+				<li><label>Last Name*</label><input type="text" class="form-control" id="lastName"/></li>
+				<li><label>Address Line 1</label><input type="text" class="form-control" id="addrLine1"/></li>
+				<li><label>Address Line 2</label><input type="text" class="form-control" id="addrLine2"/></li>
+				<li><label>Suburb*</label><input type="text" class="form-control" id="suburb"/></li>
+				<li><label>Postcode*</label><input type="number" class="form-control" id="postcode"/></li>
+				<li><label>Email</label><input type="text" class="form-control" id="email"/></li>
+				<li><label>Home Number</label><input type="text" class="form-control" id="homeNumber"/></li>
+				<li><label>Mobile Number*</label><input type="text" class="form-control" id="mobileNumber"/></li>
+				<li><label>Office Number</label><input type="text" class="form-control" id="officeNumber"/></li>		
 				<li><button class="btn btn-default pull-right disabled" id="save_parent_details">Save changes</button></li>
-			</ul>			
+			</ul>
+			* - required fields
 		</div>			
 	</div>	
 	<div class="tab-content child-content">
 		<div class="row">
 			<div class="container col-lg-5 col-lg-offset-1 child-info">
 				<ul class='fields'>
-					<li><label>First Name</label><input type="text" class="form-control" id="childFirstName"></li>								
-					<li><label>Middle Name</label><input type="text" class="form-control" id="childMiddleName"></li>								
-					<li><label>Last Name</label><input type="text" class="form-control" id="childLastName"></li>	
-					<li><label>Date of birth</label><input type="date" class="form-control" id="childDOB"></li>	
+					<li><label>First Name*</label><input type="text" class="form-control" id="childFirstName"/></li>								
+					<li><label>Middle Name</label><input type="text" class="form-control" id="childMiddleName"/></li>								
+					<li><label>Last Name*</label><input type="text" class="form-control" id="childLastName"/></li>	
+					<li><label>Date of birth*</label><input type="date" class="form-control" id="childDOB"/></li>	
 				</ul>
+				* - required fields
 				<hr class="divider"></hr>
 				<ul class="fields">
 					<li>
@@ -81,6 +84,7 @@
 					</li>										
 				</ul>
 				<button class="btn btn-default pull-left" id="save_child_details">Save changes</button>	
+				<button class="btn btn-default pull-right disabled" id="delete_child">Delete</button>
 			</div>
 			<div class="container col-lg-5">
 				<label>Medical conditions</label>
@@ -161,7 +165,7 @@
 					</tbody>
 				</table>
 			</div>		
-			<div class="container col-lg-3 edit">
+			<div class="container col-lg-3 hidden" id="edit">
 				<ul class="fields" id="payment_details">
 					<li><label for="num_lessons">Number of lessons</label><input type="number" class="form-control" id="num_lessons"></li>
 					<li><label for="total">Amount due</label><input type="number" class="form-control" id="total"></li>					
@@ -169,7 +173,7 @@
 				<button class="btn btn-default pull-right disabled" id="save_payment">Save changes</button>
 			</div>	
 		</div>
-		<div class="" id="transactions">
+		<div class="hidden" id="transactions">
 			<div class="row">
 				<hr class="divider"></hr>
 				<div class="container col-lg-4 col-lg-offset-1">
@@ -210,7 +214,7 @@
 	</div>	
 </div>
 
-<script src="<?php echo base_url(); ?>js/click_list.js"></script>
+<script src="<?php echo base_url(); ?>js/members.js"></script>
 
 
 

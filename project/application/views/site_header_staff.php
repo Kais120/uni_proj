@@ -9,11 +9,11 @@
 	<script src="<?php echo base_url(); ?>/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
 		var js_site_url = function( urlText ){
-			var urlTmp = "<?php echo site_url('/site/" + urlText + "'); ?>";
+			var urlTmp = "<?php echo site_url('/site_staff/" + urlText + "'); ?>";
 			return urlTmp;
 		}
 		var js_base_url = function( urlText ){
-			var urlTmp = "<?php echo base_url('/site/" + urlText  + "'); ?>";
+			var urlTmp = "<?php echo base_url('/site_staff/" + urlText  + "'); ?>";
 			return urlTmp;
 		}
 	</script>

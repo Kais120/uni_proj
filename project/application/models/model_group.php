@@ -130,7 +130,7 @@
 			
 		}
 		
-		function dbGetChildrenList($groupId, $skillId){
+		function db_get_children_list($groupId, $skillId, $term){
 			$string='';
 			$array = array();
 			$this->db->select("r.member_id, r.member_fname, r.member_lname");
@@ -144,15 +144,27 @@
 					$row->member_lname.'</td><td><input type="checkbox" class="in_group" value="true" checked></td></tr>';
 				$array[] = $row->member_id;
 			}	
+							
+			$this->db->select("gd.member_id");
+			$this->db->from("groups_details gd, groups_master gm");
+			$this->db->where("gd.group_id = gm.group_id");
+			$this->db->where("gm.skill_id", $skillId);
+			$this->db->where("gm.term_id", $term);
+			$query = $this->db->get();
+			$result = $query->result();
+			$members = array();
+			foreach ($result as $row){
+				$members[]=$row->member_id;
+			}
 			
 			$this->db->select("rd.member_id, rd.member_fname, rd.member_lname");
 			$this->db->from("registrations_details rd, members_skills ms");
-			$this->db->where("rd.member_id = ms.member_id");
+			$this->db->where("ms.member_id = rd.member_id");
 			$this->db->where("ms.skill_id", $skillId);
-			$this->db->join('groups_details gr', 'rd.member_id = gr.member_id', 'left');
-			$this->db->where("gr.member_id", null);
+			$this->db->where_not_in("rd.member_id",$members);
 			$query = $this->db->get();
 			$result = $query->result();
+			
 			foreach ($result as $row){				
 				$string.='<tr><td class="member_id">'.$row->member_id.'</td><td>'.$row->member_fname.'</td><td>'.
 					$row->member_lname.'</td><td><input type="checkbox" name="in_group" class="in_group" value="true"></td></tr>';
@@ -161,7 +173,7 @@
 			return $string;
 		}
 		
-		function dbGetChildrenListStaff($groupId, $skillId){
+		function db_get_children_list_staff($groupId, $skillId, $term){
 			$string='';
 			$array = array();
 			$this->db->select("r.member_id, r.member_fname, r.member_lname");
@@ -174,7 +186,7 @@
 				$string.='<tr><td class="member_id">'.$row->member_id.'</td><td>'.$row->member_fname.'</td><td>'.
 					$row->member_lname.'</td></tr>';
 				$array[] = $row->member_id;
-			}				
+			}	
 			
 			return $string;
 		}		
@@ -261,35 +273,23 @@
 			$this->db->delete('groups_details', $array);
 		}
 		
-		function dbUpdateMemberProgress($memberId, $schedId, $tasks, $attend, $staffId, $notes){
-			$progressId = 0;
-			$taskList = json_decode($tasks);
+		function db_update_member_progress($memberId, $schedId, $tasks, $attend, $staffId, $notes){
+			$progressId = 0;			
 			$this->db->select("progress_id");
 			$this->db->from("members_progress");
 			$this->db->where("schedule_id", $schedId);
 			$this->db->where("member_id", $memberId);
 			$query = $this->db->get();
 			if ($query->num_rows() > 0){
+				$attendance=0;
 				if ($attend=='true')
-					$attendance = 1;
-				$arrayToInsert = array();
+					$attendance = 1;				
 				$row = $query->row();
-				$progressId = $row->progress_id;
-				
+				$progressId = $row->progress_id;				
 				$this->db->where('progress_id', $progressId);
-				$this->db->update('members_progress', array('attendance' => $attendance, 'staff_id' => $staffId, 'staff_comments' => $notes));
-				
+				$this->db->update('members_progress', array('attendance' => $attendance, 'staff_id' => $staffId, 'staff_comments' => $notes));				
 				$this->db->where("progress_id", $progressId);
-				$this->db->delete('members_progress_details'); 
-				
-				foreach ($taskList as $value){
-					$arrayToInsert[] = array (
-						'progress_id' => $progressId,
-						'task_id' => $value
-					);
-				}
-				
-				$this->db->insert_batch('members_progress_details', $arrayToInsert); 
+				$this->db->delete('members_progress_details'); 					
 			}else{
 				$attendance = 0;
 				if ($attend=='true')
@@ -300,25 +300,25 @@
 					'attendance' => $attendance,
 					'staff_id' => $staffId,
 					'staff_comments' => $notes
-				);
-				
+				);				
 				$this->db->insert('members_progress', $arrayToInsert); 
-				$progressId = $this->db->insert_id();
-				$arrayToInsert = array();
-				
-				foreach ($taskList as $value){
-					$arrayToInsert[] = array (
-						'progress_id' => $progressId,
-						'task_id' => $value
-					);
-					
-				}
-				
-				$this->db->insert_batch('members_progress_details', $arrayToInsert); 
+				$progressId = $this->db->insert_id();							
 			}
+			if ($tasks!="")
+				foreach ($tasks as $value){					
+					$this->db->set('progress_id', $progressId);
+					$this->db->set('task_id',$value);
+					$this->db->insert('members_progress_details');
+				}									
 		}	
 		
-		function dbUpdateGroup($groupId, $group, $sched){
+		function db_update_group($groupId, $group, $sched){
+			$startTime = new DateTime($sched['start_time']);
+			$endTime = new DateTime($sched['end_time']);
+			
+			if ($startTime >= $endTime)
+				return 'fail';
+			
 			$this->db->where('group_id', $groupId);
 			$this->db->update('groups_master', $group);
 			$this->db->where('group_id', $groupId);
@@ -331,15 +331,23 @@
 				$this->db->update('schedule_master', $sched);
 				$this->dbUpdateSchedule($groupId, $group['term_id'], $sched);
 			}
+			return 'success';
 		}
 		
-		function dbCreateGroup($group, $sched){
+		function db_create_group($group, $sched){
+			$startTime = new DateTime($sched['start_time']);
+			$endTime = new DateTime($sched['end_time']);
+			
+			if ($startTime >= $endTime)
+				return 'fail';
+		
 			$this->db->query('ALTER TABLE groups_master AUTO_INCREMENT = 1');
 			$this->db->insert('groups_master', $group);
 			$sched['group_id'] = $this->db->insert_id();
 			$this->db->insert('schedule_master', $sched);	
 			$this->db->query('ALTER TABLE schedule_master AUTO_INCREMENT = 1');
 			$this->dbPopulateSchedule($sched['group_id'], $group['term_id'], $sched);
+			return 'success';
 		}
 		
 		private function dbUpdateSchedule($groupId, $termId, $sched){
@@ -511,54 +519,110 @@
 		}
 		
 		function db_get_group_name($groupId){
-			$this->db->select('group_name');
-			$this->db->from('groups_master');
-			$this->db->where('group_id', $groupId);
+			$string='';
+
+			$skill = $this->db_get_group_skill($groupId);
+			
+			$this->db->select('gm.group_id, gm.group_name');
+			$this->db->from('groups_master gm, skills_master sm');	
+			$this->db->where("gm.skill_id = sm.skill_id");
+			$this->db->where("sm.skill_id", $skill);			
+			
 			$query = $this->db->get();
-			if ($query->num_rows() > 0){
-				return $query->row()->group_name;
+			$result = $query->result();
+			foreach ($result as $row){
+				if ($groupId==$row->group_id)
+					$string.="<option value='".$row->group_id."' selected>".$row->group_name."</option>";
+				else
+					$string.="<option value='".$row->group_id."'>".$row->group_name."</option>";
 			}
+			return $string;
 		}
 		
-		function db_get_group_skill($groupId){
-			$this->db->select('sk.skill_id, sk.skill_band');
+		function db_get_select_group_skill($groupId){
+			$string='';
+			$sport = $this->db_get_group_sport($groupId);
+			$skill = $this->db_get_group_skill($groupId);
+			
+			$this->db->select('skill_id, skill_band');
+			$this->db->from('skills_master');			
+			$this->db->where('sport_id', $sport);
+			$query = $this->db->get();
+			$result = $query->result();
+			foreach ($result as $row){
+				if ($skill==$row->skill_id)
+					$string.="<option value='".$row->skill_id."' selected>".$row->skill_band."</option>";
+				else
+					$string.="<option value='".$row->skill_id."'>".$row->skill_band."</option>";
+			}	
+			return $string;
+		}
+		
+		private function db_get_group_skill($groupId){
+			$this->db->select('skill_id');
+			$this->db->from('groups_master');
+			$this->db->where('group_id',$groupId);
+			return $this->db->get()->row()->skill_id;
+		}
+		
+		function db_get_select_group_term($groupId){
+			$string='';
+			
+			$year = $this->db_get_group_year($groupId);					
+			$term = $this->db_get_group_term($groupId);	
+			
+			$this->db->select('term_id, term_description');
+			$this->db->from('terms');
+			$this->db->where('YEAR(start_date)', $year);			
+			$query = $this->db->get();
+			$result = $query->result();
+			foreach ($result as $row){
+				if ($term==$row->term_id)
+					$string.="<option value='".$row->term_id."' selected>".$row->term_description."</option>";
+				else
+					$string.="<option value='".$row->term_id."'>".$row->term_description."</option>";
+			}
+			return $string;
+		}
+		
+		private function db_get_group_term($groupId){
+			$this->db->select('term_id');
+			$this->db->from('groups_master');
+			$this->db->where('group_id', $groupId);	
+			return $this->db->get()->row()->term_id;
+		}
+		
+		function db_get_group_sport($groupId){
+			$this->db->select('sk.sport_id');
 			$this->db->from('groups_master gm, skills_master sk');
 			$this->db->where('gm.skill_id = sk.skill_id');
 			$this->db->where('gm.group_id', $groupId);
 			$query = $this->db->get();
 			if ($query->num_rows() > 0){
-				$array = array(
-					'skill_id' => $query->row()->skill_id,
-					'skill_band' => $query->row()->skill_band
-				);
-				return $array;
-			}
-		}
-		
-		function db_get_group_term($groupId){
-			$this->db->select('t.term_id, t.term_description');
-			$this->db->from('groups_master gm, terms t');
-			$this->db->where('gm.term_id = t.term_id');
-			$this->db->where('gm.group_id', $groupId);
-			$query = $this->db->get();
-			if ($query->num_rows() > 0){
-				$array = array(
-					'term_id' => $query->row()->term_id,
-					'term_description' => $query->row()->term_description
-				);
-				return $array;
-			}
-		}
-		
-		function db_get_group_sport($groupId){
-			$this->db->select('s.sport_id');
-			$this->db->from('groups_master gm, sports s, skills_master sk');
-			$this->db->where('gm.skill_id = sk.skill_id and sk.sport_id = s.sport_id');
-			$this->db->where('gm.group_id', $groupId);
-			$query = $this->db->get();
-			if ($query->num_rows() > 0){
 				return $query->row()->sport_id;
 			}			
+		}
+		
+		private function db_get_group_year($groupId){
+			$this->db->select('YEAR(t.start_date) as year');
+			$this->db->from('terms t, groups_master gm');
+			$this->db->where('gm.term_id = t.term_id');
+			$this->db->where('gm.group_id', $groupId);
+			return $year = $this->db->get()->row()->year;
+		}
+		
+		function db_get_select_group_year($groupId){
+			$string='';
+			$year = $this->db_get_group_year($groupId);
+			$query = $this->db->query('SELECT DISTINCT YEAR(start_date) AS year FROM terms');	
+			$result = $query->result();
+			foreach ($result as $row){
+				if ($year==$row->year)
+					$string.="<option value='".$row->year."' selected>".$row->year."</option>";
+				else
+					$string.="<option value='".$row->year."'>".$row->year."</option>";
+			}
+			return $string;
 		}
 	
 	}

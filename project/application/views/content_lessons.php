@@ -23,7 +23,7 @@
 					<tbody>
 					</tbody>
 				</table>
-				<button class="btn btn-default pull-left" id="new_lesson">Add</button>
+				<button class="btn btn-default pull-left hidden" id="new_lesson">Add</button>
 			</div>
 			<div class="container col-lg-4" id>
 				<form action="" method="POST" id="lesson_update" class="hidden">

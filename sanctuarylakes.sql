@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.12
+-- version 4.0.9
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 19, 2014 at 04:39 AM
--- Server version: 5.6.16
--- PHP Version: 5.5.11
+-- Generation Time: Oct 29, 2014 at 02:37 AM
+-- Server version: 5.5.34
+-- PHP Version: 5.4.22
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -15,6 +15,9 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
+
+create database if not exists sanctuarylakes;
+use sanctuarylakes;
 
 --
 -- Database: `sanctuarylakes`
@@ -192,7 +195,7 @@ CREATE TABLE IF NOT EXISTS `members_progress` (
   KEY `staff_id` (`staff_id`),
   KEY `schedule_id` (`schedule_id`),
   KEY `schedule_id_2` (`schedule_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `members_progress`
@@ -201,9 +204,7 @@ CREATE TABLE IF NOT EXISTS `members_progress` (
 INSERT INTO `members_progress` (`progress_id`, `schedule_id`, `member_id`, `entry_date`, `attendance`, `staff_id`, `staff_comments`) VALUES
 (10, 54, 215, '2014-10-03 23:54:19', 1, 1, 'well done'),
 (11, 32, 1, '2014-10-04 00:23:45', 1, 1, ''),
-(12, 34, 1, '2014-10-04 02:41:19', 1, 1, ''),
-(13, 22, 4, '2014-10-13 05:41:01', 1, NULL, ''),
-(15, 23, 4, '2014-10-13 05:46:34', 1, NULL, '');
+(12, 34, 1, '2014-10-04 02:41:19', 1, 1, '');
 
 -- --------------------------------------------------------
 
@@ -225,8 +226,7 @@ CREATE TABLE IF NOT EXISTS `members_progress_details` (
 
 INSERT INTO `members_progress_details` (`progress_id`, `task_id`) VALUES
 (12, 3),
-(11, 4),
-(13, 5);
+(11, 4);
 
 -- --------------------------------------------------------
 
@@ -251,7 +251,7 @@ CREATE TABLE IF NOT EXISTS `members_skills` (
 --
 
 INSERT INTO `members_skills` (`member_id`, `sport_id`, `entry_date`, `skill_id`, `number_lessons`) VALUES
-(1, 2, '2014-10-07 13:24:43', 4, 5),
+(1, 2, '2014-10-29 01:25:40', 4, 5),
 (3, 2, '2014-10-04 02:27:53', 4, 6),
 (4, 2, '2014-09-14 07:56:34', 4, 5),
 (5, 2, '2014-09-14 07:56:34', 4, 5),
@@ -362,8 +362,7 @@ INSERT INTO `members_skills` (`member_id`, `sport_id`, `entry_date`, `skill_id`,
 (210, 2, '2014-09-14 08:02:10', 7, 5),
 (215, 1, '2014-10-03 23:53:27', 1, 6),
 (219, 2, '2014-10-03 12:34:17', 9, 0),
-(222, 2, '2014-10-11 08:18:38', 8, 12),
-(223, 1, '2014-10-13 06:27:04', 1, 4);
+(222, 2, '2014-10-11 08:18:38', 8, 12);
 
 -- --------------------------------------------------------
 
@@ -442,7 +441,7 @@ CREATE TABLE IF NOT EXISTS `registrations_details` (
   `medical_notes` text NOT NULL,
   PRIMARY KEY (`member_id`),
   KEY `registration_id` (`registration_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=224 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=223 ;
 
 --
 -- Dumping data for table `registrations_details`
@@ -565,8 +564,7 @@ INSERT INTO `registrations_details` (`member_id`, `registration_id`, `member_fna
 (219, 10, '123', '', '123', '2014-10-02', ''),
 (220, 10, '1q2w3e', '', '1q2w3e', '2014-10-01', ''),
 (221, 9, '1q2w2we', '', '1q1q2w1', '2014-10-17', ''),
-(222, 2, 'Vyk', '', 'Mac', '2014-10-01', ''),
-(223, 103, 'Loch', '', 'Stetson', '0000-00-00', '');
+(222, 2, 'Vyk', '', 'Mac', '2014-10-01', '');
 
 -- --------------------------------------------------------
 
@@ -595,7 +593,7 @@ CREATE TABLE IF NOT EXISTS `registrations_master` (
 --
 
 INSERT INTO `registrations_master` (`registration_id`, `parent_fname`, `parent_mname`, `parent_lname`, `address1`, `address2`, `suburb`, `post_code`, `email`, `home_number`, `mobile_number`, `office_number`) VALUES
-(1, 'Name', '', 'Surname', 'ADD 1', 'ADD 1', 'SANCTUARY LAKES', 3300, '', 0, 0, 0),
+(1, 'Name', '', 'Surname', 'ADD 1', 'ADD 1', 'SANCTUARY LAKES', 3301, '', 0, 123456789, 0),
 (2, 'Give', 'it normal', 'name', 'ADD 2', 'ADD 2', 'SANCTUARY LAKES', 3390, '', 0, 0, 0),
 (3, 'Do', 'you', 'Understand', 'ADD 3', 'ADD 3', 'SANCTUARY LAKES', 3300, '', 0, 0, 0),
 (4, 'Bamby', '', 'Rorson', 'ADD 4', 'ADD 4', 'SANCTUARY LAKES', 3300, '', 0, 0, 0),
@@ -796,7 +794,7 @@ CREATE TABLE IF NOT EXISTS `skills_details` (
   `task_description` varchar(100) NOT NULL,
   PRIMARY KEY (`task_id`),
   UNIQUE KEY `skill_id` (`skill_id`,`task`,`task_description`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
 
 --
 -- Dumping data for table `skills_details`
@@ -831,7 +829,7 @@ CREATE TABLE IF NOT EXISTS `skills_master` (
   `skill_band_description` varchar(50) NOT NULL,
   PRIMARY KEY (`skill_id`),
   UNIQUE KEY `sport_id` (`sport_id`,`skill_band`,`skill_band_description`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 --
 -- Dumping data for table `skills_master`
@@ -902,7 +900,6 @@ INSERT INTO `staff` (`staff_id`, `staff_fname`, `staff_mname`, `staff_lname`, `h
 (5, 'CAITLYN', '', 'CAITLYN', '', '', '', '', '', 1),
 (6, 'EMILY', NULL, 'EMILY', NULL, NULL, NULL, NULL, NULL, 1),
 (7, 'LEISA', '', 'LEISA', '', '', '', '', '', 0),
-(14, '1q2w3e', '', '1q2w3e', '', '', '', '', '', 1),
 (15, 'Test', '', 'Test', '', '', '', '', '', 1);
 
 -- --------------------------------------------------------
@@ -917,19 +914,15 @@ CREATE TABLE IF NOT EXISTS `terms` (
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
   PRIMARY KEY (`term_id`),
-  UNIQUE KEY `term_description` (`term_description`),
   UNIQUE KEY `start_date` (`start_date`,`end_date`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `terms`
 --
 
 INSERT INTO `terms` (`term_id`, `term_description`, `start_date`, `end_date`) VALUES
-(1, 'Term 4', '2014-10-06', '2014-12-13'),
-(2, 'Term 2', '2013-01-01', '2013-04-30'),
-(3, 'test', '2014-08-01', '2014-09-25'),
-(4, 'term oct', '2014-10-01', '2014-12-31');
+(1, 'Term 4', '2014-10-06', '2014-12-13');
 
 -- --------------------------------------------------------
 
@@ -961,7 +954,7 @@ INSERT INTO `users` (`staff_id`, `username`, `type`, `password`, `question`, `an
 (5, 'caitlyn', 'staff', '', NULL, NULL),
 (6, 'emily', 'staff', '', NULL, NULL),
 (7, 'leisa', 'staff', '', NULL, NULL),
-(15, 'tester', 'administrator', 'LpQJiajVkkXduHeof0yFlZa0ZHN7Oly0oAct4FIhTWFVCIMB5OJHQ8iavGFKLgOdvMCocXyn0LaDAGG3nxYEqg==', NULL, NULL);
+(15, 'tester', 'staff', '9gAUGtyX93gCrs2qvHQBtLAs3R3ZQUh3SPqia+l+AYGxXiPYxq6VOCbgqi/ZvN+O8umRCWJ30MZdjkmFJAveJA==', NULL, NULL);
 
 --
 -- Constraints for dumped tables
@@ -999,8 +992,8 @@ ALTER TABLE `medical_conditions_details`
 -- Constraints for table `members_progress`
 --
 ALTER TABLE `members_progress`
-  ADD CONSTRAINT `members_progress_ibfk_3` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`staff_id`) ON DELETE SET NULL ON UPDATE SET NULL,
   ADD CONSTRAINT `members_progress_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `registrations_details` (`member_id`),
+  ADD CONSTRAINT `members_progress_ibfk_3` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`staff_id`),
   ADD CONSTRAINT `members_progress_ibfk_4` FOREIGN KEY (`schedule_id`) REFERENCES `schedule_details` (`schedule_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
@@ -1070,3 +1063,6 @@ ALTER TABLE `users`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+CREATE USER 'slakes'@'localhost' IDENTIFIED BY 'FdncY5zyTBEryDnH';GRANT USAGE ON *.* TO 'slakes'@'localhost' IDENTIFIED BY 'FdncY5zyTBEryDnH' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;
+GRANT ALL PRIVILEGES ON `sanctuarylakes`.* TO 'slakes'@'localhost'WITH GRANT OPTION;

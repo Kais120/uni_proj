@@ -8,7 +8,7 @@ function yearSelection() {
 		$.ajax({
 			type : "POST",
 			cache : false,
-			url : js_base_url("site/get_terms_details"),					
+			url : js_base_url("get_terms_details"),					
 			data: {'year' : $(this).val()},	
 			dataType : 'json',
 			success : function (data) {	
@@ -36,6 +36,10 @@ function clickTerm(){
 
 function clickButton(){
 	$("button#save_term").click(function(){
+		if ($("input#description").val().trim()=='' || $("input#start_date").val().trim()=='' || $("input#end_date").val().trim()==''){
+			alert('Please fill the fields');
+			return;
+		}
 		if (status == 1)
 			updateTerm();
 		if (status == 2){
@@ -62,23 +66,26 @@ function cleanFields(){
 
 function addTerm(){
 	$.ajax({
-		url : js_base_url("site/addTerm"),
+		url : js_base_url("addTerm"),
 		type : "POST",			
 		data : {
 			'description' : $("input#description").val(),
 			'start_date' : $("input#start_date").val(),
 			'end_date' : $("input#end_date").val()
 		},		
-		success : function (data) {			
-			alert("New term added");
-			location.reload();
+		success : function (data) {	
+			if (data=='success'){
+				alert("New term added");
+				location.reload();
+			}else
+				alert("Start date must be greater than End date");
 		}
 	});
 }
 
 function updateTerm(){	
 	$.ajax({
-		url : js_base_url("site/updateTerm"),
+		url : js_base_url("updateTerm"),
 		type : "POST",			
 		data : {
 			'key' : $("#term_list tbody tr.active td.term_id").html(),
@@ -86,9 +93,12 @@ function updateTerm(){
 			'start_date' : $("input#start_date").val(),
 			'end_date' : $("input#end_date").val()
 		},		
-		success : function (data) {			
-			alert("Term updated");
-			location.reload();
+		success : function (data) {					
+			if (data=='success'){
+				alert("Term updated");
+				location.reload();
+			}else
+				alert("Start date must be greater than End date");			
 		}
 	});
 }

@@ -1,9 +1,11 @@
 var arrayPayments = {};
-var status=0;
+var status = 0;
 
 function yearClick() {
 	$("select.year").change(function () {
-		$('input#critical').prop('checked',false);
+		$('div#edit').addClass('hidden');
+		$('div#transactions').addClass('hidden');
+		$('input#critical').prop('checked', false);
 		var year = $(this).val();
 		if (year !== 'empty')
 			$("input#search_parent").prop('disabled', false);
@@ -27,7 +29,7 @@ function yearClick() {
 			$.ajax({
 				type : "POST",
 				cache : false,
-				url : js_base_url("site/get_terms"),
+				url : js_base_url("get_terms"),
 				data : {
 					'year' : year
 				},
@@ -45,7 +47,9 @@ function yearClick() {
 
 function termClick() {
 	$("select.term").change(function () {
-		$('input#critical').prop('checked',false);
+		$('input#critical').prop('checked', false);
+		$('div#edit').addClass('hidden');
+		$('div#transactions').addClass('hidden');
 		if ($("select.term option:selected").val() !== '') {
 			$("input#search_parent").prop('disabled', false);
 			$("#payment_list tbody tr").not('.theader').remove();
@@ -58,7 +62,7 @@ function getPayments(term, year) {
 	$.ajax({
 		type : "POST",
 		cache : false,
-		url : js_base_url("site/getPayments"),
+		url : js_base_url("getPayments"),
 		data : {
 			'term' : term,
 			'year' : year
@@ -75,7 +79,7 @@ function getPayments(term, year) {
 function paymentClick() {
 	$("table#payment_list tbody").delegate("tr", "click", function () {
 		$(this).addClass("active").siblings().removeClass('active');
-		$("div.edit").removeClass("hidden");
+		$("div#edit").removeClass("hidden");
 		getPaymentDetails($(this).children("td.payment_id").html());
 		getTransactions($(this).children("td.payment_id").html());
 		$('div#transactions').removeClass('hidden');
@@ -87,7 +91,7 @@ function getPaymentDetails(paymentId) {
 	$.ajax({
 		type : "POST",
 		cache : false,
-		url : js_base_url("site/get_payment_details"),
+		url : js_base_url("get_payment_details"),
 		data : {
 			'payment_id' : paymentId
 		},
@@ -100,7 +104,7 @@ function getPaymentDetails(paymentId) {
 }
 
 function getTransactions(paymentId) {
-	$.post(js_base_url("site/get_transactions"), {
+	$.post(js_base_url("get_transactions"), {
 		'payment_id' : paymentId
 	},
 		function (data) {
@@ -111,18 +115,22 @@ function getTransactions(paymentId) {
 
 function clickSave() {
 	$("button#save_payment").click(function () {
+		if ($("input#num_lessons").val().trim() == '' || $("input#total").val().trim() == '') {
+			alert("Please fill the fields");
+			return;
+		}
 		$.ajax({
 			type : "POST",
 			cache : false,
-			url : js_base_url("site/save_payment"),
+			url : js_base_url("save_payment"),
 			data : {
 				'payment_id' : $("table#payment_list tbody tr.active td.payment_id").html(),
-				'num_lessons' : $('input#num_lessons').val(),
-				'total' : $('input#total').val()
+				'num_lessons' : $('input#num_lessons').val().trim(),
+				'total' : $('input#total').val().trim()
 			},
 			success : function () {
 				alert('saved');
-				$("div.edit").addClass("hidden");
+				$("div#edit").addClass("hidden");
 				$('button#save_payment').addClass('disabled');
 			}
 		});
@@ -134,36 +142,35 @@ function formChange() {
 	$("ul.payment_details li input").bind('keyup change', function () {
 		$("button#save_payment").removeClass('disabled');
 	});
-	
-	$("input#amount, select#type").bind('keyup change', function(){
+
+	$("input#amount, select#type").bind('keyup change', function () {
 		$("button#save_transaction").removeClass('disabled');
 	});
 }
 
-function filterCriticalPayments(){
-	$('input#critical').click(function(){		
-		if($(this).prop('checked')){			
+function filterCriticalPayments() {
+	$('input#critical').click(function () {
+		if ($(this).prop('checked')) {
 			$('table#payment_list tbody tr').not('.critical').addClass('hidden');
-		}
-		else{
+		} else {
 			$('table#payment_list tbody tr').not('.critical').removeClass('hidden');
 		}
 	});
 }
 
-function transactionClick(){
-	$('table#transaction_list tbody').delegate('tr','click',function(){
+function transactionClick() {
+	$('table#transaction_list tbody').delegate('tr', 'click', function () {
 		$(this).addClass("active").siblings().removeClass('active');
 		$('input#amount').val($(this).children('td.amount').html());
-		$('select#type').val($(this).children('td.payment_type').html());		
+		$('select#type').val($(this).children('td.payment_type').html());
 		$('div#trans_details').removeClass('hidden');
 		$('button#save_transaction').addClass('disabled');
-		status=0;
+		status = 0;
 	});
 }
 
-function onClickNewTransaction(){
-	$('button#new_transaction').click(function(){
+function onClickNewTransaction() {
+	$('button#new_transaction').click(function () {
 		$('table#transaction_list tbody tr').removeClass('active');
 		$('input#amount').val('');
 		$('select#type').val('cash');
@@ -172,43 +179,44 @@ function onClickNewTransaction(){
 	});
 }
 
-function onClickSaveTransaction(){
-	$('button#save_transaction').click(function(){
+function onClickSaveTransaction() {
+	$('button#save_transaction').click(function () {
+		if ($("input#amount").val().trim() == '') {
+			alert("Please specify the amount");
+			return;
+		}
+
 		$('div#trans_details').addClass('hidden');
 		$('div#transactions').addClass('hidden');
-		if (status==0)
+		if (status == 0)
 			saveTransaction();
-		if (status==1)
+		if (status == 1)
 			addTransaction();
-			
+
 	});
 }
 
-function addTransaction(){
-	$.post(js_base_url('site/add_transaction'),
-		{
-			'payment_id' : $("table#payment_list tbody tr.active td.payment_id").html(),
-			'amount' : $('input#amount').val(),
-			'type' : $('select#type').val()
-		},function(){
-			$('button#save_transaction').addClass('disabled');
-			getPayments($("select.term").val(), $("select.year").val());						
-		}
-	);
+function addTransaction() {
+	$.post(js_base_url('add_transaction'), {
+		'payment_id' : $("table#payment_list tbody tr.active td.payment_id").html(),
+		'amount' : $('input#amount').val().trim(),
+		'type' : $('select#type').val().trim()
+	}, function () {
+		$('button#save_transaction').addClass('disabled');
+		getPayments($("select.term").val(), $("select.year").val());
+	});
 };
 
-function saveTransaction(){
-	$.post(js_base_url('site/save_transaction'),
-		{
-			'transaction_id' : $("table#transaction_list tbody tr.active td.transaction_id").html(),
-			'amount' : $('input#amount').val(),
-			'type' : $('select#type').val()
-		},function(){
-			$('button#save_transaction').addClass('disabled');
-			getPayments($("select.term").val(), $("select.year").val());	
-					
-		}
-	);
+function saveTransaction() {
+	$.post(js_base_url('save_transaction'), {
+		'transaction_id' : $("table#transaction_list tbody tr.active td.transaction_id").html(),
+		'amount' : $('input#amount').val().trim(),
+		'type' : $('select#type').val().trim()
+	}, function () {
+		$('button#save_transaction').addClass('disabled');
+		getPayments($("select.term").val(), $("select.year").val());
+
+	});
 }
 
 function searchParent() {
@@ -227,7 +235,7 @@ function searchParent() {
 				$('table#payment_list tbody tr.critical').each(function () {
 					if ($(this).html().indexOf(input) > -1)
 						$(this).removeClass('hidden');
-				})
+				});
 			else
 				$('table#payment_list tbody tr').each(function () {
 					if ($(this).html().indexOf(input) > -1)
@@ -237,9 +245,8 @@ function searchParent() {
 	});
 }
 
-
 var main = function () {
-	$("input#search_parent").prop('disabled', true);	
+	$("input#search_parent").prop('disabled', true);
 	paymentClick();
 	yearClick();
 	termClick();

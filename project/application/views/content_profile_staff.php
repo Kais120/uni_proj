@@ -2,7 +2,7 @@
 <div id="content">
 	<div class="row">
 		<div class="container col-lg-4 col-lg-offset-1">		
-			<form action="<?php echo base_url() ?>site/save_profile" method="POST" id="staff_action">
+			<form action="<?php echo base_url() ?>site_staff/save_profile" method="POST" id="staff_action">
 				<ul id="staff_details">
 					<li><label for="fname">First name</label><input type="text" class="form-control" name="fname" value="<?php echo $details->staff_fname ?>" required /></li>
 					<li><label for="mname">Middle name</label><input type="text" class="form-control" name="mname" value="<?php echo $details->staff_mname ?>" /></li>

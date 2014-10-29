@@ -4,24 +4,25 @@ class Site extends CI_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->load->model('model_user','',TRUE);
-		/*if(!$this->session->userdata('logged_in'))
+		if(!$this->session->userdata('logged_in'))
 			redirect('login', 'refresh');
 		if($this->get_account_type()=='staff')
-			redirect('site_staff', 'refresh');*/
+			redirect('site_staff', 'refresh');
 	}
 
 	public function index(){			
 		$this->schedule();	
 	}
 	
-	public function members(){			
-		$this->load->view("site_header");
+	public function members(){	
+		$data['title']='Registrations';
+		$this->load->view("site_header",$data);
 		$this->load->view("site_nav");				
 		$this->load->view("content_members");
 		$this->load->view("site_footer");	
 	}
 	
-	public function getMemberInfo(){		
+	public function get_member_info(){		
 		$this->load->model("model_member");		
 		echo $this->model_member->dbPull();
 	}
@@ -41,71 +42,74 @@ class Site extends CI_Controller {
 	public function updateParentInfo(){
 		$key = $this->input->post('key');
 		$array = array(	
-			"parent_fname" => $this->input->post('firstName'),
-			"parent_mname" => $this->input->post('middleName'),
-			"parent_lname" => $this->input->post('lastName'),
-			"address1" => $this->input->post('addrLine1'),
-			"address2" => $this->input->post('addrLine2'),
-			"suburb" => $this->input->post('suburb'),
-			"post_code" => $this->input->post('postcode'),
-			"email" => $this->input->post('email'),
-			"home_number" => $this->input->post('homeNumber'),
-			"mobile_number" => $this->input->post('mobileNumber'),
-			"office_number" => $this->input->post('officeNumber'),			
+			"parent_fname" => htmlentities($this->input->post('firstName')),
+			"parent_mname" => htmlentities($this->input->post('middleName')),
+			"parent_lname" => htmlentities($this->input->post('lastName')),
+			"address1" => htmlentities($this->input->post('addrLine1')),
+			"address2" => htmlentities($this->input->post('addrLine2')),
+			"suburb" => htmlentities($this->input->post('suburb')),
+			"post_code" => htmlentities($this->input->post('postcode')),
+			"email" => htmlentities($this->input->post('email')),
+			"home_number" => htmlentities($this->input->post('homeNumber')),
+			"mobile_number" => htmlentities($this->input->post('mobileNumber')),
+			"office_number" => htmlentities($this->input->post('officeNumber')),			
 		);
 		$this->load->model("model_member");	
 		echo $this->model_member->dbUpdateParent($key, $array);		
 	}
 	
 	public function updateChildInfo(){
-		$key = $this->input->post('key');
+		$key = htmlentities($this->input->post('key'));
 		$array = array(	
-			'member_fname' => $this->input->post('childFirstName'),
-			'member_mname' => $this->input->post('childMiddleName'),
-			'member_lname' => $this->input->post('childLastName'),
-			'member_dob' => $this->input->post('childDOB'),			
-			'medical_notes' => $this->input->post('notes')
+			'member_fname' => htmlentities($this->input->post('childFirstName')),
+			'member_mname' =>  htmlentities($this->input->post('childMiddleName')),
+			'member_lname' =>  htmlentities($this->input->post('childLastName')),
+			'member_dob' =>  htmlentities($this->input->post('childDOB')),			
+			'medical_notes' =>  htmlentities($this->input->post('notes'))
 		);
 		$medical = $this->input->post('medical');
 		$skill =  array(
-			'1' => array('member_id' => $key, 'skill_id' =>  $this->input->post('tennis_skill'), 'number_lessons'=>$this->input->post('tennis_number')),
-			'2' => array('member_id' => $key, 'skill_id' =>  $this->input->post('swimming_skill'), 'number_lessons'=>$this->input->post('swimming_number'))
+			'1' => array('member_id' => $key, 'skill_id' =>   htmlentities($this->input->post('tennis_skill')), 'number_lessons'=> htmlentities($this->input->post('tennis_number'))),
+			'2' => array('member_id' => $key, 'skill_id' =>   htmlentities($this->input->post('swimming_skill')), 'number_lessons'=> htmlentities($this->input->post('swimming_number')))
 		);
 		$this->load->model("model_member");	
 		echo $this->model_member->dbUpdateChild($key, $array, $medical, $skill);		
 	}
 	
-	public function addChild(){		
+	public function add_child(){	
+		$skill =  array();
 		$array = array(
-			'registration_id' => $this->input->post('parentKey'),
-			'member_fname' => $this->input->post('childFirstName'),
-			'member_mname' => $this->input->post('childMiddleName'),
-			'member_lname' => $this->input->post('childLastName'),
-			'member_dob' => $this->input->post('childDOB'),
-			'medical_notes' => $this->input->post('notes')
+			'registration_id' => htmlentities($this->input->post('parentKey')),
+			'member_fname' => htmlentities($this->input->post('childFirstName')),
+			'member_mname' => htmlentities($this->input->post('childMiddleName')),
+			'member_lname' => htmlentities($this->input->post('childLastName')),
+			'member_dob' => htmlentities($this->input->post('childDOB')),
+			'medical_notes' => htmlentities($this->input->post('notes'))
 		);
-		$skill =  array(
-			1 => array('member_id' => 0, 'skill_id' =>  $this->input->post('tennis_skill'), 'number_lessons'=>$this->input->post('tennis_number')),
-			2 => array('member_id' => 0, 'skill_id' =>  $this->input->post('swimming_skill'), 'number_lessons'=>$this->input->post('swimming_number'))
-		);
+		
+		if ($this->input->post('tennis_skill')!='')
+			$skill[1] = array('member_id' => 0, 'skill_id' =>  $this->input->post('tennis_skill'), 'number_lessons'=>$this->input->post('tennis_number'));
+		if ($this->input->post('swimming_skill')!='')
+			$skill[2] = array('member_id' => 0, 'skill_id' =>  $this->input->post('swimming_skill'), 'number_lessons'=>$this->input->post('swimming_number'));
+		
 		$medical = $this->input->post('medical');
 		$this->load->model("model_member");
-		$this->model_member->dbAddChild($array, $medical, $skill);
+		$this->model_member->db_add_child($array, $medical, $skill);
 	}
 	
 	public function addParent(){
 		$array = array(	
-			"parent_fname" => $this->input->post('firstName'),
-			"parent_mname" => $this->input->post('middleName'),
-			"parent_lname" => $this->input->post('lastName'),
-			"address1" => $this->input->post('addrLine1'),
-			"address2" => $this->input->post('addrLine2'),
-			"suburb" => $this->input->post('suburb'),
-			"post_code" => $this->input->post('postcode'),
-			"email" => $this->input->post('email'),
-			"home_number" => $this->input->post('homeNumber'),
-			"mobile_number" => $this->input->post('mobileNumber'),
-			"office_number" => $this->input->post('officeNumber'),			
+			"parent_fname" => htmlentities($this->input->post('firstName')),
+			"parent_mname" => htmlentities($this->input->post('middleName')),
+			"parent_lname" => htmlentities($this->input->post('lastName')),
+			"address1" => htmlentities($this->input->post('addrLine1')),
+			"address2" => htmlentities($this->input->post('addrLine2')),
+			"suburb" => htmlentities($this->input->post('suburb')),
+			"post_code" => htmlentities($this->input->post('postcode')),
+			"email" => htmlentities($this->input->post('email')),
+			"home_number" => htmlentities($this->input->post('homeNumber')),
+			"mobile_number" => htmlentities($this->input->post('mobileNumber')),
+			"office_number" => htmlentities($this->input->post('officeNumber')),			
 		);
 		$this->load->model("model_member");
 		$this->model_member->dbAddParent($array);
@@ -118,8 +122,9 @@ class Site extends CI_Controller {
 		echo $this->model_payment->db_get_parent_payments($term, $parent);		
 	}
 	
-	public function terms(){				
-		$this->load->view("site_header");
+	public function terms(){
+		$data['title']='Terms';
+		$this->load->view("site_header",$data);		
 		$this->load->view("site_nav");
 		$this->load->model("model_term");
 		$data["year"]=$this->model_term->dbPull();		
@@ -141,27 +146,28 @@ class Site extends CI_Controller {
 	
 	public function addTerm(){
 		$array = array(			
-			'term_description' => $this->input->post('description'),
+			'term_description' => htmlentities($this->input->post('description')),
 			'start_date' => $this->input->post('start_date'),
 			'end_date' => $this->input->post('end_date')			
 		);
 		$this->load->model("model_term");
-		$this->model_term->dbAddTerm($array);
+		echo $this->model_term->db_add_term($array);
 	}
 	
 	public function updateTerm(){
 		$key = $this->input->post('key');
 		$array = array(			
-			'term_description' => $this->input->post('description'),
+			'term_description' => htmlentities($this->input->post('description')),
 			'start_date' => $this->input->post('start_date'),
 			'end_date' => $this->input->post('end_date')			
 		);
 		$this->load->model("model_term");
-		$this->model_term->dbUpdateTerm($array,$key);
+		echo $this->model_term->db_update_term($array,$key);
 	}
 	
 	public function payments(){
-		$this->load->view("site_header");
+		$data['title']='Payments';
+		$this->load->view("site_header",$data);
 		$this->load->view("site_nav");	
 		$this->load->model("model_term");
 		$data["year"]=$this->model_term->dbPull();		
@@ -201,7 +207,7 @@ class Site extends CI_Controller {
 		$array = array(
 			'payment_id' => $this->input->post('payment_id'),
 			'payment_date' => date('Y-m-d'),
-			'payment_type' => $this->input->post('type'),
+			'payment_type' => htmlentities($this->input->post('type')),
 			'amount_paid' => $this->input->post('amount')
 		);
 		$this->load->model("model_payment");
@@ -211,7 +217,7 @@ class Site extends CI_Controller {
 	function save_transaction(){
 		$transactionId = $this->input->post('transaction_id');
 		$array = array(
-			'payment_type' => $this->input->post('type'),
+			'payment_type' => htmlentities($this->input->post('type')),
 			'amount_paid' => $this->input->post('amount')
 		);
 		$this->load->model("model_payment");
@@ -220,7 +226,8 @@ class Site extends CI_Controller {
 	
 		
 	public function sports(){				
-		$this->load->view("site_header");
+		$data['title']='Skills';
+		$this->load->view("site_header",$data);
 		$this->load->view("site_nav");		
 		$this->load->view("content_sports");
 		$this->load->view("site_footer");
@@ -241,8 +248,8 @@ class Site extends CI_Controller {
 	public function updateSkill(){
 		$key = $this->input->post('key');
 		$array = array(		
-			'skill_band' => $this->input->post('skill_band'),
-			'skill_band_description' => $this->input->post('skill_description')
+			'skill_band' => htmlentities($this->input->post('skill_band')),
+			'skill_band_description' => htmlentities($this->input->post('skill_description'))
 		);
 		$this->load->model("model_sport");
 		echo $this->model_sport->dbUpdateSkill($key, $array);
@@ -251,8 +258,8 @@ class Site extends CI_Controller {
 	public function updateTask(){
 		$key = $this->input->post('key');
 		$array = array(		
-			'task' => $this->input->post('task_name'),
-			'task_description' => $this->input->post('task_description')
+			'task' => htmlentities($this->input->post('task_name')),
+			'task_description' => htmlentities($this->input->post('task_description'))
 		);
 		$this->load->model("model_sport");
 		echo $this->model_sport->dbUpdateTask($key, $array);
@@ -261,8 +268,8 @@ class Site extends CI_Controller {
 	public function addSkill(){
 		$array = array(	
 			'sport_id' => $this->input->post('sport'), 
-			'skill_band' => $this->input->post('skill_band'),
-			'skill_band_description' => $this->input->post('skill_description')
+			'skill_band' => htmlentities($this->input->post('skill_band')),
+			'skill_band_description' => htmlentities($this->input->post('skill_description'))
 		);
 		$this->load->model("model_sport");
 		$this->model_sport->dbAddSkill($array);
@@ -271,15 +278,16 @@ class Site extends CI_Controller {
 	public function addTask(){
 		$array = array(		
 			'skill_id' => $this->input->post('skill_id'), 
-			'task' => $this->input->post('task'),
-			'task_description' => $this->input->post('task_description')
+			'task' => htmlentities($this->input->post('task')),
+			'task_description' => htmlentities($this->input->post('task_description'))
 		);
 		$this->load->model("model_sport");
 		$this->model_sport->dbAddTask($array);
 	}
 	
 	public function staff(){				
-		$this->load->view("site_header");
+		$data['title']='Staff';
+		$this->load->view("site_header",$data);
 		$this->load->view("site_nav");
 		$this->load->model("model_staff");
 		$data['staff'] = $this->model_staff->dbPullData();
@@ -300,14 +308,14 @@ class Site extends CI_Controller {
 			
 		$staffId = $this->input->post('staff_id');
 		$staff = array(			
-			'staff_fname' => $this->input->post('fname'),
-			'staff_mname' => $this->input->post('mname'),
-			'staff_lname' => $this->input->post('lname'),
-			'home_number' => $this->input->post('hnumber'),
-			'mobile_number' => $this->input->post('mnumber'),
-			'emg_contact_name' => $this->input->post('emgname'),
-			'emg_contact_number' => $this->input->post('emgnumber'),
-			'staff_email' => $this->input->post('email'),
+			'staff_fname' => htmlentities($this->input->post('fname')),
+			'staff_mname' => htmlentities($this->input->post('mname')),
+			'staff_lname' => htmlentities($this->input->post('lname')),
+			'home_number' => htmlentities($this->input->post('hnumber')),
+			'mobile_number' => htmlentities($this->input->post('mnumber')),
+			'emg_contact_name' => htmlentities($this->input->post('emgname')),
+			'emg_contact_number' => htmlentities($this->input->post('emgnumber')),
+			'staff_email' => htmlentities($this->input->post('email')),
 			'active' => $active,			
 		);		
 		$this->load->library('encrypt');
@@ -327,22 +335,22 @@ class Site extends CI_Controller {
 			$active=$this->input->post('active');	
 			
 		$staff = array(			
-			'staff_fname' => $this->input->post('fname'),
-			'staff_mname' => $this->input->post('mname'),
-			'staff_lname' => $this->input->post('lname'),
-			'home_number' => $this->input->post('hnumber'),
-			'mobile_number' => $this->input->post('mnumber'),
-			'emg_contact_name' => $this->input->post('emgname'),
-			'emg_contact_number' => $this->input->post('emgnumber'),
-			'staff_email' => $this->input->post('email'),
+			'staff_fname' => htmlentities($this->input->post('fname')),
+			'staff_mname' => htmlentities($this->input->post('mname')),
+			'staff_lname' => htmlentities($this->input->post('lname')),
+			'home_number' => htmlentities($this->input->post('hnumber')),
+			'mobile_number' => htmlentities($this->input->post('mnumber')),
+			'emg_contact_name' => htmlentities($this->input->post('emgname')),
+			'emg_contact_number' => htmlentities($this->input->post('emgnumber')),
+			'staff_email' => htmlentities($this->input->post('email')),
 			'active' => $active,	
 		);		
 		
 		$this->load->library('encrypt');
 		$user = array(
 			'staff_id'=>'',
-			'username' => $this->input->post('username'),
-			'type' => $this->input->post('type'),
+			'username' => htmlentities($this->input->post('username')),
+			'type' => htmlentities($this->input->post('type')),
 			'password' => $this->encrypt->encode($this->input->post('password'))			
 		);						
 		$this->load->model("model_staff");
@@ -351,13 +359,14 @@ class Site extends CI_Controller {
 	}
 	
 	public function checkUsername(){
-		$username = $this->input->post('username');
+		$username = htmlentities($this->input->post('username'));
 		$this->load->model("model_staff");
 		echo $this->model_staff->dbCheckUsername($username);		
 	}
 	
 	public function lessons(){				
-		$this->load->view("site_header");
+		$data['title']='Lessons';
+		$this->load->view("site_header",$data);
 		$this->load->view("site_nav");
 		$this->load->model("model_sport");
 		$data['sport'] = $this->model_sport->dbPullSports();
@@ -385,7 +394,7 @@ class Site extends CI_Controller {
 		$sport = $this->input->post('sport_type');
 		$array = array(
 			'sport_id' => '',
-			'lesson_description' => $this->input->post('lesson_name'),
+			'lesson_description' => htmlentities($this->input->post('lesson_name')),
 			'cost' => $this->input->post('lesson_cost')
 		);
 		$this->load->model("model_sport");
@@ -394,13 +403,18 @@ class Site extends CI_Controller {
 	}
 	
 	public function groups(){
-		$data['groupId'] = $this->input->get('group_id');
-		$this->load->model("model_group");
-		$data['groupName'] = $this->model_group->db_get_group_name($data['groupId']);
-		$data['groupSkill'] = $this->model_group->db_get_group_skill($data['groupId']);		
-		$data['groupSport'] = $this->model_group->db_get_group_sport($data['groupId']);
-		$data['groupTerm'] = $this->model_group->db_get_group_term($data['groupId']);
-		$this->load->view("site_header");
+		$data['group_id']=$this->input->get('group_id');
+		if(null != $this->input->get('group_id')){	
+			$groupId = $this->input->get('group_id');
+			$this->load->model("model_group");
+			$data['groupYear'] = $this->model_group->db_get_select_group_year($groupId);
+			$data['groupName'] = $this->model_group->db_get_group_name($groupId);
+			$data['groupSkill'] = $this->model_group->db_get_select_group_skill($groupId);		
+			$data['groupSport'] = $this->model_group->db_get_group_sport($groupId);
+			$data['groupTerm'] = $this->model_group->db_get_select_group_term($groupId);
+		}		
+		$data['title']='Groups';
+		$this->load->view("site_header",$data);
 		$this->load->view("site_nav");				
 		$this->load->view("content_groups", $data);
 		$this->load->view("site_footer");
@@ -451,11 +465,12 @@ class Site extends CI_Controller {
 		echo $this->model_group->dbGroupTimes($group);
 	}
 	
-	function getChildrenList(){
+	function get_children_list(){
 		$group = $this->input->post('group');
 		$skill = $this->input->post('skill');
+		$term = $this->input->post('term');
 		$this->load->model("model_group");
-		echo $this->model_group->dbGetChildrenList($group, $skill);
+		echo $this->model_group->db_get_children_list($group, $skill, $term);
 	}
 	
 	function getTrainingDays(){
@@ -491,7 +506,7 @@ class Site extends CI_Controller {
 		$this->model_group->dbRemoveMemberGroup($memberId, $groupId);
 	}
 	
-	function updateMemberProgress(){
+	function update_member_progress(){
 		$memberId = $this->input->post('member_id');
 		$schedId = $this->input->post('day');
 		$tasks = $this->input->post('tasks');
@@ -499,7 +514,7 @@ class Site extends CI_Controller {
 		$notes = $this->input->post('notes');
 		$staffId = $this->session->userdata('logged_in')['id'];
 		$this->load->model("model_group");
-		$this->model_group->dbUpdateMemberProgress($memberId, $schedId, $tasks, $attend, $staffId, $notes);
+		$this->model_group->db_update_member_progress($memberId, $schedId, $tasks, $attend, $staffId, $notes);
 	}
 	
 	function getStaffOptions(){		
@@ -507,28 +522,28 @@ class Site extends CI_Controller {
 		echo $this->model_staff->dbGetStaffOptions($this->input->post('group'));
 	}	
 	
-	function updateGroup(){
+	function update_group(){
 		$groupId = $this->input->post('group');
 		$group = array(			
-			'group_name' => $this->input->post('name'),
-			'lesson_id' => $this->input->post('type'),
-			'skill_id' => $this->input->post('skill'),
-			'max_number' => $this->input->post('num'),
-			'term_id' => $this->input->post('term')
+			'group_name' => htmlentities($this->input->post('name')),
+			'lesson_id' => htmlentities($this->input->post('type')),
+			'skill_id' => htmlentities($this->input->post('skill')),
+			'max_number' => htmlentities($this->input->post('num')),
+			'term_id' => htmlentities($this->input->post('term'))
 		);		
 		$sched = array(			
 			'staff_id' =>  $this->input->post('staff'),
-			'weekday' => $this->input->post('day'),
+			'weekday' => htmlentities($this->input->post('day')),
 			'start_time' => $this->input->post('sttime'),
 			'end_time' => $this->input->post('entime')
 		);
 		$this->load->model("model_group");
-		$this->model_group->dbUpdateGroup($groupId, $group, $sched);
+		echo $this->model_group->db_update_group($groupId, $group, $sched);
 	}
 	
-	function createGroup(){		
+	function create_group(){		
 		$group = array(			
-			'group_name' => $this->input->post('name'),
+			'group_name' => htmlentities($this->input->post('name')),
 			'lesson_id' => $this->input->post('type'),
 			'skill_id' => $this->input->post('skill'),
 			'max_number' => $this->input->post('num'),
@@ -544,7 +559,7 @@ class Site extends CI_Controller {
 			'end_time' => $this->input->post('entime')			
 		);
 		$this->load->model("model_group");
-		$this->model_group->dbCreateGroup($group, $sched);
+		echo $this->model_group->db_create_group($group, $sched);
 	}
 	
 	
@@ -570,7 +585,8 @@ class Site extends CI_Controller {
 	}
 
 	public function schedule(){	
-		$this->load->view("site_header");
+		$data['title']='Schedule';
+		$this->load->view("site_header",$data);
 		$this->load->view("site_nav");		
 		$this->load->view("content_schedule");
 		$this->load->view("site_footer");	
@@ -591,30 +607,41 @@ class Site extends CI_Controller {
 	}
 	
 	function profile(){
-		$this->load->view("site_header");
+		$data['title']='Profile';
+		$this->load->view("site_header",$data);
 		$this->load->view("site_nav");
 		$this->load->model("model_staff");
-		$data['details']=$this->model_staff->dbPullProfile($this->session->userdata('logged_in')['id']);
+		$data['details']=$this->model_staff->db_pull_profile($this->session->userdata('logged_in')['id']);
 		$this->load->view("content_profile", $data);
 		$this->load->view("site_footer");		
 	}
 	
-	function saveProfile(){
+	function save_profile(){
 		$staffId = $this->session->userdata('logged_in')['id'];
 		$staff = array(			
-			'staff_fname' => $this->input->post('fname'),
-			'staff_mname' => $this->input->post('mname'),
-			'staff_lname' => $this->input->post('lname'),
-			'home_number' => $this->input->post('hnumber'),
-			'mobile_number' => $this->input->post('mnumber'),
-			'emg_contact_name' => $this->input->post('emgname'),
-			'emg_contact_number' => $this->input->post('emgnumber'),
+			'staff_fname' => htmlentities($this->input->post('fname')),
+			'staff_mname' => htmlentities($this->input->post('mname')),
+			'staff_lname' => htmlentities($this->input->post('lname')),
+			'home_number' => htmlentities($this->input->post('hnumber')),
+			'mobile_number' => htmlentities($this->input->post('mnumber')),
+			'emg_contact_name' => htmlentities($this->input->post('emgname')),
+			'emg_contact_number' => htmlentities($this->input->post('emgnumber')),
 			'staff_email' => $this->input->post('email')			
-		);		
+		);
 		$this->load->library('encrypt');
-		$password = $this->encrypt->encode($this->input->post('password'));		
+		if (null!=$this->input->post('password'))
+			$user = array(
+				'password' => $this->encrypt->encode($this->input->post('password')),
+				'question' => $this->input->post('question'),
+				'answer' => $this->input->post('answer')			
+			);
+		else
+			$user = array(				
+				'question' => $this->input->post('question'),
+				'answer' => $this->input->post('answer')			
+			);
 		$this->load->model("model_staff");
-		$this->model_staff->dbSaveProfile($staffId, $staff, $password);
+		$this->model_staff->db_save_profile($staffId, $staff, $user);
 		header( 'Location: '.base_url().'site/profile');		
 	}
 	
@@ -623,7 +650,8 @@ class Site extends CI_Controller {
 	}
 	
 	public function assignments(){
-		$this->load->view("site_header");
+		$data['title']='Assignments';
+		$this->load->view("site_header",$data);
 		$this->load->view("site_nav");
 		$this->load->model("model_term");
 		$data["year"]=$this->model_term->dbPull();	
@@ -646,4 +674,35 @@ class Site extends CI_Controller {
 		$this->load->model("model_sport");
 		$this->model_sport->db_save_event($schedId, $array);		
 	}
+	
+	function delete_event(){
+		$schedId = $this->input->post('id');
+		$this->load->model("model_sport");
+		echo $this->model_sport->db_delete_event($schedId);
+	}
+	
+	function check_parent(){
+		$regId = $this->input->post('parent');
+		$this->load->model("model_member");
+		echo $this->model_member->db_check_parent($regId);
+	}
+	
+	function delete_parent(){
+		$regId = $this->input->post('parent');
+		$this->load->model("model_member");
+		$this->model_member->db_delete_parent($regId);
+	}
+	
+	function check_child(){
+		$memId = $this->input->post('child');
+		$this->load->model("model_member");
+		echo $this->model_member->db_check_child($memId);
+	}
+	
+	function delete_child(){
+		$memId = $this->input->post('child');
+		$this->load->model("model_member");
+		$this->model_member->db_delete_child($memId);
+	}
+
 }

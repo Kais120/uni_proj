@@ -26,6 +26,7 @@ table #term_list {
     cursor: pointer;
 }
 
+
 tr.active td{
 	color: #428bca;
 	font-weight: bold;

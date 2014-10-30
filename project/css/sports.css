@@ -52,8 +52,9 @@ table .skill_table {
     cursor: pointer;
 }
 
-.skill_table tr.active{
-	background-color: #ccc;
+tr.active td{
+	color: #428bca;
+	font-weight: bold;
 }
 
 ul.details{

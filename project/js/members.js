@@ -161,6 +161,7 @@ function onClickParent() {
 		retrieveData(parseInt($("tr.active td.ID").html()));
 		retrieve_children(parseInt($("tr.active td.ID").html()));
 		$("button#delete_parent").addClass("disabled");
+		$("button#delete_child").addClass("disabled");
 		checkParent($("table#parent_list tr.active td.ID").html());
 	});
 }
@@ -382,6 +383,7 @@ function onTabClick() {
 			$("button#delete_child").addClass("disabled");
 		} else if ($(this).is('.child-tab')) {
 			status = 3;
+			$("button#delete_child").addClass("disabled");
 			$(".child-content").addClass('current').siblings().removeClass('current');
 			$("#save_child_details").addClass("disabled");
 			$("select#progress_term").val('null');
@@ -532,7 +534,7 @@ function searchByName() {
 			$('table#parent_list tbody tr').removeClass('hidden');
 		} else {
 			$('table#parent_list tbody tr').each(function () {
-				if ($(this).children('.fname').html().indexOf(input) > -1 || $(this).children('.lname').html().indexOf(input) > -1)
+				if ($(this).children('.fname').html().toLowerCase().indexOf(input.toLowerCase()) > -1 || $(this).children('.lname').html().toLowerCase().indexOf(input.toLowerCase()) > -1)
 					$(this).removeClass('hidden');
 			});
 		}

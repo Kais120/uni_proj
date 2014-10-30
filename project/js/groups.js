@@ -8,6 +8,7 @@ function tabClick() {
 		$("label#skill").addClass('hidden');
 		$("label#group").addClass('hidden');
 		$('div#main_content').addClass('hidden');
+		$('select#term').val('null');
 		loadYears();
 	});
 }

@@ -704,5 +704,9 @@ class Site extends CI_Controller {
 		$this->load->model("model_member");
 		$this->model_member->db_delete_child($memId);
 	}
+	
+	function get_current_date(){
+		echo Date('Y-m-d');
+	}
 
 }

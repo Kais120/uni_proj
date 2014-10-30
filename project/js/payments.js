@@ -233,12 +233,12 @@ function searchParent() {
 		} else {
 			if ($('input#critical').prop('checked'))
 				$('table#payment_list tbody tr.critical').each(function () {
-					if ($(this).html().indexOf(input) > -1)
+					if ($(this).html().toLowerCase().indexOf(input.toLowerCase()) > -1)
 						$(this).removeClass('hidden');
 				});
 			else
 				$('table#payment_list tbody tr').each(function () {
-					if ($(this).html().indexOf(input) > -1)
+					if ($(this).html().toLowerCase().indexOf(input.toLowerCase()) > -1)
 						$(this).removeClass('hidden');
 				})
 		}

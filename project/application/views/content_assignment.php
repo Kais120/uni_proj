@@ -1,5 +1,5 @@
 	<link href="<?php echo base_url(); ?>/css/assignments.css" type="text/css" rel="stylesheet"/>
-	<div class="content">	
+	<div id="content">	
 		<div class="row">
 			<div class="container col-lg-3 col-lg-offset-1">
 				<ul class="assignment_menu">
@@ -23,6 +23,7 @@
 				</ul>				
 			</div>			
 		</div>
+		<hr class="divider"></hr>
 		<div class="row">
 			<div class="container col-lg-6 col-lg-offset-1">
 				<table class="table">

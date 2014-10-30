@@ -68,7 +68,7 @@
 					</select>
 				</li>
 			</ul>
-			<button class="btn btn-default hidden" id="add_group">Add group</button>
+			<button class="btn btn-primary hidden" id="add_group">Add group</button>
 		</div>	
 	</div>			
 	<div class="row hidden" id="main_content">
@@ -97,7 +97,7 @@
 					<select class="form-control" id="staff">						
 					</select>
 				</li>
-				<li><button class="btn btn-default disabled" id="save_changes">Save changes</button></li>				
+				<li><button class="btn btn-primary disabled" id="save_changes">Save changes</button></li>				
 			</ul>			
 		</div>		
 		<div class="container col-lg-3 col-lg-offset-1">
@@ -127,7 +127,7 @@
 				</tbody>
 			</table>
 			<label for="start_time">Notes</label><textarea type="text" class="form-control" name="notes" id="notes"></textarea>
-			<button class="btn btn-default disabled" id="save_progress">Save</button>
+			<button class="btn btn-primary disabled" id="save_progress">Save</button>
 		</div>
 	</div>		
 </div>

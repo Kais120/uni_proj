@@ -44,7 +44,7 @@
 							<th>Sport</th>
 							<th>Level</th>
 							<th>Group</th>
-							<th>Paid/Due</th>							
+							<th>Paid/Due, $</th>							
 						<tr>
 					</thead>
 					<tbody>						
@@ -54,9 +54,9 @@
 			<div class="container col-lg-3 hidden" id="edit">
 				<ul class="payment_details">
 					<li><label for="num_lessons">Number of lessons</label><input type="number" class="form-control" id="num_lessons"></li>
-					<li><label for="total">Amount due</label><input type="number" class="form-control" id="total"></li>					
+					<li><label for="total">Amount due, $</label><input type="number" class="form-control" id="total"></li>					
 				</ul>	
-				<button class="btn btn-default pull-right" id="save_payment">Save changes</button>
+				<button class="btn btn-primary pull-right" id="save_payment">Save changes</button>
 			</div>	
 		</div>
 		<div class="hidden" id="transactions">
@@ -80,7 +80,7 @@
 						<tbody>						
 						</tbody>
 					</table>
-					<button class="btn btn-default" id="new_transaction">Add new</button>
+					<button class="btn btn-primary" id="new_transaction">Add new</button>
 				</div>	
 				<div class="container col-lg-3 hidden" id="trans_details">
 					<ul class="payment_details">
@@ -91,8 +91,8 @@
 								<option value="eftpos">EFTPOS</option>
 							</select>
 						</li>
-						<li><label>Amount</label><input type="number" class="form-control" id="amount"></li>
-						<li><button class="btn btn-default disabled" id="save_transaction">Save</button></li>					
+						<li><label>Amount, $</label><input type="number" class="form-control" id="amount"></li>
+						<li><button class="btn btn-primary disabled" id="save_transaction">Save</button></li>					
 					</ul>
 				</div>
 			</div>		

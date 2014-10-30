@@ -1,18 +1,10 @@
 var sportId = 1;
 
 function getCurrentDate() {
-	var today = new Date();
-	var dd = today.getDate();
-	var mm = today.getMonth() + 1; //January is 0!
-	var yyyy = today.getFullYear();
-	if (dd < 10) {
-		dd = '0' + dd
-	}
-	if (mm < 10) {
-		mm = '0' + mm
-	}
-	today = mm + '/' + dd + '/' + yyyy;
-	return today;
+	$.post(js_base_url('get_current_date()'),
+		function (data) {
+		return data;
+	});
 }
 
 function tabClick() {
@@ -50,16 +42,15 @@ function tabClick() {
 function loadEvents() {
 	$('#calendar').fullCalendar({
 		height : 500,
-		width : 300,
+		width : 400,
 		header : {
 			left : 'prev,next today',
 			center : 'title',
 			right : 'month,agendaWeek'
 		},
-		now : getCurrentDate().toString(),
-		editable : true,
+		now : getCurrentDate(),		
 		eventLimit : true, // allow "more" link when too many events
-
+		timezone: 'Australia/Melbourne',
 		events : {
 			url : js_base_url('get_schedule'),
 			type : 'POST',

@@ -4,16 +4,17 @@
 <script src='<?php echo base_url(); ?>js/lib/moment.min.js'></script>
 <script src='<?php echo base_url(); ?>js/lib/jquery.min.js'></script>
 <script src='<?php echo base_url(); ?>js/fullcalendar.min.js'></script>
-<script src='<?php echo base_url(); ?>js/schedule.js'></script>
+<script src='<?php echo base_url(); ?>js/schedule_staff.js'></script>
 <div id="content">
 	<div class="row">
-		<div class="container col-lg-10 col-lg-offset-1">
+		<div class="container col-lg-10 col-lg-offset-2">
 			<ul class="tabs" id="mytab">
 				<li class="tab-link current" id="tennis">Tennis</li>			
 				<li class="tab-link" id="swimming">Swimming</li>			
 			</ul>			
 		</div>	
-	</div>			
+	</div>	
+	<hr class="divider"></hr>
 	<div id='loading'>loading...</div>	
 	<div id='calendar'></div>	
 </div>

@@ -26,8 +26,9 @@ table #term_list {
     cursor: pointer;
 }
 
-#term_list tr.active{
-	background-color: #ccc;
+tr.active td{
+	color: #428bca;
+	font-weight: bold;
 }
 
 ul.term_dates{

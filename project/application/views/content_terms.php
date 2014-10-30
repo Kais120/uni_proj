@@ -36,10 +36,10 @@
 		</div>
 		<div class="row">
 			<div class="container col-lg-4 col-lg-offset-1">
-				<button class="btn btn-default pull-left" id="new_term">Add new</button>
+				<button class="btn btn-primary pull-left" id="new_term">Add new</button>
 			</div>
 			<div class="container col-lg-3">
-				<button class="btn btn-default pull-right hidden" id="save_term">Save changes</button>
+				<button class="btn btn-primary pull-right hidden" id="save_term">Save changes</button>
 			</div>
 		</div>
 	</div>

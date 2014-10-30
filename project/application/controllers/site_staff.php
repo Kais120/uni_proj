@@ -386,4 +386,8 @@ class Site_staff extends CI_Controller {
 		$this->load->model("model_term");
 		echo $this->model_term->db_get_term_details($year);
 	}
+	
+	function get_current_date(){
+		echo Date('Y-m-d');
+	}
 }

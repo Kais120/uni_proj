@@ -16,7 +16,7 @@
 					<li><label for="password">Password</label><input type="password" class="form-control" name="password" /></li>	
 					<li><label for="question">Secret question</label><input type="text" class="form-control" name="question" value="<?php echo $details->question ?>" required/></li>	
 					<li><label for="answer">Answer</label><input type="text" class="form-control" name="answer" value="<?php echo $details->answer ?>" required/></li>	
-					<li><span></span><button type="submit" class="btn btn-default pull-right" id="save_staff">Save</button></li>
+					<li><span></span><button type="submit" class="btn btn-primary pull-right" id="save_staff">Save</button></li>
 				</ul>				
 			</form>
 		</div>

@@ -28,10 +28,10 @@
 		</div>
 		<div class="row">
 			<div class="container col-lg-4 col-lg-offset-1">
-				<button class="btn btn-default pull-left" id="new_skill">Add new</button>
+				<button class="btn btn-primary pull-left" id="new_skill">Add new</button>
 			</div>
 			<div class="container col-lg-3">
-				<button class="btn btn-default pull-right disabled hidden" id="save_skill">Save</button>
+				<button class="btn btn-primary pull-right disabled hidden" id="save_skill">Save</button>
 			</div>
 		</div>
 		<br/>
@@ -58,10 +58,10 @@
 		</div>
 		<div class="row">
 			<div class="container col-lg-4 col-lg-offset-1">
-				<button class="btn btn-default pull-left" id="new_task">Add new</button>
+				<button class="btn btn-primary pull-left" id="new_task">Add new</button>
 			</div>
 			<div class="container col-lg-3">
-				<button class="btn btn-default pull-right disabled hidden" id="save_task">Save</button>
+				<button class="btn btn-primary pull-right disabled hidden" id="save_task">Save</button>
 			</div>
 		</div>
 		</div>

@@ -30,8 +30,9 @@ table .member_list {
     cursor: pointer;
 }
 
-.member_list tr.active{
-	background-color: #ccc;
+tr.active td{
+	color: #428bca;
+	font-weight: bold;
 }
 
 #payments tbody{

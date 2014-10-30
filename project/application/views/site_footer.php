@@ -1,7 +1,7 @@
-	<hr class="divider"></hr>
-	<div class="footer">
+	<br/>
+	<div class="row footer">
 		<div class="container">			
-				<center><a href="http://panopticsoftware.net76.net/">Panoptic software</a> <?php echo Date('Y')?></center>			
+				<center style="color: white" ><a style="color: white" href="http://panopticsoftware.net76.net/">Panoptic software</a> <?php echo Date('Y')?></center>			
 		</div>
 	</div>
 </body>

@@ -54,7 +54,7 @@ class verify_login extends CI_Controller {
 		}
 		else
 		{
-			$this->form_validation->set_message('check_database', 'Invalid username or password');
+			$this->form_validation->set_message('check_database', '<p style="color:red">Invalid username or password</p>');
 			return false;
 		}
 	}

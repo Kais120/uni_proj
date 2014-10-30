@@ -22,13 +22,12 @@ table #staff_list {
     cursor: pointer;
 }
 
-#staff_list tr.active{
-	background-color: #ccc;
+tr.active td{
+	color: #428bca;
+	font-weight: bold;
 }
 
-#staff_list tr.active{
-	background-color: #ccc;
-}
+
 
 ul#staff_details{
 	padding: 1%;

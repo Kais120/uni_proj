@@ -66,8 +66,9 @@ table .table_details {
     cursor: pointer;
 }
 
-.table_details tr.active{
-	background-color: #ccc;
+tr.active td{
+	color: #428bca;
+	font-weight: bold;
 }
 
 table #tasks {

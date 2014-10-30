@@ -23,8 +23,9 @@ table #lessons_info {
     cursor: pointer;
 }
 
-#lessons_info tr.active{
-	background-color: #ccc;
+tr.active td{
+	color: #428bca;
+	font-weight: bold;
 }
 
 ul#lesson_details{

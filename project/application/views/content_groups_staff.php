@@ -99,7 +99,7 @@
 				</tbody>
 			</table>
 			<label for="start_time">Notes</label><textarea type="text" class="form-control" name="notes" id="notes"></textarea>
-			<button class="btn btn-default disabled" id="save_progress">Save</button>
+			<button class="btn btn-primary disabled" id="save_progress">Save</button>
 		</div>
 	</div>		
 </div>

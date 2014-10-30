@@ -5,12 +5,13 @@
 			<form action="" method="POST">
 				<ul>
 					<label>Show inactive staff</label>
-					<input type="checkbox" name="inactive" value="true"/>
-					<button type="submit" name="show_inactive" class="btn btn-default">Submit</button>
+					<input type="checkbox" name="inactive" value="true" <?php if (isset($_POST['inactive'])) echo "checked"; ?>/>
+					<button type="submit" name="show_inactive" class="btn btn-primary">Submit</button>
 				</ul>
 			</form>
 		</div>
 	</div>
+	<hr class="divider"></hr>
 	<div class="row">
 		<div class="container col-lg-4 col-lg-offset-1">
 			<?php 
@@ -38,7 +39,7 @@
 					?>
 				</tbody>
 			</table>
-			<button class="btn btn-default pull-left" id="new_staff">Add new</button>
+			<button class="btn btn-primary pull-left" id="new_staff">Add new</button>
 		</div>
 		<div class="container col-lg-4">
 			<form action="" method="POST" id="staff_action" class="hidden">
@@ -61,7 +62,7 @@
 						</select>
 					</li>
 					<li><label for="type">Active</label><input type="checkbox" name="active" value="1"></li>					
-					<li><span></span><button type="submit" class="btn btn-default pull-right disabled" id="save_staff">Save</button></li>
+					<li><span></span><button type="submit" class="btn btn-primary pull-right disabled" id="save_staff">Save</button></li>
 				</ul>				
 			</form>
 		</div>

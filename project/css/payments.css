@@ -27,8 +27,9 @@ table .table {
     cursor: pointer;
 }
 
-.table tr.active{
-	background-color: #ccc;
+tr.active td{
+	color: #428bca;
+	font-weight: bold;
 }
 
 ul.payment_menu{

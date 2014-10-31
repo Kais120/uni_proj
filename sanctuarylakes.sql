@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.9
+-- version 4.1.12
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 29, 2014 at 02:37 AM
--- Server version: 5.5.34
--- PHP Version: 5.4.22
+-- Generation Time: Nov 01, 2014 at 02:31 AM
+-- Server version: 5.6.16
+-- PHP Version: 5.5.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -46,8 +46,9 @@ INSERT INTO `groups_details` (`group_id`, `member_id`, `date_added`) VALUES
 (1, 1, '2014-10-04 02:32:53'),
 (1, 3, '2014-10-04 02:32:34'),
 (1, 6, '2014-08-29 12:18:04'),
-(1, 7, '2014-08-29 12:18:04'),
 (2, 4, '2014-08-29 12:18:30'),
+(2, 5, '2014-10-30 01:15:54'),
+(2, 7, '2014-10-30 02:30:58'),
 (2, 8, '2014-08-29 12:18:42'),
 (2, 9, '2014-08-29 12:18:42'),
 (2, 10, '2014-10-04 02:36:03'),
@@ -107,8 +108,8 @@ INSERT INTO `lessons` (`lesson_id`, `lesson_description`, `sport_id`, `cost`) VA
 (2, 'Group', 2, '13'),
 (3, 'Private', 1, '40'),
 (4, 'Private', 2, '40'),
-(5, 'Test', 2, '13'),
-(6, 'Semi-private', 1, '30');
+(5, 'Test', 2, '12'),
+(6, 'Semi-private', 1, '25');
 
 -- --------------------------------------------------------
 
@@ -144,9 +145,7 @@ INSERT INTO `medical_conditions_details` (`member_id`, `medical_condition_id`) V
 (1, 7),
 (3, 7),
 (4, 8),
-(5, 8),
-(8, 8),
-(9, 8);
+(5, 8);
 
 -- --------------------------------------------------------
 
@@ -195,7 +194,7 @@ CREATE TABLE IF NOT EXISTS `members_progress` (
   KEY `staff_id` (`staff_id`),
   KEY `schedule_id` (`schedule_id`),
   KEY `schedule_id_2` (`schedule_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 --
 -- Dumping data for table `members_progress`
@@ -203,8 +202,9 @@ CREATE TABLE IF NOT EXISTS `members_progress` (
 
 INSERT INTO `members_progress` (`progress_id`, `schedule_id`, `member_id`, `entry_date`, `attendance`, `staff_id`, `staff_comments`) VALUES
 (10, 54, 215, '2014-10-03 23:54:19', 1, 1, 'well done'),
-(11, 32, 1, '2014-10-04 00:23:45', 1, 1, ''),
-(12, 34, 1, '2014-10-04 02:41:19', 1, 1, '');
+(11, 32, 1, '2014-10-04 00:23:45', 1, 16, ''),
+(12, 34, 1, '2014-10-04 02:41:19', 1, 1, ''),
+(13, 58, 215, '2014-10-30 00:59:22', 1, 16, '');
 
 -- --------------------------------------------------------
 
@@ -226,7 +226,8 @@ CREATE TABLE IF NOT EXISTS `members_progress_details` (
 
 INSERT INTO `members_progress_details` (`progress_id`, `task_id`) VALUES
 (12, 3),
-(11, 4);
+(11, 4),
+(11, 6);
 
 -- --------------------------------------------------------
 
@@ -257,8 +258,9 @@ INSERT INTO `members_skills` (`member_id`, `sport_id`, `entry_date`, `skill_id`,
 (5, 2, '2014-09-14 07:56:34', 4, 5),
 (6, 2, '2014-09-14 07:56:34', 4, 5),
 (7, 2, '2014-09-14 07:56:34', 4, 5),
-(8, 2, '2014-09-14 07:56:34', 4, 5),
-(9, 2, '2014-09-14 07:56:34', 4, 5),
+(8, 2, '2014-10-29 23:53:33', 4, 5),
+(9, 1, '2014-10-29 23:54:10', 2, 3),
+(9, 2, '2014-10-29 23:54:10', 7, 5),
 (10, 2, '2014-10-03 11:54:42', 4, 6),
 (111, 2, '2014-09-14 07:59:08', 5, 5),
 (112, 2, '2014-09-14 07:59:08', 5, 5),
@@ -378,7 +380,7 @@ CREATE TABLE IF NOT EXISTS `payments_details` (
   `amount_paid` decimal(10,0) NOT NULL,
   PRIMARY KEY (`transaction_id`),
   KEY `payment_id` (`payment_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
 
 --
 -- Dumping data for table `payments_details`
@@ -390,10 +392,11 @@ INSERT INTO `payments_details` (`transaction_id`, `payment_id`, `payment_date`, 
 (7, 10, '2014-10-02', 'cash', '50'),
 (8, 10, '2014-10-03', 'cash', '11'),
 (9, 1, '2014-10-03', 'cash', '0'),
-(10, 1, '2014-10-04', 'cash', '-55'),
+(10, 1, '2014-10-04', 'cash', '-56'),
 (15, 10, '2014-10-12', 'cash', '6'),
 (16, 11, '2014-10-12', 'cash', '5'),
-(17, 12, '2014-10-12', 'cash', '6');
+(17, 12, '2014-10-12', 'cash', '13'),
+(18, 10, '2014-10-30', 'cash', '2');
 
 -- --------------------------------------------------------
 
@@ -413,7 +416,7 @@ CREATE TABLE IF NOT EXISTS `payments_master` (
   KEY `lesson_id` (`group_id`),
   KEY `member_id` (`member_id`),
   KEY `group_id` (`group_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 --
 -- Dumping data for table `payments_master`
@@ -421,9 +424,12 @@ CREATE TABLE IF NOT EXISTS `payments_master` (
 
 INSERT INTO `payments_master` (`payment_id`, `member_id`, `group_id`, `number_lessons`, `total_amount`) VALUES
 (1, 1, 1, 5, '65'),
-(10, 10, 1, 5, '78'),
+(10, 10, 1, 5, '79'),
 (11, 3, 1, 6, '78'),
-(12, 10, 2, 6, '78');
+(12, 10, 2, 6, '78'),
+(13, 5, 2, 5, '65'),
+(14, 7, 1, 5, '65'),
+(15, 7, 2, 5, '65');
 
 -- --------------------------------------------------------
 
@@ -454,8 +460,8 @@ INSERT INTO `registrations_details` (`member_id`, `registration_id`, `member_fna
 (5, 3, 'child 1 of 3 -> reg3', '', 'child 1 of 3 -> reg3', '2008-10-10', 'none'),
 (6, 3, 'child 2 of 3 -> reg3', '', 'child 2 of 3 -> reg3', '2010-01-01', 'none'),
 (7, 3, 'child 3 of 3 -> reg3', '', 'child 3 of 3 -> reg3', '2008-10-10', 'none'),
-(8, 4, 'child 1 of 2 -> reg4', '', 'child 1 of 2 -> reg4', '2009-01-01', 'none'),
-(9, 4, 'child 2 of 2 -> reg4', '', 'child 2 of 2 -> reg4', '2008-10-10', 'none'),
+(8, 4, 'samir', '', 'Rosrson', '2009-01-01', 'none'),
+(9, 4, 'Test', '', 'Test', '2008-10-10', 'none'),
 (10, 1, 'Star', '', 'Polar', '2011-09-01', 'none'),
 (111, 5, 'Chelsea', NULL, 'Gonzales', '2010-10-18', 'none'),
 (112, 6, 'Britanni', NULL, 'Hendrix', '2010-12-30', 'none'),
@@ -582,9 +588,9 @@ CREATE TABLE IF NOT EXISTS `registrations_master` (
   `suburb` varchar(20) NOT NULL DEFAULT 'Sanctuary Lakes',
   `post_code` int(4) NOT NULL DEFAULT '3030',
   `email` varchar(50) DEFAULT NULL,
-  `home_number` int(10) DEFAULT NULL,
-  `mobile_number` int(10) DEFAULT NULL,
-  `office_number` int(10) DEFAULT NULL,
+  `home_number` varchar(10) DEFAULT NULL,
+  `mobile_number` varchar(10) DEFAULT NULL,
+  `office_number` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`registration_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=107 ;
 
@@ -593,12 +599,12 @@ CREATE TABLE IF NOT EXISTS `registrations_master` (
 --
 
 INSERT INTO `registrations_master` (`registration_id`, `parent_fname`, `parent_mname`, `parent_lname`, `address1`, `address2`, `suburb`, `post_code`, `email`, `home_number`, `mobile_number`, `office_number`) VALUES
-(1, 'Name', '', 'Surname', 'ADD 1', 'ADD 1', 'SANCTUARY LAKES', 3301, '', 0, 123456789, 0),
-(2, 'Give', 'it normal', 'name', 'ADD 2', 'ADD 2', 'SANCTUARY LAKES', 3390, '', 0, 0, 0),
-(3, 'Do', 'you', 'Understand', 'ADD 3', 'ADD 3', 'SANCTUARY LAKES', 3300, '', 0, 0, 0),
-(4, 'Bamby', '', 'Rorson', 'ADD 4', 'ADD 4', 'SANCTUARY LAKES', 3300, '', 0, 0, 0),
+(1, 'Name', '', 'Surname', 'ADD 1', 'ADD 1', 'SANCTUARY LAKES', 3301, '', '0', '123456789', '0'),
+(2, 'Give', 'it normal', 'name', 'ADD 2', 'ADD 2', 'SANCTUARY LAKES', 3390, '', '0', '0', '0'),
+(3, 'Do', 'you', 'Understand', 'ADD 3', 'ADD 3', 'SANCTUARY LAKES', 3300, '', '0', '0', '0'),
+(4, 'Bamby', '', 'Rorson', 'ADD 4', 'ADD 4', 'SANCTUARY LAKES', 3300, '', '0', '0', '0'),
 (5, 'Xenos', NULL, 'Gonzales', 'P.O. Box 5', 'Oldenburg', 'Sanctuary Lakes', 3030, NULL, NULL, NULL, NULL),
-(6, 'Hannah', '', 'Hendrix', 'Ap #334-78', 'Bras', 'Sanctuary Lakes', 3030, '', 0, 0, 0),
+(6, 'Hannah', '', 'Hendrix', 'Ap #334-78', 'Bras', 'Sanctuary Lakes', 3030, '', '0', '0', '0'),
 (7, 'Neve', NULL, 'Melton', '725-6065 C', 'Forio', 'Sanctuary Lakes', 3030, NULL, NULL, NULL, NULL),
 (8, 'Beatrice', NULL, 'Pitts', 'Ap #167-58', 'Tielen', 'Sanctuary Lakes', 3030, NULL, NULL, NULL, NULL),
 (9, 'Jolene', NULL, 'Smith', 'Ap #593-39', 'Port Hope', 'Sanctuary Lakes', 3030, NULL, NULL, NULL, NULL),
@@ -697,8 +703,8 @@ INSERT INTO `registrations_master` (`registration_id`, `parent_fname`, `parent_m
 (102, 'Kai', NULL, 'Tanner', '7388 Cras ', 'Kermt', 'Sanctuary Lakes', 3030, NULL, NULL, NULL, NULL),
 (103, 'Adrienne', NULL, 'Austin', 'P.O. Box 5', 'Varsenare', 'Sanctuary Lakes', 3030, NULL, NULL, NULL, NULL),
 (104, 'Nero', NULL, 'Knox', 'P.O. Box 9', 'Biarritz', 'Sanctuary Lakes', 3030, NULL, NULL, NULL, NULL),
-(105, 'test', '', 'test', '', '', '', 0, '', 0, 0, 0),
-(106, 'Killian', '', 'Murphy', '', 'London', '', 0, '', 0, 0, 0);
+(105, 'test', '', 'test', '', '', '', 0, '', '0', '0', '0'),
+(106, 'Killian', '', 'Murphy', '', 'London', '', 0, '', '0', '0', '0');
 
 -- --------------------------------------------------------
 
@@ -714,7 +720,7 @@ CREATE TABLE IF NOT EXISTS `schedule_details` (
   `end_time` time NOT NULL,
   PRIMARY KEY (`schedule_id`),
   KEY `schedule_id` (`group_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=62 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=76 ;
 
 --
 -- Dumping data for table `schedule_details`
@@ -725,32 +731,34 @@ INSERT INTO `schedule_details` (`schedule_id`, `group_id`, `schedule_date`, `sta
 (23, 2, '2014-10-16', '10:30:00', '12:30:00'),
 (24, 2, '2014-10-23', '10:30:00', '12:30:00'),
 (25, 2, '2014-10-30', '10:30:00', '12:30:00'),
-(26, 2, '2014-11-06', '10:30:00', '12:30:00'),
-(27, 2, '2014-11-13', '10:30:00', '12:30:00'),
-(28, 2, '2014-11-20', '10:30:00', '12:30:00'),
-(29, 2, '2014-11-27', '10:30:00', '12:30:00'),
-(30, 2, '2014-12-04', '10:30:00', '12:30:00'),
-(31, 2, '2014-12-11', '10:30:00', '12:30:00'),
 (32, 1, '2014-10-06', '10:30:00', '12:00:00'),
 (33, 1, '2014-10-13', '10:30:00', '12:00:00'),
 (34, 1, '2014-10-20', '10:30:00', '12:00:00'),
 (35, 1, '2014-10-27', '10:30:00', '12:00:00'),
-(36, 1, '2014-11-03', '10:30:00', '12:00:00'),
-(37, 1, '2014-11-10', '10:30:00', '12:00:00'),
-(38, 1, '2014-11-17', '10:30:00', '12:00:00'),
-(39, 1, '2014-11-24', '10:30:00', '12:00:00'),
-(40, 1, '2014-12-01', '10:30:00', '12:00:00'),
-(41, 1, '2014-12-08', '10:30:00', '12:00:00'),
 (52, 3, '2014-10-09', '09:00:00', '10:00:00'),
 (53, 3, '2014-10-16', '09:00:00', '10:00:00'),
 (54, 3, '2014-10-23', '09:00:00', '10:00:00'),
-(55, 3, '2014-10-30', '09:00:00', '10:00:00'),
+(55, 3, '2014-10-30', '07:30:00', '09:00:00'),
 (56, 3, '2014-11-06', '09:00:00', '10:00:00'),
 (57, 3, '2014-11-13', '09:00:00', '10:00:00'),
 (58, 3, '2014-11-20', '09:00:00', '10:00:00'),
 (59, 3, '2014-11-27', '09:00:00', '10:00:00'),
 (60, 3, '2014-12-04', '09:00:00', '10:00:00'),
-(61, 3, '2014-12-11', '09:00:00', '10:00:00');
+(61, 3, '2014-12-11', '09:00:00', '10:00:00'),
+(62, 2, '2014-10-31', '10:30:00', '12:30:00'),
+(63, 2, '2014-11-07', '07:00:00', '09:00:00'),
+(64, 2, '2014-11-14', '10:30:00', '12:30:00'),
+(65, 2, '2014-11-21', '10:30:00', '12:30:00'),
+(66, 2, '2014-11-28', '10:30:00', '12:30:00'),
+(67, 2, '2014-12-05', '10:30:00', '12:30:00'),
+(68, 2, '2014-12-12', '10:30:00', '12:30:00'),
+(69, 1, '2014-11-03', '06:30:00', '08:30:00'),
+(70, 1, '2014-10-24', '03:30:00', '17:00:00'),
+(71, 1, '2014-11-13', '03:30:00', '17:00:00'),
+(72, 1, '2014-11-20', '03:30:00', '17:00:00'),
+(73, 1, '2014-11-27', '03:30:00', '17:00:00'),
+(74, 1, '2014-12-04', '03:30:00', '17:00:00'),
+(75, 1, '2014-12-11', '03:30:00', '17:00:00');
 
 -- --------------------------------------------------------
 
@@ -777,8 +785,8 @@ CREATE TABLE IF NOT EXISTS `schedule_master` (
 --
 
 INSERT INTO `schedule_master` (`group_id`, `staff_id`, `date_created`, `weekday`, `start_time`, `end_time`) VALUES
-(1, 5, '2014-09-29', 1, '10:30:00', '12:00:00'),
-(2, 5, '2014-09-29', 4, '10:30:00', '12:30:00'),
+(1, 4, '2014-09-29', 4, '03:30:00', '17:00:00'),
+(2, 4, '2014-09-29', 5, '10:30:00', '12:30:00'),
 (3, 1, '2014-10-04', 4, '09:00:00', '10:00:00');
 
 -- --------------------------------------------------------
@@ -794,7 +802,7 @@ CREATE TABLE IF NOT EXISTS `skills_details` (
   `task_description` varchar(100) NOT NULL,
   PRIMARY KEY (`task_id`),
   UNIQUE KEY `skill_id` (`skill_id`,`task`,`task_description`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
 
 --
 -- Dumping data for table `skills_details`
@@ -829,7 +837,7 @@ CREATE TABLE IF NOT EXISTS `skills_master` (
   `skill_band_description` varchar(50) NOT NULL,
   PRIMARY KEY (`skill_id`),
   UNIQUE KEY `sport_id` (`sport_id`,`skill_band`,`skill_band_description`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `skills_master`
@@ -837,6 +845,7 @@ CREATE TABLE IF NOT EXISTS `skills_master` (
 
 INSERT INTO `skills_master` (`skill_id`, `sport_id`, `skill_band`, `skill_band_description`) VALUES
 (1, 1, 'ONE', 'Beginner'),
+(11, 1, 'Test', '123'),
 (3, 1, 'THREE', 'ADVANCED'),
 (2, 1, 'TWO', 'INTERMEDIATE'),
 (10, 2, 'BLUE', 'SQUAD-SWIM, SURVIVE & COMPETE'),
@@ -886,7 +895,7 @@ CREATE TABLE IF NOT EXISTS `staff` (
   `staff_email` varchar(50) DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`staff_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
 --
 -- Dumping data for table `staff`
@@ -900,7 +909,8 @@ INSERT INTO `staff` (`staff_id`, `staff_fname`, `staff_mname`, `staff_lname`, `h
 (5, 'CAITLYN', '', 'CAITLYN', '', '', '', '', '', 1),
 (6, 'EMILY', NULL, 'EMILY', NULL, NULL, NULL, NULL, NULL, 1),
 (7, 'LEISA', '', 'LEISA', '', '', '', '', '', 0),
-(15, 'Test', '', 'Test', '', '', '', '', '', 1);
+(15, 'Test', '', 'Test', '', '', '', '', '', 1),
+(16, 'Test', '', 'Admin', '', '', '', '', '', 1);
 
 -- --------------------------------------------------------
 
@@ -915,7 +925,7 @@ CREATE TABLE IF NOT EXISTS `terms` (
   `end_date` date NOT NULL,
   PRIMARY KEY (`term_id`),
   UNIQUE KEY `start_date` (`start_date`,`end_date`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `terms`
@@ -947,14 +957,15 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`staff_id`, `username`, `type`, `password`, `question`, `answer`) VALUES
-(1, 'dtipples', 'administrator', 'TLiLIO3A+2XL60jPlEc/RVP3hSphRWXzLVufKAc9pzDVLzrEhpdHRRoZCJ4z5AR8DD8Mb/ZsPPsbvCcghP46Eg==', NULL, NULL),
-(2, 'keone', 'staff', '', NULL, NULL),
+(1, 'dtipples', 'administrator', 'TLiLIO3A+2XL60jPlEc/RVP3hSphRWXzLVufKAc9pzDVLzrEhpdHRRoZCJ4z5AR8DD8Mb/ZsPPsbvCcghP46Eg==', 'magic word', 'potato'),
+(2, 'keone', 'staff', '', 'test question', NULL),
 (3, 'nell', 'staff', 'pgWwXpzkQPSGfqaKlGAsgk4u/', NULL, NULL),
 (4, 'lani', 'staff', '', NULL, NULL),
 (5, 'caitlyn', 'staff', '', NULL, NULL),
 (6, 'emily', 'staff', '', NULL, NULL),
-(7, 'leisa', 'staff', '', NULL, NULL),
-(15, 'tester', 'staff', '9gAUGtyX93gCrs2qvHQBtLAs3R3ZQUh3SPqia+l+AYGxXiPYxq6VOCbgqi/ZvN+O8umRCWJ30MZdjkmFJAveJA==', NULL, NULL);
+(7, 'leisa', 'staff', 'YGUPrN1/LXeRXhG7i+/oPDQ3uz5GYDAVkXFqK8NRO8bBaMVt1xM3AqrmJEPzrs5AU6GyznZ+FtZrfvHq8mRItA==', NULL, NULL),
+(15, 'tester', 'staff', 'I7t+pDk6LttDdLQQcvZbqExlSomvikukiA2dA6Z2NY761YyWscM8hOz+5QDNC6YyZk8WrD73aw9422H3e+M0Zw==', 'Potato', 'Chips'),
+(16, 'testadmin', 'administrator', 'jmfODYCy+zCm9z2SL8XflafACiHlsYco2kGVtFX1KquI7ZH87cm1UqEpurApcK+e6gVrzF+LEtLx0j5tdAIQjA==', 'magic word', 'potato');
 
 --
 -- Constraints for dumped tables

@@ -10,7 +10,7 @@
 		<div class="container col-lg-3 col-lg-offset-8">
 			<ul class="pull-right" style="display: table">				
 				<li style="display: table-row">
-					<a style="display: table-cell; vertical-align: middle" href="<?php echo base_url() ?>login/retrieve_password">Forgot password</a>
+					<a style="display: table-cell; vertical-align: middle" href="<?php echo base_url() ?>login/retrieve_password">Forgot password/Unlock account</a>
 				</li>
 			</ul>
 		</div>

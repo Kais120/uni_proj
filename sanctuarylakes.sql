@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `groups_master` (
   KEY `term_id` (`term_id`),
   KEY `lesson_id` (`lesson_id`),
   KEY `skill_id` (`skill_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 --
 -- Table structure for table `lessons`
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `lessons` (
   PRIMARY KEY (`lesson_id`),
   UNIQUE KEY `lesson_description` (`lesson_description`,`sport_id`),
   KEY `sport_id` (`sport_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `lessons`
@@ -80,7 +80,7 @@ INSERT INTO `lessons` (`lesson_id`, `lesson_description`, `sport_id`, `cost`) VA
 (1, 'Group', 1, '13'),
 (2, 'Group', 2, '13'),
 (3, 'Private', 1, '40'),
-(4, 'Private', 2, '40'),
+(4, 'Private', 2, '40');
 
 
 -- --------------------------------------------------------
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `medical_conditions_master` (
   `medical_condition_type` varchar(50) NOT NULL,
   PRIMARY KEY (`medical_condition_id`),
   UNIQUE KEY `medical_condition_type` (`medical_condition_type`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `medical_conditions_master`
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `members_progress` (
   KEY `staff_id` (`staff_id`),
   KEY `schedule_id` (`schedule_id`),
   KEY `schedule_id_2` (`schedule_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
 
@@ -194,7 +194,7 @@ CREATE TABLE IF NOT EXISTS `payments_details` (
   `amount_paid` decimal(10,0) NOT NULL,
   PRIMARY KEY (`transaction_id`),
   KEY `payment_id` (`payment_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
 -- --------------------------------------------------------
@@ -215,7 +215,7 @@ CREATE TABLE IF NOT EXISTS `payments_master` (
   KEY `lesson_id` (`group_id`),
   KEY `member_id` (`member_id`),
   KEY `group_id` (`group_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
 --
@@ -232,7 +232,7 @@ CREATE TABLE IF NOT EXISTS `registrations_details` (
   `medical_notes` text NOT NULL,
   PRIMARY KEY (`member_id`),
   KEY `registration_id` (`registration_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
 -- --------------------------------------------------------
@@ -255,7 +255,7 @@ CREATE TABLE IF NOT EXISTS `registrations_master` (
   `mobile_number` varchar(10) DEFAULT NULL,
   `office_number` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`registration_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
 -- --------------------------------------------------------
@@ -272,7 +272,7 @@ CREATE TABLE IF NOT EXISTS `schedule_details` (
   `end_time` time NOT NULL,
   PRIMARY KEY (`schedule_id`),
   KEY `schedule_id` (`group_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
 -- --------------------------------------------------------
@@ -309,7 +309,7 @@ CREATE TABLE IF NOT EXISTS `skills_details` (
   `task_description` varchar(100) NOT NULL,
   PRIMARY KEY (`task_id`),
   UNIQUE KEY `skill_id` (`skill_id`,`task`,`task_description`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `skills_details`
@@ -344,7 +344,7 @@ CREATE TABLE IF NOT EXISTS `skills_master` (
   `skill_band_description` varchar(50) NOT NULL,
   PRIMARY KEY (`skill_id`),
   UNIQUE KEY `sport_id` (`sport_id`,`skill_band`,`skill_band_description`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `skills_master`
@@ -373,7 +373,7 @@ CREATE TABLE IF NOT EXISTS `sports` (
   `sport_description` varchar(15) NOT NULL,
   PRIMARY KEY (`sport_id`),
   UNIQUE KEY `sport_description` (`sport_description`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `sports`
@@ -401,7 +401,7 @@ CREATE TABLE IF NOT EXISTS `staff` (
   `staff_email` varchar(50) DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`staff_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `staff`
@@ -423,7 +423,7 @@ CREATE TABLE IF NOT EXISTS `terms` (
   `end_date` date NOT NULL,
   PRIMARY KEY (`term_id`),
   UNIQUE KEY `start_date` (`start_date`,`end_date`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------
 

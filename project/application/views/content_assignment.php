@@ -4,7 +4,7 @@
 			<div class="container col-lg-3 col-lg-offset-1">
 				<ul class="assignment_menu">
 					<li>
-						<label for="year">Year</label>
+						<label for="year">Year&nbsp;</label>
 						<select name="year" class="form-control year">							
 							<option class="default" value="empty">Select year</option>							
 							<?php						
@@ -15,7 +15,7 @@
 						</select>
 					</li>					
 					<li id="term_select" class="hidden">
-						<label for="term">Term</label>
+						<label for="term">Term&nbsp;</label>
 						<select name="term" class="form-control term">							
 							<option class="default" value="empty">Select term</option>														
 						</select>

@@ -11,7 +11,7 @@
 	<div class="row">
 		<div class="container col-lg-10 col-lg-offset-1">
 			<ul class="tabs">
-				<li class="tab-link current" id="member_details"><span class="glyphicon glyphicon-user"></span>Details</li>			
+				<li class="tab-link current" id="member_details"><span class="glyphicon glyphicon-user"></span>&nbsp;Details</li>			
 			</ul>
 		</div>	
 	</div>		

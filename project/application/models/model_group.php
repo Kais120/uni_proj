@@ -161,7 +161,8 @@
 			$this->db->from("registrations_details rd, members_skills ms");
 			$this->db->where("ms.member_id = rd.member_id");
 			$this->db->where("ms.skill_id", $skillId);
-			$this->db->where_not_in("rd.member_id",$members);
+			if (count($members)>0)
+				$this->db->where_not_in("rd.member_id",$members);
 			$query = $this->db->get();
 			$result = $query->result();
 			

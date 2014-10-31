@@ -382,7 +382,7 @@ class Site extends CI_Controller {
 	public function updateLesson(){
 		$lessonId = $this->input->post('lesson_id');
 		$array = array(
-			'lesson_description' => $this->input->post('lesson_name'),
+			'lesson_description' => htmlentities($this->input->post('lesson_name')),
 			'cost' => $this->input->post('lesson_cost')
 		);
 		$this->load->model("model_sport");

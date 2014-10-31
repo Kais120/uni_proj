@@ -8,18 +8,15 @@ div#content{
 	margin-bottom: 2%;
 }
 
+.row{
+	width: 100%;
+}
+
 .footer {
-	margin-top: 2%;
 	display: block;
-	clear: both;
 	background-color: #428bca; 
-	padding: 1%; 
-	margin-top: 2%;
-	bottom: 0;   
-    height: 3em;
-    left: 0;
-    position: relative;
-    width:100%;
+	padding-top: 1%; 
+	height: 3em;  	
 }
 
 .navbar-default {
@@ -69,7 +66,7 @@ div#content{
 	color: #ffffff;
 }
 
-@media (max-width: 767px) {
+/*@media (max-width: 767px) {
 	.navbar-default .navbar-nav .open .dropdown-menu > li > a {
 		color: #ecf0f1;
 	}
@@ -80,4 +77,4 @@ div#content{
 		color: #ffffff;
 		background-color: #2047d0;
 	}
-}
+}*/

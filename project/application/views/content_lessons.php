@@ -31,7 +31,7 @@
 						<li><label>Sport</label><input type="text" class="form-control" name="sport_type" readonly></li>
 						<li><label>ID</label><input type="text" class="form-control" name="lesson_id" readonly></li>
 						<li><label>Lesson</label><input type="text" class="form-control" name="lesson_name" required></li>
-						<li><label>Cost, $</label><input type="number" class="form-control" name="lesson_Cost, $" required></li>	
+						<li><label>Cost, $</label><input type="number" class="form-control" name="lesson_cost" required></li>	
 						<li><button class="btn btn-primary pull-right disabled" type="submit" id="save_lesson">Save</button></li>
 					</ul>					
 				</form>

@@ -39,7 +39,7 @@
 				<button class="btn btn-primary pull-left" id="new_term">Add new</button>
 			</div>
 			<div class="container col-lg-3">
-				<button class="btn btn-primary pull-right hidden" id="save_term">Save changes</button>
+				<button class="btn btn-primary pull-right hidden" id="save_term">Save</button>
 			</div>
 		</div>
 	</div>

@@ -3,11 +3,9 @@
 	<div class="row">
 		<div class="container col-lg-4 col-lg-offset-1">
 			<form action="" method="POST">
-				<ul>
-					<label>Show inactive staff</label>
-					<input type="checkbox" name="inactive" value="true" <?php if (isset($_POST['inactive'])) echo "checked"; ?>/>
-					<button type="submit" name="show_inactive" class="btn btn-primary">Submit</button>
-				</ul>
+				<label>Show inactive staff</label>
+				<input type="checkbox" name="inactive" value="true" <?php if (isset($_POST['inactive'])) echo "checked"; ?>/>
+				<button type="submit" name="show_inactive" class="btn btn-primary">Submit</button>				
 			</form>
 		</div>
 	</div>

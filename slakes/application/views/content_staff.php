@@ -42,17 +42,17 @@
 		<div class="container col-lg-4">
 			<form action="" method="POST" id="staff_action" class="hidden">
 				<ul id="staff_details">
-					<li><label for="staff_id">ID</label><input type="text" class="form-control" name="staff_id" readonly></li>
-					<li><label for="fname">First name</label><input type="text" class="form-control" name="fname" required></li>
-					<li><label for="mname">Middle name</label><input type="text" class="form-control" name="mname"></li>
-					<li><label for="lname">Last name</label><input type="text" class="form-control" name="lname" required></li>
-					<li><label for="hnumber">Home number</label><input type="text" class="form-control" name="hnumber"></li>
-					<li><label for="mnumber">Mobile number</label><input type="text" class="form-control" name="mnumber"></li>
-					<li><label for="emgname">Emergency contact name</label><input type="text" class="form-control" name="emgname"></li>
-					<li><label for="emgnumber">Emergency contact number</label><input type="text" class="form-control" name="emgnumber"></li>
-					<li><label for="email">Email</label><input type="email" class="form-control" name="email"></li>
-					<li><label for="username">Username</label><input type="text" class="form-control" name="username" readonly></li>
-					<li><label for="password">Password</label><input type="password" class="form-control" name="password"></li>	
+					<li><label for="staff_id">ID</label><input type="text" class="form-control" name="staff_id" readonly/></li>
+					<li><label for="fname">First name</label><input type="text" class="form-control" name="fname" required/></li>
+					<li><label for="mname">Middle name</label><input type="text" class="form-control" name="mname"/></li>
+					<li><label for="lname">Last name</label><input type="text" class="form-control" name="lname" required/></li>
+					<li><label for="hnumber">Home number</label><input type="text" class="form-control" name="hnumber"/></li>
+					<li><label for="mnumber">Mobile number</label><input type="text" class="form-control" name="mnumber" required/></li>
+					<li><label for="emgname">Emergency contact name</label><input type="text" class="form-control" name="emgname"/></li>
+					<li><label for="emgnumber">Emergency contact number</label><input type="text" class="form-control" name="emgnumber"/></li>
+					<li><label for="email">Email</label><input type="email" class="form-control" name="email"/></li>
+					<li><label for="username">Username</label><input type="text" class="form-control" name="username" readonly/></li>
+					<li><label for="password">Password</label><input type="password" class="form-control" name="password"/></li>	
 					<li><label for="type">Account type</label>
 						<select class="form-control" name="type">
 							<option value="administrator">Administrator</option>

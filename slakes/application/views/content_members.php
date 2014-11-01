@@ -44,7 +44,7 @@
 				<li><label>Home Number</label><input type="text" class="form-control" id="homeNumber"/></li>
 				<li><label>Mobile Number*</label><input type="text" class="form-control" id="mobileNumber"/></li>
 				<li><label>Office Number</label><input type="text" class="form-control" id="officeNumber"/></li>		
-				<li><button class="btn btn-primary pull-right disabled" id="save_parent_details">Save changes</button></li>
+				<li><button class="btn btn-primary pull-right disabled" id="save_parent_details">Save</button></li>
 			</ul>
 			* - required fields
 		</div>			
@@ -83,7 +83,7 @@
 						<input type="number" class="form-control" id="swimming_number">
 					</li>										
 				</ul>
-				<button class="btn btn-primary pull-left" id="save_child_details">Save changes</button>	
+				<button class="btn btn-primary pull-left" id="save_child_details">Save</button>	
 				<button class="btn btn-primary pull-right disabled" id="delete_child">Delete</button>
 			</div>
 			<div class="container col-lg-5">

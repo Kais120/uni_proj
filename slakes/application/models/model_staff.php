@@ -8,9 +8,9 @@
 		
 		public function dbPullDetails($staffId){
 			$this->db->select("staff.*, users.username, users.type");
-			$this->db->from("staff");			
+			$this->db->from("staff, users");	
+			$this->db->where("users.staff_id = staff.staff_id");
 			$this->db->where("staff.staff_id", $staffId);
-			$this->db->join("users","users.staff_id = staff.staff_id",'left');
 			$query = $this->db->get();
 			return json_encode($query->result());
 		}

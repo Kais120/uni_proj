@@ -155,7 +155,7 @@ function onClickParent() {
 		removeTabs();
 		$(".biodata").removeClass('hidden');
 		$("ul.tabs").append('<li class="tab-link" id="payment_tab"><span class="glyphicon glyphicon-usd"></span> Payments</li>');
-		$("ul.tabs").append('<li class="tab-link" id="add_child"><span class="glyphicon glyphicon-plus"></span> Add a child</li>');
+		$("ul.tabs").append('<li class="tab-link" id="add_child"><span class="glyphicon glyphicon-plus"></span> Add a member</li>');
 		$('.tab-link#member-details').addClass('current');
 		$(this).addClass("active").siblings().removeClass('active');
 		retrieveData(parseInt($("tr.active td.ID").html()));

@@ -25,11 +25,11 @@ function loadDetails(){
 				$("input[name='fname']").val(value.staff_fname);
 				$("input[name='mname']").val(value.staff_mname);
 				$("input[name='lname']").val(value.staff_lname);
-				$("input[name='home_number']").val(value.home_number);
-				$("input[name='mobile_number']").val(value.mobile_number);
-				$("input[name='emg_contact_name']").val(value.emg_contact_name);
-				$("input[name='emg_contact_number']").val(value.emg_contact_number);
-				$("input[name='staff_email']").val(value.staff_email);
+				$("input[name='hnumber']").val(value.home_number);
+				$("input[name='mnumber']").val(value.mobile_number);
+				$("input[name='emgname']").val(value.emg_contact_name);
+				$("input[name='emgnumber']").val(value.emg_contact_number);
+				$("input[name='email']").val(value.staff_email);
 				$("input[name='username']").val(value.username);
 				if(value.type=="administrator")
 					$("select[name='type']").val("administrator");

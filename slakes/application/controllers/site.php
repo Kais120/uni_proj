@@ -316,7 +316,7 @@ class Site extends CI_Controller {
 			'emg_contact_name' => htmlentities($this->input->post('emgname')),
 			'emg_contact_number' => htmlentities($this->input->post('emgnumber')),
 			'staff_email' => htmlentities($this->input->post('email')),
-			'active' => $active,			
+			'active' => $active		
 		);		
 		$this->load->library('encrypt');
 		if ($this->input->post('password')!='')

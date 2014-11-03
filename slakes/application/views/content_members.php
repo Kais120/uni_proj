@@ -4,7 +4,7 @@
 		<div class="container col-lg-6 col-lg-offset-1">
 			<h3 id="member"> Select a registration or create a new one </h3>
 			<hr class="divider"></hr>
-			<label for="search">Filter by name</label><input type="search" name="search" id="parent_search" class="form-control" placeholder="Parent name" />			
+			<label for="search">Filter by name</label><input type="search" name="search" id="parent_search" class="form-control" placeholder="Enter a name" />			
 		</div>
 	</div>	
 	<hr class="divider"></hr>

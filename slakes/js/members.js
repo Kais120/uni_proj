@@ -694,9 +694,9 @@ function onClickSavePayment() {
 				alert('saved');
 				$("div#edit").addClass("hidden");
 				$('button#save_payment').addClass('disabled');
+				getPayments();
 			}
-		});
-		getPayments();
+		});		
 	});
 }
 
